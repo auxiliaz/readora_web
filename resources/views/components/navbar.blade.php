@@ -10,10 +10,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
+                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('categories*') ? 'active' : '' }}" href="/categories">Categories</a>
+                    <a class="nav-link {{ request()->is('categories*') ? 'active' : '' }}" href="/categories">Kategori</a>
                 </li>
             </ul>
             
@@ -47,12 +47,12 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
                                 <a class="dropdown-item {{ request()->is('profile*') ? 'active' : '' }}" href="/profile">
-                                    <i class="fas fa-user me-2"></i>My Profile
+                                    <i class="fas fa-user me-2"></i>Profil
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item {{ request()->is('library*') ? 'active' : '' }}" href="/library">
-                                    <i class="fas fa-book me-2"></i>My Library
+                                    <i class="fas fa-book me-2"></i>Perpustakaan
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>

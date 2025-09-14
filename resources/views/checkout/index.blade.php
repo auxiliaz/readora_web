@@ -321,16 +321,19 @@
         </div>
     </section>
 
+    @include('components.footer')
+
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="spinner-border text-primary mb-3" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <h5>Processing your payment...</h5>
-            <p class="text-muted">Please wait while we redirect you to the payment gateway.</p>
+            <h5>Pembayaran Anda sedag dalam proses...</h5>
+            <p class="text-muted">Mohon tunggu sementara kami mengarahkan Anda ke halaman sukses pembayaran.</p>
         </div>
     </div>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

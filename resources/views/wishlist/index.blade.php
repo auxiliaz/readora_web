@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wishlist - Readora</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -14,124 +17,212 @@
             --background-color: #F2F1ED;
             --text-color: #000000;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
         }
-        
+
         .navbar {
             background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .navbar-brand {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
             color: var(--primary-color) !important;
             font-size: 1.8rem;
         }
-        
+
         .nav-link {
             color: var(--text-color) !important;
             font-weight: 500;
         }
-        
+
         .nav-link:hover {
             color: var(--primary-color) !important;
         }
-        
+
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
             font-weight: 500;
         }
-        
+
         .btn-primary:hover {
             background-color: #5a0010;
             border-color: #5a0010;
         }
-        
+
         .page-header {
-            background: linear-gradient(135deg, var(--primary-color), #8b0018);
+            background: var(--background-color);
             color: white;
-            padding: 60px 0;
+            padding: 40px 0;
         }
-        
-        .page-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 2.5rem;
-        }
-        
+
         .wishlist-section {
-            padding: 60px 0;
+            margin-bottom: 25px;
         }
-        
+
+        .empty-wishlist {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .empty-wishlist i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .wishlist-actions {
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb {
+            background: transparent;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: ">";
+        }
+
+        h1,
+        h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        p,
+        .text {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Gaya Book Card yang Diperbarui (diambil dari kode pertama) */
         .book-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            height: 100%;
+            margin-top: 15px;
+            transition: transform 0.3s ease;
             position: relative;
+            overflow: hidden;
+            border: 2px solid #710014;
+            border-radius: 15px;
+            background-color: #f5f5f5;
+            height: 97%;
         }
-        
+
         .book-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
-        
+
         .book-cover {
-            width: 100%;
-            height: 250px;
+            padding: 10px;
             object-fit: cover;
+            height: 350px;
+            width: 100%;
+            border-radius: 10px;
         }
-        
+
         .book-info {
-            padding: 1.5rem;
+            padding: 1rem;
         }
-        
-        .book-title {
+
+        .book-title-card {
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: var(--text-color);
+            min-height: 52px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
-        
-        .book-author {
-            color: #666;
+
+        .book-author-card {
+            color: #B38F6F;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
-        
-        .book-price {
+
+        .book-price-card {
             font-weight: 600;
             color: var(--primary-color);
             font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
         }
-        
+
         .rating-stars {
             color: #ffc107;
             margin-bottom: 0.5rem;
+            font-size: 14px;
         }
-        
-        .book-actions {
+
+        .book-icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        .book-icons a,
+        .book-icons button {
+            background: #710014;
+            color: white;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .book-icons a:hover,
+        .book-icons button:hover {
+            background: #B38F6F;
+        }
+
+        .book-card:hover .book-icons {
+            opacity: 1;
+        }
+
+        .sold-badge {
+            position: absolute;
+            bottom: 30px;
+            right: 15px;
+            background-color: #710014;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 5;
+        }
+
+        .book-actions-top {
             position: absolute;
             top: 10px;
             right: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            z-index: 5;
         }
-        
-        .book-card:hover .book-actions {
-            opacity: 1;
-        }
-        
+
         .action-btn {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             border-radius: 50%;
             width: 40px;
@@ -142,56 +233,45 @@
             justify-content: center;
             transition: all 0.3s ease;
         }
-        
+
         .action-btn:hover {
             background: var(--primary-color);
             color: white;
         }
-        
-        .empty-wishlist {
-            text-align: center;
-            padding: 4rem 0;
+
+        .move-to-cart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            width: 100%;
         }
-        
-        .empty-wishlist i {
-            font-size: 4rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-        
-        .breadcrumb {
-            background: transparent;
-            padding: 1rem 0;
-        }
-        
-        .breadcrumb-item a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-        
-        .wishlist-actions {
-            margin-bottom: 2rem;
+
+        .move-to-cart-btn:hover {
+            background-color: #5a0010;
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     @include('components.navbar')
-    <!-- Breadcrumb -->
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">My Wishlist</li>
-            </ol>
-        </nav>
-    </div>
-
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">My Wishlist</h1>
-            <p class="lead">Books you want to read later</p>
+            <h1 class="fw-bold" style="color: #710014">Buku Favorit</h1>
+            <p class="text" style="color: #000000">{{ $wishlistItems->count() }}
+                {{ Str::after('buku', $wishlistItems->count()) }} di daftar buku favoritmu.
+            </p>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Buku Favorit</li>
+                </ol>
+            </nav>
         </div>
     </section>
 
@@ -201,10 +281,9 @@
             @if($wishlistItems->count() > 0)
                 <div class="wishlist-actions">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4>{{ $wishlistItems->count() }} {{ Str::plural('book', $wishlistItems->count()) }} in your wishlist</h4>
                         <div>
                             <button class="btn btn-primary" onclick="moveAllToCart()">
-                                <i class="fas fa-shopping-cart me-2"></i>Move All to Cart
+                                <i class="fas fa-shopping-cart me-2"></i>Pindah ke keranjang
                             </button>
                         </div>
                     </div>
@@ -213,27 +292,32 @@
                 <div class="row">
                     @foreach($wishlistItems as $book)
                         <div class="col-lg-3 col-md-4 col-sm-6 mb-4" id="wishlist-item-{{ $book->id }}">
-                            <div class="book-card">
-                                <div class="book-actions">
-                                    <button class="action-btn" onclick="moveToCart({{ $book->id }})" title="Move to Cart">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
-                                    <button class="action-btn" onclick="removeFromWishlist({{ $book->id }})" title="Remove from Wishlist">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <a href="{{ route('books.show', $book->id) }}" class="action-btn" title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                            <div class="card book-card shadow-sm">
+                                <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
+                                    alt="{{ $book->title }}" class="book-cover">
+
+                                <!-- Badge untuk jumlah buku terjual -->
+                                <div class="sold-badge">
+                                    <i class="fas fa-shopping-cart me-1"></i> {{ $book->sales_count }} terjual
                                 </div>
-                                
-                                <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}" 
-                                     alt="{{ $book->title }}" class="book-cover">
-                                
+                                <!-- Action icons di tengah saat hover -->
+                                <div class="book-icons">
+                                    <a href="{{ route('books.show', $book->id) }}" title="View Details">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <button class="action-btn" onclick="removeFromWishlist({{ $book->id }})"
+                                        title="Remove from Wishlist">
+                                        <i class="fas fa-trash"></i>
+                                        <button onclick="moveToCart({{ $book->id }})" title="Move to Cart">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                    </button>
+                                </div>
+
                                 <div class="book-info">
-                                    <h6 class="book-title">{{ $book->title }}</h6>
-                                    <p class="book-author">by {{ $book->author }}</p>
-                                    <p class="text-muted small">{{ $book->category->name }}</p>
-                                    
+                                    <p class="book-author-card">{{ $book->author }}</p>
+                                    <h6 class="book-title-card">{{ $book->title }}</h6>
+
                                     @if($book->reviews_count > 0)
                                         <div class="rating-stars">
                                             @for($i = 1; $i <= 5; $i++)
@@ -242,17 +326,9 @@
                                             <small class="text-muted">({{ $book->reviews_count }})</small>
                                         </div>
                                     @endif
-                                    
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</span>
-                                        <small class="text-muted">{{ $book->sales_count }} sold</small>
-                                    </div>
-                                    
-                                    <div class="d-grid gap-2">
-                                        <button class="btn btn-primary btn-sm" onclick="moveToCart({{ $book->id }})">
-                                            <i class="fas fa-shopping-cart me-2"></i>Move to Cart
-                                        </button>
-                                    </div>
+                                    <p class="text-muted small mb-3">{{ $book->category->name }}</p>
+                                    <p class="book-price-card">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
+
                                 </div>
                             </div>
                         </div>
@@ -261,15 +337,16 @@
             @else
                 <div class="empty-wishlist">
                     <i class="fas fa-heart"></i>
-                    <h3>Your wishlist is empty</h3>
-                    <p class="text-muted">Start adding books you'd like to read to your wishlist.</p>
-                    <a href="/categories" class="btn btn-primary btn-lg">
-                        <i class="fas fa-book me-2"></i>Browse Books
+                    <h3>Daftar buku favoritmu kosong nih!</h3>
+                    <p class="text-muted">Mulai eksplor buku dan tambahkan ke favorit yuk.</p>
+                    <a href="/categories" class="btn btn-primary btn-lg">Cari Buku
                     </a>
                 </div>
             @endif
         </div>
     </section>
+
+    @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -289,27 +366,27 @@
                 },
                 body: JSON.stringify({ book_id: bookId })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById(`wishlist-item-${bookId}`).remove();
-                    document.getElementById('cart-count').textContent = data.cart_count;
-                    
-                    // Show success message
-                    showMessage(data.message, 'success');
-                    
-                    // Check if wishlist is empty
-                    if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
-                        location.reload();
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`wishlist-item-${bookId}`).remove();
+                        document.getElementById('cart-count').textContent = data.cart_count;
+
+                        // Show success message
+                        showMessage(data.message, 'success');
+
+                        // Check if wishlist is empty
+                        if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
+                            location.reload();
+                        }
+                    } else {
+                        showMessage(data.message, 'error');
                     }
-                } else {
-                    showMessage(data.message, 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('An error occurred while moving the book to cart', 'error');
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showMessage('An error occurred while moving the book to cart', 'error');
+                });
         }
 
         function removeFromWishlist(bookId) {
@@ -322,24 +399,24 @@
                     },
                     body: JSON.stringify({ book_id: bookId })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById(`wishlist-item-${bookId}`).remove();
-                        showMessage(data.message, 'success');
-                        
-                        // Check if wishlist is empty
-                        if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
-                            location.reload();
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById(`wishlist-item-${bookId}`).remove();
+                            showMessage(data.message, 'success');
+
+                            // Check if wishlist is empty
+                            if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
+                                location.reload();
+                            }
+                        } else {
+                            showMessage(data.message, 'error');
                         }
-                    } else {
-                        showMessage(data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showMessage('An error occurred while removing the book', 'error');
-                });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showMessage('An error occurred while removing the book', 'error');
+                    });
             }
         }
 
@@ -347,8 +424,8 @@
             if (confirm('Are you sure you want to move all books to your cart?')) {
                 const bookIds = Array.from(document.querySelectorAll('[id^="wishlist-item-"]'))
                     .map(el => el.id.replace('wishlist-item-', ''));
-                
-                Promise.all(bookIds.map(bookId => 
+
+                Promise.all(bookIds.map(bookId =>
                     fetch('/wishlist/move-to-cart', {
                         method: 'POST',
                         headers: {
@@ -358,14 +435,14 @@
                         body: JSON.stringify({ book_id: bookId })
                     })
                 ))
-                .then(() => {
-                    showMessage('All books moved to cart successfully!', 'success');
-                    setTimeout(() => location.reload(), 1000);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showMessage('An error occurred while moving books to cart', 'error');
-                });
+                    .then(() => {
+                        showMessage('All books moved to cart successfully!', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showMessage('An error occurred while moving books to cart', 'error');
+                    });
             }
         }
 
@@ -407,7 +484,7 @@
                 hideNotification(notification);
             }, 3000);
         }
-        
+
         // Hide notification with animation
         function hideNotification(notification) {
             if (notification && notification.parentElement) {
@@ -422,4 +499,5 @@
         }
     </script>
 </body>
+
 </html>

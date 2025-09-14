@@ -54,9 +54,9 @@
         }
         
         .page-header {
-            background: linear-gradient(135deg, var(--primary-color), #8b0018);
+            background: var(--background-color);
             color: white;
-            padding: 60px 0;
+            padding: 40px 0;
         }
         
         .page-title {
@@ -168,37 +168,46 @@
             color: #ccc;
             margin-bottom: 1rem;
         }
-        
+
         .breadcrumb {
             background: transparent;
-            padding: 1rem 0;
         }
-        
+
         .breadcrumb-item a {
             color: var(--primary-color);
             text-decoration: none;
         }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: ">";
+        }
+
+        h1,
+        h5 {
+            font-family: 'Playfair Display', serif;
+        }
+        p,
+        .text {
+            font-family: 'Poppins', sans-serif;
+        }
+        
     </style>
 </head>
 <body>
     <!-- Navigation -->
     @include('components.navbar')
 
-    <!-- Breadcrumb -->
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-            </ol>
-        </nav>
-    </div>
-
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">Shopping Cart</h1>
-            <p class="lead">Review your selected books before checkout</p>
+            <h1 class="fw-bold" style="color: #710014">Keranjang</h1>
+            <p class="text" style="color: #000000">Cek kembali item yang dipilih sebelum kamu checkout.</p>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
+                </ol>
+            </nav>
         </div>
     </section>
 
@@ -209,9 +218,9 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4>Cart Items ({{ $cartItems->count() }})</h4>
+                            <h4>Daftar item({{ $cartItems->count() }})</h4>
                             <button class="btn btn-outline-danger" onclick="clearCart()">
-                                <i class="fas fa-trash me-2"></i>Clear Cart
+                                <i class="fas fa-trash me-2"></i>Hapus semua
                             </button>
                         </div>
 
@@ -268,7 +277,7 @@
                             </div>
                             
                             <div class="summary-row">
-                                <span>Tax</span>
+                                <span>Pajak</span>
                                 <span>Rp 0</span>
                             </div>
                             
@@ -278,11 +287,11 @@
                             </div>
                             
                             <a href="/checkout" class="btn btn-primary w-100 btn-lg mt-3">
-                                <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
+                                <i class="fas fa-credit-card me-2"></i>Proses checkout
                             </a>
                             
                             <a href="/categories" class="btn btn-outline-primary w-100 mt-2">
-                                <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+                                <i class="fas fa-arrow-left me-2"></i>Lanjut belanja
                             </a>
                         </div>
                     </div>
@@ -290,15 +299,16 @@
             @else
                 <div class="empty-cart">
                     <i class="fas fa-shopping-cart"></i>
-                    <h3>Your cart is empty</h3>
-                    <p class="text-muted">Looks like you haven't added any books to your cart yet.</p>
-                    <a href="/categories" class="btn btn-primary btn-lg">
-                        <i class="fas fa-book me-2"></i>Browse Books
+                    <h3>Keranjang kamu kosong nih!</h3>
+                    <p class="text-muted">Eksplor dan tambahkan buku ke keranjang yuk biar ada isinya.</p>
+                    <a href="/categories" class="btn btn-primary btn-lg">Cari Buku
                     </a>
                 </div>
             @endif
         </div>
     </section>
+
+    @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

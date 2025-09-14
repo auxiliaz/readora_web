@@ -108,15 +108,67 @@
             text-align: center;
         }
 
+        .new-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: right;
+            position: relative;
+            display: block;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .new-title::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 238px;
+            height: 2px;
+            background-color: #710014;
+            border-radius: 2px;
+        }
+
+        .books-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .books-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #710014;
+            border-radius: 2px;
+        }
+
+
         /* Gaya Book Card yang Diperbarui */
         .book-card {
+            margin-top: 15px;
             transition: transform 0.3s ease;
             position: relative;
             overflow: hidden;
             border: 2px solid #710014;
             border-radius: 15px;
             background-color: #f5f5f5;
-            height: 100%;
+            height: 97%;
         }
 
         .book-card:hover {
@@ -201,9 +253,9 @@
 
         .sold-badge {
             position: absolute;
-            bottom: 15px;
+            bottom: 30px;
             right: 15px;
-            background-color: rgba(113, 0, 20, 0.8);
+            background-color: #710014;
             color: white;
             padding: 5px 10px;
             border-radius: 15px;
@@ -211,43 +263,10 @@
             font-weight: 500;
         }
 
-        .review-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            height: 100%;
-        }
-
-        .reviewer-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .reviewer-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            margin-right: 1rem;
-        }
 
         .about-section {
             background: white;
             padding: 80px 0;
-        }
-
-        .footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
         }
 
         .cart-badge {
@@ -264,6 +283,52 @@
         .nav-icon {
             position: relative;
             display: inline-block;
+        }
+
+        /* Category Cards Styles */
+        .category-card {
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-icon {
+            width: 100px;
+            height: 100px;
+            background: #D9D9D9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .category-icon i {
+            font-size: 2.5rem;
+            color: #B38F6F;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1);
+        }
+
+        .category-name {
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-name {
+            color: #F2F1ED;
         }
     </style>
 </head>
@@ -289,23 +354,24 @@
     </section>
 
     <!-- About Readora Section -->
-    <section id="about" class="py-5 mb-5" style="background-color: #710014;">
+    <section id="about" class="py-5 mb-3" style="background-color: #710014;">
         <div class="container">
             <div class="row align-items-center">
                 <!-- Kiri: Gambar -->
                 <div class="col-md-6 text-center mb-4 mb-md-0">
-                    <img src="assets/about.svg" alt="About Readora" class="img-fluid">
+                    <img src="assets/about.svg" alt="About Readora" class="img-fluid"
+                        style="max-width: 75%; height: auto;">
                 </div>
                 <!-- Kanan: Teks -->
                 <div class="col-md-6 text-white">
-                    <h1 class="fw-bold mb-3">About Readora</h1>
+                    <h1 class="fw-bold mb-3" style="font-family: 'Playfair Display';">About Readora</h1>
                     <p class="mb-4">
                         Dengan koleksi e-book yang terus diperbarui dan beragam kategori yang menarik, kami hadir untuk
                         memberikan pengalaman membaca yang lebih seru dan fleksibel. Nikmati pengalaman membaca e-book
                         favoritmu langsung di fitur Perpustakaan. Lebih praktis, tanpa perlu unduh—cukup sekali klik,
                         dan kamu bisa mulai membaca sekarang juga.
                     </p>
-                    <a href="#popular-books" class="btn btn-light rounded-pill">Jelajahi Buku</a>
+                    <a href="/library" class="btn btn-light rounded-pill">Jelajahi Perpustakaan</a>
                 </div>
             </div>
         </div>
@@ -314,7 +380,7 @@
     <!-- Popular Books -->
     <section id="popular-books" class="py-5">
         <div class="container">
-            <h2 class="section-title">Popular Books</h2>
+            <h2 class="books-title">Buku Populer</h2>
             <div class="row">
                 @forelse($popularBooks as $book)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -330,17 +396,22 @@
                             <div class="book-icons">
                                 <a href="/books/{{ $book->id }}" title="View Details"><i class="fa-solid fa-eye"></i></a>
                                 @auth
-                                    <a href="javascript:void(0)" onclick="addToWishlist({{ $book->id }})" title="Add to Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                    <a href="javascript:void(0)" onclick="addToCart({{ $book->id }})" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></a>
+                                    <a href="javascript:void(0)" onclick="addToWishlist({{ $book->id }})"
+                                        title="Add to Wishlist"><i class="fa-solid fa-heart"></i></a>
+                                    <a href="javascript:void(0)" onclick="addToCart({{ $book->id }})" title="Add to Cart"><i
+                                            class="fa-solid fa-cart-plus"></i></a>
                                 @else
-                                    <a href="{{ route('login') }}" title="Login to add to Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                    <a href="{{ route('login') }}" title="Login to add to Cart"><i class="fa-solid fa-cart-plus"></i></a>
+                                    <a href="{{ route('login') }}" title="Login to add to Wishlist"><i
+                                            class="fa-solid fa-heart"></i></a>
+                                    <a href="{{ route('login') }}" title="Login to add to Cart"><i
+                                            class="fa-solid fa-cart-plus"></i></a>
                                 @endauth
                             </div>
 
                             <div class="book-info">
-                                <p class="book-author">by {{ $book->author }}</p>
+                                <p class="book-author">{{ $book->author }}</p>
                                 <h6 class="book-title">{{ $book->title }}</h6>
+                                <p class="text-muted small mb-3">{{ $book->category->name }}</p>
                                 <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -354,10 +425,90 @@
         </div>
     </section>
 
-    <!-- Latest Releases -->
-    <section class="py-5 bg-light">
+    <!-- Choose Your Categories Section -->
+    <section class="py-5" style="background-color: var(--primary-color);">
         <div class="container">
-            <h2 class="section-title">Latest Releases</h2>
+            <h2 class="section-title text-white mb-5">Pilih Kategori Favoritmu</h2>
+            <div class="row justify-content-center">
+                <!-- Fiction -->
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a href="/categories?category=1" class="text-decoration-none">
+                        <div class="category-card text-center">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h6 class="category-name">Fiction</h6>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Romance -->
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a href="/categories?category=5" class="text-decoration-none">
+                        <div class="category-card text-center">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h6 class="category-name">Romance</h6>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Science Fiction -->
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a href="/categories?category=3" class="text-decoration-none">
+                        <div class="category-card text-center">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h6 class="category-name">Science Fiction</h6>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Mystery & Thriller -->
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a href="/categories?category=6" class="text-decoration-none">
+                        <div class="category-card text-center">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h6 class="category-name">Mystery & Thriller</h6>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Fantasy -->
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a href="/categories?category=4" class="text-decoration-none">
+                        <div class="category-card text-center">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <h6 class="category-name">Fantasy</h6>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Self-Help -->
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <a href="/categories?category=9" class="text-decoration-none">
+                        <div class="category-card text-center">
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h6 class="category-name">Self-Help</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Releases -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="new-title">Rilis Terbaru</h2>
             <div class="row">
                 @forelse($latestBooks as $book)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -366,25 +517,29 @@
                                 alt="{{ $book->title }}" class="book-cover">
 
                             <!-- Badge untuk buku baru -->
-                            <div class="sold-badge" style="background-color: rgba(25, 135, 84, 0.8);">
+                            <div class="sold-badge" style="background-color: #ff5e5e">
                                 <i class="fas fa-certificate me-1"></i> Baru!
                             </div>
 
                             <div class="book-icons">
                                 <a href="/books/{{ $book->id }}" title="View Details"><i class="fa-solid fa-eye"></i></a>
                                 @auth
-                                    <a href="javascript:void(0)" onclick="addToWishlist({{ $book->id }})" title="Add to Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                    <a href="javascript:void(0)" onclick="addToCart({{ $book->id }})" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></a>
+                                    <a href="javascript:void(0)" onclick="addToWishlist({{ $book->id }})"
+                                        title="Add to Wishlist"><i class="fa-solid fa-heart"></i></a>
+                                    <a href="javascript:void(0)" onclick="addToCart({{ $book->id }})" title="Add to Cart"><i
+                                            class="fa-solid fa-cart-plus"></i></a>
                                 @else
-                                    <a href="{{ route('login') }}" title="Login to add to Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                    <a href="{{ route('login') }}" title="Login to add to Cart"><i class="fa-solid fa-cart-plus"></i></a>
+                                    <a href="{{ route('login') }}" title="Login to add to Wishlist"><i
+                                            class="fa-solid fa-heart"></i></a>
+                                    <a href="{{ route('login') }}" title="Login to add to Cart"><i
+                                            class="fa-solid fa-cart-plus"></i></a>
                                 @endauth
                             </div>
 
                             <div class="book-info">
-                                <p class="book-author">by {{ $book->author }}</p>
+                                <p class="book-author">{{ $book->author }}</p>
                                 <h6 class="book-title">{{ $book->title }}</h6>
-
+                                <p class="text-muted small mb-3">{{ $book->category->name }}</p>
                                 <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
                             </div>
                         </div>
@@ -398,38 +553,16 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Readora</h5>
-                    <p>Your digital library for endless reading adventures.</p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Quick Links</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="/categories" class="text-light">Browse Books</a></li>
-                        <li><a href="/about" class="text-light">About Us</a></li>
-                        <li><a href="/contact" class="text-light">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="text-center">
-                <p>&copy; 2024 Readora. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/book-actions.js') }}"></script>
-    
+
     <script>
         // Ensure functions are available globally for home page
-        window.addToCart = function(bookId) {
+        window.addToCart = function (bookId) {
             console.log('Adding to cart:', bookId);
-            
+
             if (!document.querySelector('meta[name="csrf-token"]')) {
                 showNotification('Please login to add items to cart', 'error');
                 return;
@@ -446,25 +579,25 @@
                     quantity: 1
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Cart response:', data);
-                if (data.success) {
-                    showNotification(data.message, 'success');
-                    updateCartCount();
-                } else {
-                    showNotification(data.message || 'Error adding to cart', 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Error adding to cart. Please try again.', 'error');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Cart response:', data);
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+                        updateCartCount();
+                    } else {
+                        showNotification(data.message || 'Error adding to cart', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error adding to cart. Please try again.', 'error');
+                });
         };
 
-        window.addToWishlist = function(bookId) {
+        window.addToWishlist = function (bookId) {
             console.log('Adding to wishlist:', bookId);
-            
+
             if (!document.querySelector('meta[name="csrf-token"]')) {
                 showNotification('Please login to add items to wishlist', 'error');
                 return;
@@ -480,24 +613,24 @@
                     book_id: bookId
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Wishlist response:', data);
-                if (data.success) {
-                    showNotification(data.message, 'success');
-                    updateWishlistCount();
-                } else {
-                    showNotification(data.message || 'Error adding to wishlist', 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Error adding to wishlist. Please try again.', 'error');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Wishlist response:', data);
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+                        updateWishlistCount();
+                    } else {
+                        showNotification(data.message || 'Error adding to wishlist', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error adding to wishlist. Please try again.', 'error');
+                });
         };
 
         // Notification function
-        window.showNotification = function(message, type = 'success') {
+        window.showNotification = function (message, type = 'success') {
             // Remove existing notifications with slide out animation
             const existingNotifications = document.querySelectorAll('.toast-notification');
             existingNotifications.forEach(notification => {
@@ -537,7 +670,7 @@
         };
 
         // Hide notification with animation
-        window.hideNotification = function(notification) {
+        window.hideNotification = function (notification) {
             if (notification && notification.parentElement) {
                 notification.classList.remove('show');
                 notification.classList.add('hide');
@@ -550,7 +683,7 @@
         };
 
         // Update cart count
-        window.updateCartCount = function() {
+        window.updateCartCount = function () {
             fetch('/cart/count')
                 .then(response => response.json())
                 .then(data => {
@@ -569,7 +702,7 @@
         };
 
         // Update wishlist count
-        window.updateWishlistCount = function() {
+        window.updateWishlistCount = function () {
             fetch('/wishlist/count')
                 .then(response => response.json())
                 .then(data => {
@@ -588,7 +721,7 @@
         };
 
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log('Home page loaded, initializing...');
             if (document.querySelector('meta[name="csrf-token"]')) {
                 updateCartCount();
