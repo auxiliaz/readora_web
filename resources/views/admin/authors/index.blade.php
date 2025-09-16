@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Books')
+@section('title', 'Penulis')
 
 @section('content')
 <style>
@@ -40,6 +40,7 @@
             border-color: #ddd;
         }
         
+        /* Responsive pagination */
         @media (max-width: 576px) {
             .pagination .page-link {
                 padding: 0.4rem 0.7rem;
@@ -52,7 +53,7 @@
             }
         }
 
-
+        /* Modern Card Styles */
         .modern-card {
             border: none;
             border-radius: 16px;
@@ -71,6 +72,7 @@
             margin-bottom: 0;
         }
 
+        /* Modern Table Styles */
         .modern-table {
             border: none;
         }
@@ -91,84 +93,31 @@
             border: none;
         }
 
-        .book-cover-container {
-            position: relative;
-            width: 55px;
-            height: 75px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        /* Author Specific Styles */
+        .author-id {
+            font-weight: 500;
+            color: #000;
+            font-size: 0.9rem;
         }
 
-        .book-cover-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+        .author-info {
+            max-width: 200px;
         }
 
-        .book-cover-container:hover .book-cover-img {
-            transform: scale(1.05);
-        }
-
-        .book-cover-placeholder {
-            width: 55px;
-            height: 75px;
-            background: linear-gradient(135deg, #710014 0%, #8b1538 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 12px rgba(113, 0, 20, 0.3);
-        }
-
-        .book-info {
-            max-width: 250px;
-        }
-
-        .book-title {
+        .author-name {
             font-weight: 500;
             color: #000;
             font-size: 1rem;
             line-height: 1.3;
         }
 
-        .book-description {
-            color: #718096;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .author-name {
-            color: #000;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .category-badge {
+        .books-count-badge {
             background: linear-gradient(135deg, #710014 0%, #710014 100%);
             color: white;
             font-size: 0.8rem;
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
             font-weight: 500;
-        }
-
-        .sales-badge {
-            background: linear-gradient(135deg, #710014 0%, #710014 100%);
-            color: white;
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        .price-text {
-            font-weight: 400;
-            color: #000;
-            font-size: 0.95rem;
         }
 
         .date-text {
@@ -176,13 +125,14 @@
             font-size: 0.9rem;
         }
 
-        .categories-buttons {
+        /* Action Buttons */
+        .authors-buttons {
             display: flex;
             gap: 0.5rem;
             justify-content: center;
         }
 
-        .categories-btn {
+        .authors-btn {
             border: none;
             border-radius: 8px;
             padding: 0.4rem 0.6rem;
@@ -190,19 +140,19 @@
             font-size: 0.85rem;
         }
 
-        .categories-btn:hover {
+        .authors-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             border: 2px solid #710014;
         }
 
-        .btn-categories {
+        .btn-authors {
             background: #F2F1ED;
             border: 2px solid #710014;
             color: #710014;
         }
 
-
+        /* Empty State */
         .empty-state {
             padding: 3rem 2rem;
         }
@@ -212,6 +162,7 @@
             margin-bottom: 1rem;
         }
 
+        /* Filter Dropdown */
         .dropdown-menu {
             border: none;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
@@ -237,32 +188,31 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="page-title"><i class="bi bi-book-fill me-2"></i>Books Management</h1>
+            <h1 class="page-title"><i class="bi bi-person-fill me-2"></i>Manajemen Penulis</h1>
             <div class="d-flex gap-2 align-items-center">
                 <!-- Filter Dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-funnel"></i> Sort By
+                        <i class="bi bi-funnel"></i> Urutkan
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                        <li><a class="dropdown-item" href="?sort=title"><i class="bi bi-sort-alpha-down me-2"></i>Title A-Z</a></li>
-                        <li><a class="dropdown-item" href="?sort=title_desc"><i class="bi bi-sort-alpha-up me-2"></i>Title Z-A</a></li>
-                        <li><a class="dropdown-item" href="?sort=price"><i class="bi bi-sort-numeric-down me-2"></i>Price Low-High</a></li>
-                        <li><a class="dropdown-item" href="?sort=price_desc"><i class="bi bi-sort-numeric-up me-2"></i>Price High-Low</a></li>
-                        <li><a class="dropdown-item" href="?sort=created_at"><i class="bi bi-calendar me-2"></i>Newest First</a></li>
-                        <li><a class="dropdown-item" href="?sort=created_at_desc"><i class="bi bi-calendar2 me-2"></i>Oldest First</a></li>
-                        <li><a class="dropdown-item" href="?sort=sales"><i class="bi bi-graph-up me-2"></i>Best Selling</a></li>
+                        <li><a class="dropdown-item" href="?sort=nama"><i class="bi bi-sort-alpha-down me-2"></i>Nama A-Z</a></li>
+                        <li><a class="dropdown-item" href="?sort=nama_desc"><i class="bi bi-sort-alpha-up me-2"></i>Nama Z-A</a></li>
+                        <li><a class="dropdown-item" href="?sort=books_count"><i class="bi bi-sort-numeric-down me-2"></i>Terbanyak Buku</a></li>
+                        <li><a class="dropdown-item" href="?sort=books_count_desc"><i class="bi bi-sort-numeric-up me-2"></i>Tersedikit Buku</a></li>
+                        <li><a class="dropdown-item" href="?sort=created_at"><i class="bi bi-calendar me-2"></i>Terbaru</a></li>
+                        <li><a class="dropdown-item" href="?sort=created_at_desc"><i class="bi bi-calendar2 me-2"></i>Terlama</a></li>
                     </ul>
                 </div>
                 
                 <!-- Export Button -->
-                <button class="btn btn-primary" onclick="exportBooks()">
-                    <i class="bi bi-download"></i> Export
+                <button class="btn btn-primary" onclick="exportAuthors()">
+                    <i class="bi bi-download"></i> Ekspor
                 </button>
                 
-                <!-- Add Book Button -->
-                <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Tambah Buku
+                <!-- Add Author Button -->
+                <a href="{{ route('admin.authors.create') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Tambah Penulis
                 </a>
             </div>
         </div>
@@ -277,70 +227,47 @@
                     <table class="table table-hover modern-table">
                         <thead style="border-bottom: 2px solid #710014; font-family: 'Playfair Display', serif; font-weight: 800;">
                             <tr>
-                                <th class="border-0">Cover</th>
-                                <th class="border-0">Title</th>
-                                <th class="border-0">Author</th>
-                                <th class="border-0">Category</th>
-                                <th class="border-0">Price</th>
-                                <th class="border-0">Sales</th>
-                                <th class="border-0">Created</th>
-                                <th class="border-0 text-center">Actions</th>
+                                <th class="border-0">ID</th>
+                                <th class="border-0">Nama</th>
+                                <th class="border-0">Jumlah Buku</th>
+                                <th class="border-0">Dibuat</th>
+                                <th class="border-0 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($books as $book)
+                            @forelse($authors as $author)
                                 <tr>
                                     <td>
-                                        @if($book->cover_image)
-                                            <div class="book-cover-container">
-                                                <img src="{{ $book->cover_image }}" 
-                                                     alt="{{ $book->title }}" 
-                                                     class="book-cover-img">
-                                            </div>
-                                        @else
-                                            <div class="book-cover-placeholder">
-                                                <i class="bi bi-book"></i>
-                                            </div>
-                                        @endif
+                                        <span class="author-id">#{{ $author->id }}</span>
                                     </td>
                                     <td>
-                                        <div class="book-info">
-                                            <h6 class="book-title mb-1">{{ $book->title }}</h6>
-                                            <p class="book-description mb-0">{{ Str::limit($book->description, 50) }}</p>
+                                        <div class="author-info">
+                                            <h6 class="author-name mb-0">{{ $author->nama }}</h6>
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="author-name">{{ $book->author }}</span>
+                                        <span class="badge books-count-badge">{{ $author->books_count }} buku</span>
                                     </td>
                                     <td>
-                                        <span class="badge category-badge">{{ $book->category->name }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="price-text">Rp {{ number_format($book->price, 0, ',', '.') }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge sales-badge">{{ $book->sales_count ?? 0 }} sold</span>
-                                    </td>
-                                    <td>
-                                        <span class="date-text">{{ $book->created_at->format('M d, Y') }}</span>
+                                        <span class="date-text">{{ $author->created_at->format('d M Y') }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <div class="categories-buttons">
-                                            <a href="{{ route('admin.books.show', $book) }}" 
-                                               class="btn-categories btn-sm categories-btn" title="View">
+                                        <div class="authors-buttons">
+                                            <a href="{{ route('admin.authors.show', $author) }}" 
+                                               class="btn-authors btn-sm authors-btn" title="Lihat">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{{ route('admin.books.edit', $book) }}" 
-                                               class="btn-categories btn-sm categories-btn" title="Edit">
+                                            <a href="{{ route('admin.authors.edit', $author) }}" 
+                                               class="btn-authors btn-sm authors-btn" title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <form method="POST" 
-                                                  action="{{ route('admin.books.destroy', $book) }}" 
+                                                  action="{{ route('admin.authors.destroy', $author) }}" 
                                                   class="d-inline"
-                                                  onsubmit="return confirm('Are you sure you want to delete this book?')">
+                                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus penulis ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn-categories btn-sm categories-btn" title="Delete">
+                                                <button type="submit" class="btn-authors btn-sm authors-btn" title="Hapus">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </form>
@@ -349,13 +276,13 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center py-5">
+                                    <td colspan="5" class="text-center py-5">
                                         <div class="empty-state">
-                                            <i class="bi bi-book fs-1 text-muted mb-3"></i>
-                                            <h5 class="text-muted">No books found</h5>
-                                            <p class="text-muted mb-3">Start building your library by adding your first book</p>
-                                            <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
-                                                <i class="bi bi-plus-circle me-1"></i>Add your first book
+                                            <i class="bi bi-person fs-1 text-muted mb-3"></i>
+                                            <h5 class="text-muted">Tidak ada penulis ditemukan</h5>
+                                            <p class="text-muted mb-3">Mulai dengan menambahkan penulis pertama Anda</p>
+                                            <a href="{{ route('admin.authors.create') }}" class="btn btn-primary">
+                                                <i class="bi bi-plus-circle me-1"></i>Tambah penulis pertama
                                             </a>
                                         </div>
                                     </td>
@@ -365,25 +292,25 @@
                     </table>
                 </div>
 
-                <!-- Pagination yang diperbaiki -->
-                    @if($books->hasPages())
+                <!-- Pagination -->
+                    @if($authors->hasPages())
                         <div class="d-flex justify-content-center mt-4">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
                                     {{-- Previous Page Link --}}
-                                    @if ($books->onFirstPage())
+                                    @if ($authors->onFirstPage())
                                         <li class="page-item disabled" aria-disabled="true">
                                             <span class="page-link">&laquo;</span>
                                         </li>
                                     @else
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $books->previousPageUrl() }}" rel="prev">&laquo;</a>
+                                            <a class="page-link" href="{{ $authors->previousPageUrl() }}" rel="prev">&laquo;</a>
                                         </li>
                                     @endif
 
                                     {{-- Pagination Elements --}}
-                                    @foreach ($books->getUrlRange(1, $books->lastPage()) as $page => $url)
-                                        @if ($page == $books->currentPage())
+                                    @foreach ($authors->getUrlRange(1, $authors->lastPage()) as $page => $url)
+                                        @if ($page == $authors->currentPage())
                                             <li class="page-item active" aria-current="page">
                                                 <span class="page-link">{{ $page }}</span>
                                             </li>
@@ -395,9 +322,9 @@
                                     @endforeach
 
                                     {{-- Next Page Link --}}
-                                    @if ($books->hasMorePages())
+                                    @if ($authors->hasMorePages())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $books->nextPageUrl() }}" rel="next">&raquo;</a>
+                                            <a class="page-link" href="{{ $authors->nextPageUrl() }}" rel="next">&raquo;</a>
                                         </li>
                                     @else
                                         <li class="page-item disabled" aria-disabled="true">
@@ -416,14 +343,14 @@
 
 @push('scripts')
 <script>
-function exportBooks() {
+function exportAuthors() {
     // Simple CSV export functionality
     const table = document.querySelector('.modern-table');
     const rows = table.querySelectorAll('tr');
     let csvContent = '';
     
     // Add headers
-    const headers = ['Title', 'Author', 'Category', 'Price', 'Sales', 'Created'];
+    const headers = ['ID', 'Nama', 'Jumlah Buku', 'Dibuat'];
     csvContent += headers.join(',') + '\n';
     
     // Add data rows (skip header row and empty state row)
@@ -431,16 +358,14 @@ function exportBooks() {
         if (index === 0 || row.querySelector('.empty-state')) return;
         
         const cells = row.querySelectorAll('td');
-        if (cells.length < 8) return;
+        if (cells.length < 5) return;
         
-        const title = cells[1].querySelector('.book-title')?.textContent.trim() || '';
-        const author = cells[2].querySelector('.author-name')?.textContent.trim() || '';
-        const category = cells[3].querySelector('.category-badge')?.textContent.trim() || '';
-        const price = cells[4].querySelector('.price-text')?.textContent.trim() || '';
-        const sales = cells[5].querySelector('.sales-badge')?.textContent.trim() || '';
-        const created = cells[6].querySelector('.date-text')?.textContent.trim() || '';
+        const id = cells[0].querySelector('.author-id')?.textContent.trim() || '';
+        const name = cells[1].querySelector('.author-name')?.textContent.trim() || '';
+        const booksCount = cells[2].querySelector('.books-count-badge')?.textContent.trim() || '';
+        const created = cells[3].querySelector('.date-text')?.textContent.trim() || '';
         
-        const rowData = [title, author, category, price, sales, created];
+        const rowData = [id, name, booksCount, created];
         csvContent += rowData.map(field => `"${field}"`).join(',') + '\n';
     });
     
@@ -449,7 +374,7 @@ function exportBooks() {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `books_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `authors_export_${new Date().toISOString().split('T')[0]}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -459,7 +384,7 @@ function exportBooks() {
     const toast = document.createElement('div');
     toast.className = 'alert alert-success position-fixed';
     toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Books exported successfully!';
+    toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Data penulis berhasil diekspor!';
     document.body.appendChild(toast);
     
     setTimeout(() => {

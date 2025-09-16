@@ -106,6 +106,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Categories Management
         Route::resource('categories', AdminCategoryController::class);
         
+        // Authors Management
+        Route::resource('authors', App\Http\Controllers\Admin\AuthorController::class);
+        
+        // Publishers Management
+        Route::resource('publishers', App\Http\Controllers\Admin\PublisherController::class);
+        
         // Reviews Management
         Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
         Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');

@@ -75,28 +75,223 @@
             border-color: var(--primary-color);
         }
 
+
         .hero-section {
-            background: #F2F1ED;
-            padding: 100px 0;
+            min-height: 100vh;
+            background-color: var(--background-color) !important;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        .hero {
-            min-height: 80vh;
-            padding: 60px 10px;
-            border-radius: 0;
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            margin-bottom: 4rem;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #710014;
+        .hero-title {
             font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        .hero p {
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-description {
             font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #000;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .books-carousel {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            perspective: 1500px;
+            margin-top: 2px;
+            margin-bottom: 5px;
+        }
+
+        .books-track {
+            display: flex;
+            position: absolute;
+            height: 100%;
+            gap: 20px;
+            width: max-content;
+            animation: infiniteSlide 30s linear infinite;
+            background-color: var(--background-color) !important;
+        }
+
+        .book-card {
+            width: 200px;
+            height: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .book-card:hover {
+            transform: rotateY(0deg) translateZ(20px);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .book-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover .book-overlay {
+            transform: translateY(0);
+        }
+
+        .book-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        @keyframes infiniteSlide {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-100% / 3));
+            }
+        }
+
+        .features-section {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 4rem;
+            gap: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            flex: 1;
+            padding: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 2.5rem;
+            }
+
+            .features-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .books-carousel {
+                height: 250px;
+            }
+
+            .book-card {
+                width: 160px;
+                height: 220px;
+            }
         }
 
         .section-title {
@@ -158,36 +353,34 @@
             border-radius: 2px;
         }
 
-
-        /* Gaya Book Card yang Diperbarui */
-        .book-card {
+        .book-card-main {
             margin-top: 15px;
             transition: transform 0.3s ease;
             position: relative;
             overflow: hidden;
-            border: 2px solid #710014;
+            box-shadow: 10px;
             border-radius: 15px;
             background-color: #f5f5f5;
             height: 97%;
         }
 
-        .book-card:hover {
+        .book-card-main:hover {
             transform: translateY(-5px);
         }
 
-        .book-cover {
+        .book-cover-main {
             padding: 10px;
             object-fit: cover;
             height: 350px;
             width: 100%;
-            border-radius: 10px;
+            border-radius: 20px;
         }
 
         .book-info {
             padding: 1rem;
         }
 
-        .book-title {
+        .book-title-main {
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
@@ -200,7 +393,7 @@
             -webkit-box-orient: vertical;
         }
 
-        .book-author {
+        .book-author-main {
             color: #B38F6F;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
@@ -211,12 +404,6 @@
             color: var(--primary-color);
             font-size: 1.2rem;
             font-family: 'Playfair Display', serif;
-        }
-
-        .rating-stars {
-            color: #ffc107;
-            margin-bottom: 0.5rem;
-            font-size: 14px;
         }
 
         .book-icons {
@@ -247,7 +434,7 @@
             background: #B38F6F;
         }
 
-        .book-card:hover .book-icons {
+        .book-card-main:hover .book-icons {
             opacity: 1;
         }
 
@@ -330,39 +517,59 @@
         .category-card:hover .category-name {
             color: #F2F1ED;
         }
+
+        .btn-primary {
+            background-color: #F2F1ED;
+            border: 2px solid #710014;
+            color: #710014;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background-color: #710014;
+            border-color: #710014;
+        }
+
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #710014 !important;
+            border-color: #710014 !important;
+            color: #fff !important;
+            box-shadow: none;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar (tetap menggunakan include) -->
     @include('components.navbar')
-
-    <!-- Hero Section -->
     <section class="hero-section">
-        <div class="container">
-            <div class="hero d-flex flex-column justify-content-center align-items-center text-center">
-                <h1 data-aos="fade-down" data-aos-duration="1000">Selamat Datang di Readora</h1>
-                <p data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-                    Temukan ribuan buku favoritmu, dari novel, komik, hingga buku sejarah dan pendidikan.
-                </p>
-                <div data-aos="zoom-in" data-aos-delay="600">
-                    <a href="/categories" class="btn-main">Browse Categories</a>
-                    <a href="/search" class="btn-main ms-2">Search Books</a>
-                </div>
+        <div class="hero-content mt-4">
+            <h1 class="hero-title">Jelajahi Dunia Pengetahuan,</h1>
+            <h2 class="hero-subtitle">Kembangkan Wawasan Anda</h2>
+            <p class="hero-description">
+                Platform terlengkap untuk membaca, belajar, dan berkembang dengan koleksi buku berkualitas dari berbagai
+                bidang ilmu.
+            </p>
+            <button class="cta-button" onclick="window.location.href='/categories'">
+                Eksplor Buku Sekarang
+            </button>
+        </div>
+
+        <div class="books-carousel">
+            <div class="books-track" id="booksTrack">
             </div>
         </div>
     </section>
 
     <!-- About Readora Section -->
-    <section id="about" class="py-5 mb-3" style="background-color: #710014;">
+    <section id="about" class="py-5 mb-3 mt-4" style="background-color: #710014;">
         <div class="container">
             <div class="row align-items-center">
-                <!-- Kiri: Gambar -->
                 <div class="col-md-6 text-center mb-4 mb-md-0">
                     <img src="assets/about.svg" alt="About Readora" class="img-fluid"
                         style="max-width: 75%; height: auto;">
                 </div>
-                <!-- Kanan: Teks -->
                 <div class="col-md-6 text-white">
                     <h1 class="fw-bold mb-3" style="font-family: 'Playfair Display';">About Readora</h1>
                     <p class="mb-4">
@@ -384,9 +591,9 @@
             <div class="row">
                 @forelse($popularBooks as $book)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <div class="card book-card shadow-sm">
+                        <div class="card book-card-main shadow-sm">
                             <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                alt="{{ $book->title }}" class="book-cover">
+                                alt="{{ $book->title }}" class="book-cover-main">
 
                             <!-- Badge untuk jumlah buku terjual -->
                             <div class="sold-badge">
@@ -409,8 +616,8 @@
                             </div>
 
                             <div class="book-info">
-                                <p class="book-author">{{ $book->author }}</p>
-                                <h6 class="book-title">{{ $book->title }}</h6>
+                                <p class="book-author-main">{{ $book->author }}</p>
+                                <h6 class="book-title-main">{{ $book->title }}</h6>
                                 <p class="text-muted small mb-3">{{ $book->category->name }}</p>
                                 <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
                             </div>
@@ -512,9 +719,9 @@
             <div class="row">
                 @forelse($latestBooks as $book)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <div class="card book-card shadow-sm">
+                        <div class="card book-card-main shadow-sm">
                             <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                alt="{{ $book->title }}" class="book-cover">
+                                alt="{{ $book->title }}" class="book-cover-main">
 
                             <!-- Badge untuk buku baru -->
                             <div class="sold-badge" style="background-color: #ff5e5e">
@@ -537,8 +744,8 @@
                             </div>
 
                             <div class="book-info">
-                                <p class="book-author">{{ $book->author }}</p>
-                                <h6 class="book-title">{{ $book->title }}</h6>
+                                <p class="book-author-main">{{ $book->author }}</p>
+                                <h6 class="book-title-main">{{ $book->title }}</h6>
                                 <p class="text-muted small mb-3">{{ $book->category->name }}</p>
                                 <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
                             </div>
@@ -559,7 +766,94 @@
     <script src="{{ asset('js/book-actions.js') }}"></script>
 
     <script>
-        // Ensure functions are available globally for home page
+        const books = [
+            {
+                title: "Atomic Habits",
+                author: "James Clear",
+                cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=280&fit=crop&crop=center",
+                color: "#4a90e2"
+            },
+            {
+                title: "Sapiens",
+                author: "Yuval Noah Harari",
+                cover: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=280&fit=crop&crop=center",
+                color: "#e74c3c"
+            },
+            {
+                title: "The Psychology of Money",
+                author: "Morgan Housel",
+                cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=280&fit=crop&crop=center",
+                color: "#2ecc71"
+            },
+            {
+                title: "Thinking, Fast and Slow",
+                author: "Daniel Kahneman",
+                cover: "https://images.unsplash.com/photo-1550399504-8b22e3f7e4b7?w=200&h=280&fit=crop&crop=center",
+                color: "#9b59b6"
+            },
+            {
+                title: "The 7 Habits",
+                author: "Stephen R. Covey",
+                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&h=280&fit=crop&crop=center",
+                color: "#f39c12"
+            },
+            {
+                title: "Rich Dad Poor Dad",
+                author: "Robert Kiyosaki",
+                cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=280&fit=crop&crop=center",
+                color: "#1abc9c"
+            },
+            {
+                title: "The Lean Startup",
+                author: "Eric Ries",
+                cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200&h=280&fit=crop&crop=center",
+                color: "#34495e"
+            },
+            {
+                title: "Mindset",
+                author: "Carol S. Dweck",
+                cover: "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?w=200&h=280&fit=crop&crop=center",
+                color: "#e67e22"
+            }
+        ];
+
+        const allBooks = [...books, ...books, ...books];
+
+        function createBookCard(book, index) {
+            return `
+                <div class="book-card" style="animation-delay: ${index * 0.1}s">
+                    <img src="${book.cover}" alt="${book.title}" class="book-cover" 
+                         onerror="this.style.background='${book.color}'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontSize='14px'; this.style.textAlign='center'; this.innerHTML='${book.title}';">
+                    <div class="book-overlay">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">${book.author}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initializeCarousel() {
+            const booksTrack = document.getElementById('booksTrack');
+            booksTrack.innerHTML = allBooks.map((book, index) => createBookCard(book, index)).join('');
+            booksTrack.style.width = totalWidth + 'px';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCarousel();
+            const cardWidth = 220;
+            const totalWidth = cardWidth * allBooks.length;
+            const booksTrack = document.getElementById('booksTrack');
+            const carousel = document.querySelector('.books-carousel');
+
+            carousel.addEventListener('mouseenter', () => {
+                booksTrack.style.animationPlayState = 'paused';
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                booksTrack.style.animationPlayState = 'running';
+            });
+        });
+
         window.addToCart = function (bookId) {
             console.log('Adding to cart:', bookId);
 
@@ -629,9 +923,7 @@
                 });
         };
 
-        // Notification function
         window.showNotification = function (message, type = 'success') {
-            // Remove existing notifications with slide out animation
             const existingNotifications = document.querySelectorAll('.toast-notification');
             existingNotifications.forEach(notification => {
                 notification.classList.add('hide');
@@ -655,21 +947,17 @@
                 </button>
             `;
 
-            // Add to page
             document.body.appendChild(notification);
 
-            // Trigger slide in animation
             setTimeout(() => {
                 notification.classList.add('show');
             }, 50);
 
-            // Auto remove after 4 seconds with slide out animation
             setTimeout(() => {
                 hideNotification(notification);
             }, 4000);
         };
 
-        // Hide notification with animation
         window.hideNotification = function (notification) {
             if (notification && notification.parentElement) {
                 notification.classList.remove('show');
@@ -682,7 +970,6 @@
             }
         };
 
-        // Update cart count
         window.updateCartCount = function () {
             fetch('/cart/count')
                 .then(response => response.json())
@@ -701,7 +988,6 @@
                 .catch(error => console.log('Error updating cart count:', error));
         };
 
-        // Update wishlist count
         window.updateWishlistCount = function () {
             fetch('/wishlist/count')
                 .then(response => response.json())
@@ -720,7 +1006,7 @@
                 .catch(error => console.log('Error updating wishlist count:', error));
         };
 
-        // Initialize on page load
+
         document.addEventListener('DOMContentLoaded', function () {
             console.log('Home page loaded, initializing...');
             if (document.querySelector('meta[name="csrf-token"]')) {

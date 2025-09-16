@@ -6,9 +6,9 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Edit Book</h1>
+            <h1 class="page-title"> ── Edit Buku</h1>
             <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Back to Books
+                Back to Books <i class="bi bi-arrow-right"></i>
             </a>
         </div>
     </div>
@@ -27,7 +27,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                            <label for="title" class="form-label">Judul <span class="text-danger">*</span></label>
                             <input type="text" 
                                    class="form-control @error('title') is-invalid @enderror" 
                                    id="title" 
@@ -41,17 +41,37 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
+                            <label for="isbn" class="form-label">ISBN</label>
                             <input type="text" 
-                                   class="form-control @error('author') is-invalid @enderror" 
-                                   id="author" 
-                                   name="author" 
-                                   value="{{ old('author', $book->author) }}" 
-                                   required>
-                            @error('author')
+                                   class="form-control @error('isbn') is-invalid @enderror" 
+                                   id="isbn" 
+                                   name="isbn" 
+                                   value="{{ old('isbn', $book->isbn) }}" 
+                                   placeholder="Masukkan ISBN (opsional)">
+                            @error('isbn')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <div class="form-text">Contoh: 978-602-03-1234-5</div>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="author_id" class="form-label">Penulis</label>
+                        <select class="form-select @error('author_id') is-invalid @enderror" 
+                                id="author_id" 
+                                name="author_id">
+                            <option value="">Pilih penulis</option>
+                            @foreach($authors as $author)
+                                <option value="{{ $author->id }}" 
+                                        {{ old('author_id', $book->author_id) == $author->id ? 'selected' : '' }}>
+                                    {{ $author->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('author_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="form-text">Pilih penulis dari daftar atau <a href="{{ route('admin.authors.create') }}" target="_blank">tambah penulis baru</a></div>
                     </div>
 
                     <div class="mb-3">
@@ -66,9 +86,28 @@
                         @enderror
                     </div>
 
+                    <div class="mb-3">
+                        <label for="publisher_id" class="form-label">Penerbit</label>
+                        <select class="form-select @error('publisher_id') is-invalid @enderror" 
+                                id="publisher_id" 
+                                name="publisher_id">
+                            <option value="">Pilih penerbit</option>
+                            @foreach($publishers as $publisher)
+                                <option value="{{ $publisher->id }}" 
+                                        {{ old('publisher_id', $book->publisher_id) == $publisher->id ? 'selected' : '' }}>
+                                    {{ $publisher->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('publisher_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="form-text">Pilih penerbit dari daftar atau <a href="{{ route('admin.publishers.create') }}" target="_blank">tambah penerbit baru</a></div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="price" class="form-label">Price (IDR) <span class="text-danger">*</span></label>
+                            <label for="price" class="form-label">Harga (IDR) <span class="text-danger">*</span></label>
                             <input type="number" 
                                    class="form-control @error('price') is-invalid @enderror" 
                                    id="price" 
@@ -83,12 +122,12 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label for="category_id" class="form-label">Category <span class="text-danger">*</span></label>
+                            <label for="category_id" class="form-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select @error('category_id') is-invalid @enderror" 
                                     id="category_id" 
                                     name="category_id" 
                                     required>
-                                <option value="">Select a category</option>
+                                <option value="">Pilih kategori</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" 
                                             {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
@@ -142,7 +181,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Update Book
                         </button>
-                        <a href="{{ route('admin.books.index') }}" class="btn btn-outline-secondary">
+                        <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
                             Cancel
                         </a>
                     </div>
@@ -179,26 +218,15 @@
                 </table>
             </div>
         </div>
-
-        <div class="card mt-3">
-            <div class="card-header">
-                <h6 class="mb-0">Actions</h6>
-            </div>
-            <div class="card-body">
-                <div class="d-grid gap-2">
-                    <a href="{{ route('admin.books.show', $book) }}" class="btn btn-outline-info">
-                        <i class="bi bi-eye"></i> View Details
-                    </a>
-                    @if($book->file_path)
-                        <a href="{{ Storage::url($book->file_path) }}" 
-                           class="btn btn-outline-secondary" 
-                           target="_blank">
-                            <i class="bi bi-download"></i> Download PDF
-                        </a>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
+
+<style>
+    .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #710014;
+            margin-bottom: 0;
+        }
+</style>

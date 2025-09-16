@@ -48,24 +48,25 @@
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background-color: #F2F1ED;
+            border: 2px solid #710014;
+            color: #710014;
+            border-radius: 50px;
             font-weight: 500;
+            margin-top: 25px;
         }
 
         .btn-primary:hover {
-            background-color: #5a0010;
-            border-color: #5a0010;
+            background-color: #710014;
+            border-color: #710014;
         }
 
-        .btn-outline-primary {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #710014 !important;
+            border-color: #710014 !important;
+            color: #fff !important;
+            box-shadow: none;
         }
 
         .book-detail-section {
@@ -83,22 +84,24 @@
         .book-title {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 2.5rem;
+            font-size: 1.7rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
         }
 
-        .book-author {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 1rem;
+        .book-detail {
+            font-size: 1rem;
+            color: #000;
+            margin-bottom: 0.4rem;
         }
 
         .book-price {
-            font-size: 2rem;
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
         }
 
         .book-actions {
@@ -145,7 +148,6 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Gaya Book Card yang Diperbarui (diambil dari kode pertama) */
         .book-card {
             margin-top: 15px;
             transition: transform 0.3s ease;
@@ -199,11 +201,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        .rating-stars {
-            color: #ffc107;
-            margin-bottom: 0.5rem;
-            font-size: 14px;
-        }
 
         .book-icons {
             position: absolute;
@@ -216,7 +213,8 @@
             transition: opacity 0.5s ease;
         }
 
-        .book-icons a, .book-icons button {
+        .book-icons a,
+        .book-icons button {
             background: #710014;
             color: white;
             width: 45px;
@@ -231,7 +229,8 @@
             cursor: pointer;
         }
 
-        .book-icons a:hover, .book-icons button:hover {
+        .book-icons a:hover,
+        .book-icons button:hover {
             background: #B38F6F;
         }
 
@@ -249,6 +248,16 @@
             border-radius: 15px;
             font-size: 12px;
             font-weight: 500;
+        }
+
+        .fa-spinner {
+            color: #ffffff !important;
+        }
+
+        .btn:disabled {
+            background-color: #710014 !important;
+            border-color: #710014 !important;
+            color: #ffffff !important;
         }
     </style>
 </head>
@@ -282,9 +291,17 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <h1 class="book-title">{{ $book->title }}</h1>
-                    <p class="book-author">by {{ $book->author }}</p>
-                    <p class="text-muted">Category: {{ $book->category->name }}</p>
+                    <h5 class="book-title">{{ $book->title }}</h5>
+                    <p class="book-detail">Penulis:
+                        {{ $book->author ?? ($book->authorRelation ? $book->authorRelation->nama : 'Unknown Author') }}
+                    </p>
+                    @if($book->publisher)
+                        <p class="book-detail">Penerbit: {{ $book->publisher->nama }}</p>
+                    @endif
+                    @if($book->isbn)
+                        <p class="book-detail">ISBN: {{ $book->isbn }}</p>
+                    @endif
+                    <p class="book-detail">Kategori: {{ $book->category->name }}</p>
 
                     @if($book->reviews_count > 0)
                         <div class="rating-summary mb-3">
@@ -299,7 +316,7 @@
                     @endif
 
                     <div class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</div>
-                    <p class="text-muted mb-3">{{ $book->sales_count }} copies sold</p>
+                    <p class="book-detail mb-3">{{ $book->sales_count }} copies sold</p>
 
                     @auth
                         <div class="book-actions">
@@ -310,11 +327,10 @@
                             @else
                                 <button class="btn btn-primary action-button" onclick="addToCart({{ $book->id }})">
                                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
-                                    <button class="btn btn-outline-primary action-button"
-                                        onclick="toggleWishlist({{ $book->id }})">
-                                        <i class="fas fa-heart me-2"></i>
-                                        {{ Auth::user()->hasBookInWishlist($book->id) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
-                                    </button>
+                                </button>
+                                <button class="btn btn-primary action-button" onclick="toggleWishlist({{ $book->id }})">
+                                    <i class="fas fa-heart me-2"></i>
+                                    {{ Auth::user()->hasBookInWishlist($book->id) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
                                 </button>
                             @endif
                         </div>
@@ -390,7 +406,105 @@
     @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('resources/js/book-actions.js') }}"></script>
+    <script src="{{ asset('js/book-actions.js') }}"></script>
+    <script>
+        // Enhanced toggle wishlist function for this page
+        function toggleWishlist(bookId) {
+            // Check if user is authenticated
+            if (!document.querySelector('meta[name="csrf-token"]')) {
+                showNotification('Please login to manage wishlist', 'error');
+                return;
+            }
+
+            const button = document.querySelector(`[onclick="toggleWishlist(${bookId})"]`);
+            const originalText = button.innerHTML;
+            
+            // Show loading state
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+
+            fetch('/wishlist/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    book_id: bookId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    updateWishlistCount();
+                    
+                    // Update button text and icon
+                    if (data.in_wishlist) {
+                        button.innerHTML = '<i class="fas fa-heart me-2"></i>Remove from Wishlist';
+                    } else {
+                        button.innerHTML = '<i class="fas fa-heart me-2"></i>Add to Wishlist';
+                    }
+                } else {
+                    showNotification(data.message || 'Error updating wishlist', 'error');
+                    button.innerHTML = originalText;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error updating wishlist. Please try again.', 'error');
+                button.innerHTML = originalText;
+            })
+            .finally(() => {
+                button.disabled = false;
+            });
+        }
+
+        // Enhanced add to cart function for this page
+        function addToCart(bookId) {
+            // Check if user is authenticated
+            if (!document.querySelector('meta[name="csrf-token"]')) {
+                showNotification('Please login to add items to cart', 'error');
+                return;
+            }
+
+            const button = document.querySelector(`[onclick="addToCart(${bookId})"]`);
+            const originalText = button.innerHTML;
+            
+            // Show loading state
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
+
+            fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    book_id: bookId,
+                    quantity: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    updateCartCount();
+                } else {
+                    showNotification(data.message || 'Error adding to cart', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error adding to cart. Please try again.', 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            });
+        }
+    </script>
 </body>
 
 </html>

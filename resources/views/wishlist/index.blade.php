@@ -104,13 +104,12 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Gaya Book Card yang Diperbarui (diambil dari kode pertama) */
         .book-card {
             margin-top: 15px;
             transition: transform 0.3s ease;
             position: relative;
             overflow: hidden;
-            border: 2px solid #710014;
+            box-shadow: 10px;
             border-radius: 15px;
             background-color: #f5f5f5;
             height: 97%;
@@ -125,7 +124,7 @@
             object-fit: cover;
             height: 350px;
             width: 100%;
-            border-radius: 10px;
+            border-radius: 20px;
         }
 
         .book-info {
@@ -156,12 +155,6 @@
             color: var(--primary-color);
             font-size: 1.2rem;
             font-family: 'Playfair Display', serif;
-        }
-
-        .rating-stars {
-            color: #ffc107;
-            margin-bottom: 0.5rem;
-            font-size: 14px;
         }
 
         .book-icons {

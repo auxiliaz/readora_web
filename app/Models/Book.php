@@ -11,10 +11,13 @@ class Book extends Model
 
     protected $fillable = [
         'title',
+        'isbn',
         'author',
         'description',
         'price',
         'category_id',
+        'author_id',
+        'publisher_id',
         'file_path',
         'cover_image',
         'sales_count',
@@ -30,6 +33,22 @@ class Book extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the author that owns the book.
+     */
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
+
+    /**
+     * Get the publisher that owns the book.
+     */
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class);
     }
 
     /**

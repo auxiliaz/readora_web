@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Author;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,7 +27,9 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.books.create', compact('categories'));
+        $authors = Author::all();
+        $publishers = Publisher::all();
+        return view('admin.books.create', compact('categories', 'authors', 'publishers'));
     }
 
     /**
@@ -35,7 +39,10 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
+            'isbn' => 'nullable|string|max:20|unique:books,isbn',
+            'author' => 'nullable|string|max:255',
+            'author_id' => 'nullable|exists:authors,id',
+            'publisher_id' => 'nullable|exists:publishers,id',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
@@ -82,7 +89,9 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         $categories = Category::all();
-        return view('admin.books.edit', compact('book', 'categories'));
+        $authors = Author::all();
+        $publishers = Publisher::all();
+        return view('admin.books.edit', compact('book', 'categories', 'authors', 'publishers'));
     }
 
     /**
@@ -92,7 +101,10 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
+            'isbn' => 'nullable|string|max:20|unique:books,isbn,' . $book->id,
+            'author' => 'nullable|string|max:255',
+            'author_id' => 'nullable|exists:authors,id',
+            'publisher_id' => 'nullable|exists:publishers,id',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',

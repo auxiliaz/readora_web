@@ -124,21 +124,24 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #710014 0%, #64181c 100%);
-            border: none; 
-            border-radius: 10px; 
-            padding: 15px;
-            font-weight: 600; 
-            font-size: 1rem; 
-            width: 100%; 
-            margin-top: 10px;
-            transition: all 0.3s ease; 
-            color: white;
+            background-color: #F2F1ED;
+            border: 2px solid #710014;
+            color: #710014;
+            border-radius: 50px;
+            font-weight: 500;
         }
-        
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 25px rgba(179, 143, 111, 0.3); 
+
+        .btn-primary:hover {
+            background-color: #F2F1ED;
+            border-color: #710014;
+        }
+
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #710014 !important;
+            border-color: #710014 !important;
+            color: #fff !important;
+            box-shadow: none;
         }
 
         .form-check { 

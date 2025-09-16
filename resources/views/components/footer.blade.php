@@ -7,6 +7,8 @@
         background-color: var(--primary-color);
         color: white;
         padding: 20px 0 20px 0;
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
     }
 
     .footer-logo {
@@ -151,18 +153,17 @@
                 <div class="col-md-6">
                     <div class="social-icons">
                         <a href="#" class="social-icon">
-                            <img src="assets/whatsapp.svg">
+                            <img src="{{ asset('assets/whatsapp.svg') }}" alt="WhatsApp">
                         </a>
                         <a href="#" class="social-icon">
-                            <img src="assets/instagram.svg">
+                            <img src="{{ asset('assets/instagram.svg') }}" alt="Instagram">
                         </a>
                         <a href="#" class="social-icon">
-                            <img src="assets/facebook.svg">
+                            <img src="{{ asset('assets/facebook.svg') }}" alt="Facebook">
                         </a>
                     </div>
                 </div>
 
-                <!-- Copyright -->
                 <div class="col-md-6 text-end">
                     <p class="copyright-text">&copy; 2025 Readora Store. All rights Reserved.</p>
                 </div>

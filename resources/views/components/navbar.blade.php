@@ -1,7 +1,7 @@
 <!-- Navigation Bar Component -->
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
     <div class="container">
-        <img class="navbar-brand" src="{{ asset('assets/logo.svg') }}" alt="Readora Logo">
+        <img class="navbar-brand" src="{{ asset('assets/logo_whitev.svg') }}" alt="Readora Logo">
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -79,21 +79,22 @@
 
 <style>
 .navbar {
-    background-color: #F2F1ED !important;
+    background-color: #710014 !important;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 0.50rem 0;
+    padding: 0.30rem 0;
     border-bottom: 2px solid #710014;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .navbar-brand {
-    width: 110px;
+    width: 120px;
     height: auto;
-    color: var(--primary-color) !important;
     font-size: 1.8rem;
 }
 
 .nav-link {
-    color: var(--text-color) !important;
+    color: var(--background-color) !important;
     font-weight: 500;
     transition: color 0.3s ease;
     position: relative;
@@ -101,7 +102,7 @@
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--primary-color) !important;
+    color: #d0cdcd !important;
 }
 
 .nav-link.active::after {
@@ -146,8 +147,8 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: var(--primary-color);
-    color: white;
+    background: var(--background-color);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;

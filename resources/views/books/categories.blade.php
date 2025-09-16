@@ -60,7 +60,7 @@
             transition: transform 0.3s ease;
             position: relative;
             overflow: hidden;
-            border: 2px solid #710014;
+            box-shadow: 10px;
             border-radius: 15px;
             background-color: #f5f5f5;
             height: 97%;
@@ -75,7 +75,7 @@
             object-fit: cover;
             height: 350px;
             width: 100%;
-            border-radius: 10px;
+            border-radius: 20px;
         }
 
         .book-info {
@@ -341,7 +341,7 @@
                 <!-- Sidebar Filters -->
                 <div class="col-lg-3 mb-4">
                     <div class="filter-sidebar">
-                        <h5 class="mb-3">Categories</h5>
+                        <h5 class="mb-3 fw-bold">Categories</h5>
                         <div class="category-filter">
                             <a href="{{ route('categories') }}"
                                 class="category-item {{ !request('category') ? 'active' : '' }}">
@@ -376,8 +376,6 @@
                                     </option>
                                     <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Most
                                         Popular</option>
-                                    <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Highest
-                                        Rated</option>
                                     <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>
                                         Price: Low to High</option>
                                     <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>
@@ -424,7 +422,7 @@
                                     </div>
 
                                     <div class="book-info">
-                                        <p class="book-author">by {{ $book->author }}</p>
+                                        <p class="book-author">{{ $book->author }}</p>
                                         <h6 class="book-title">{{ $book->title }}</h6>
                                         <p class="text-muted small">{{ $book->category->name }}</p>
                                         <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>

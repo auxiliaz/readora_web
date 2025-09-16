@@ -1,0 +1,145 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Detail Penerbit')
+
+@section('content')
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Detail Penerbit</h1>
+            <div class="d-flex gap-2">
+                <a href="{{ route('admin.publishers.edit', $publisher) }}" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i> Edit Penerbit
+                </a>
+                <a href="{{ route('admin.publishers.index') }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Kembali ke Daftar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Informasi Penerbit</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px; font-size: 2rem;">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <h4 class="mt-3 mb-1">{{ $publisher->nama }}</h4>
+                    <p class="text-muted">Penerbit</p>
+                </div>
+
+                <hr>
+
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-3">
+                        <strong>ID:</strong> #{{ $publisher->id }}
+                    </li>
+                    <li class="mb-3">
+                        <strong>Nama:</strong> {{ $publisher->nama }}
+                    </li>
+                    <li class="mb-3">
+                        <strong>Jumlah Buku:</strong> 
+                        <span class="badge bg-primary">{{ $publisher->books->count() }} buku</span>
+                    </li>
+                    <li class="mb-3">
+                        <strong>Bergabung:</strong> {{ $publisher->created_at->format('d M Y') }}
+                    </li>
+                    <li>
+                        <strong>Terakhir Diperbarui:</strong> {{ $publisher->updated_at->format('d M Y H:i') }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Daftar Buku</h5>
+                <span class="badge bg-secondary">{{ $publisher->books->count() }} buku</span>
+            </div>
+            <div class="card-body">
+                @if($publisher->books->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Judul</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Penjualan</th>
+                                    <th>Dibuat</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($publisher->books as $book)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if($book->cover_image)
+                                                    <img src="{{ asset('storage/' . $book->cover_image) }}" 
+                                                         alt="{{ $book->title }}" 
+                                                         class="me-3 rounded" 
+                                                         style="width: 40px; height: 50px; object-fit: cover;">
+                                                @else
+                                                    <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center" 
+                                                         style="width: 40px; height: 50px;">
+                                                        <i class="bi bi-book text-muted"></i>
+                                                    </div>
+                                                @endif
+                                                <div>
+                                                    <h6 class="mb-0">{{ $book->title }}</h6>
+                                                    <small class="text-muted">{{ Str::limit($book->description, 50) }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if($book->category)
+                                                <span class="badge bg-info">{{ $book->category->name }}</span>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </td>
+                                        <td>Rp {{ number_format($book->price, 0, ',', '.') }}</td>
+                                        <td>{{ $book->sales_count ?? 0 }}</td>
+                                        <td>{{ $book->created_at->format('d M Y') }}</td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                <a href="{{ route('admin.books.show', $book) }}" 
+                                                   class="btn btn-sm btn-outline-primary" title="Lihat">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.books.edit', $book) }}" 
+                                                   class="btn btn-sm btn-outline-secondary" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div class="text-center py-5">
+                        <i class="bi bi-book fs-1 text-muted mb-3"></i>
+                        <h5 class="text-muted">Belum Ada Buku</h5>
+                        <p class="text-muted mb-3">Penerbit ini belum memiliki buku yang terdaftar</p>
+                        <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i>Tambah Buku
+                        </a>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
