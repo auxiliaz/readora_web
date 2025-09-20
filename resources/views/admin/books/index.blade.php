@@ -310,7 +310,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="author-name">{{ $book->author }}</span>
+                                        <span class="author-name">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</span>
                                     </td>
                                     <td>
                                         <span class="badge category-badge">{{ $book->category->name }}</span>

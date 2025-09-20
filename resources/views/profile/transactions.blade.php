@@ -221,7 +221,7 @@
                                          alt="{{ $item->book->title }}" class="book-cover-small">
                                     <div class="book-details">
                                         <div class="book-title">{{ $item->book->title }}</div>
-                                        <div class="book-author">by {{ $item->book->author }}</div>
+                                        <div class="book-author">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</div>
                                     </div>
                                     <div class="book-price">
                                         Rp {{ number_format($item->price, 0, ',', '.') }}

@@ -35,7 +35,7 @@
                     @endif
 
                     <h5>{{ $book->title }}</h5>
-                    <p class="text-muted">by {{ $book->author ?? ($book->authorRelation ? $book->authorRelation->nama : 'Unknown Author') }}</p>
+                    <p class="text-muted">by {{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                     @if($book->publisher)
                         <p class="text-muted">Penerbit: {{ $book->publisher->nama }}</p>
                     @endif
@@ -55,10 +55,10 @@
                             <td>{{ $book->isbn }}</td>
                         </tr>
                         @endif
-                        @if($book->authorRelation)
+                        @if($book->author)
                         <tr>
                             <td><strong>Penulis:</strong></td>
-                            <td><span class="badge bg-info">{{ $book->authorRelation->nama }}</span></td>
+                            <td><span class="badge bg-info">{{ $book->author->nama }}</span></td>
                         </tr>
                         @endif
                         @if($book->publisher)

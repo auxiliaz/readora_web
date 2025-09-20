@@ -19,6 +19,7 @@ class ReaderController extends Controller
     {
         // Check if user owns this book
         $book = Auth::user()->libraryBooks()
+            ->with('author', 'publisher', 'category')
             ->where('books.id', $bookId)
             ->firstOrFail();
         

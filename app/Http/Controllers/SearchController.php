@@ -23,10 +23,12 @@ class SearchController extends Controller
         }
         
         // Build the search query
-        $booksQuery = Book::with(['category', 'reviews'])
+        $booksQuery = Book::with(['category', 'author', 'publisher', 'reviews'])
             ->where(function ($q) use ($query) {
                 $q->where('title', 'LIKE', "%{$query}%")
-                  ->orWhere('author', 'LIKE', "%{$query}%")
+                  ->orWhereHas('author', function($authorQuery) use ($query) {
+                      $authorQuery->where('nama', 'LIKE', "%{$query}%");
+                  })
                   ->orWhere('description', 'LIKE', "%{$query}%");
             });
         
@@ -61,9 +63,7 @@ class SearchController extends Controller
                     CASE 
                         WHEN title LIKE '{$query}%' THEN 1
                         WHEN title LIKE '%{$query}%' THEN 2
-                        WHEN author LIKE '{$query}%' THEN 3
-                        WHEN author LIKE '%{$query}%' THEN 4
-                        ELSE 5
+                        ELSE 3
                     END
                 ");
                 break;
@@ -89,10 +89,12 @@ class SearchController extends Controller
             return response()->json([]);
         }
         
-        $suggestions = Book::select('title', 'author', 'id')
+        $suggestions = Book::with('author')
             ->where(function ($q) use ($query) {
                 $q->where('title', 'LIKE', "%{$query}%")
-                  ->orWhere('author', 'LIKE', "%{$query}%");
+                  ->orWhereHas('author', function($authorQuery) use ($query) {
+                      $authorQuery->where('nama', 'LIKE', "%{$query}%");
+                  });
             })
             ->limit(8)
             ->get()
@@ -100,20 +102,18 @@ class SearchController extends Controller
                 return [
                     'id' => $book->id,
                     'title' => $book->title,
-                    'author' => $book->author,
+                    'author' => $book->author ? $book->author->nama : 'Unknown Author',
                     'type' => 'book'
                 ];
             });
         
         // Add author suggestions
-        $authors = Book::select('author')
-            ->where('author', 'LIKE', "%{$query}%")
-            ->groupBy('author')
+        $authors = \App\Models\Author::where('nama', 'LIKE', "%{$query}%")
             ->limit(4)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($author) {
                 return [
-                    'title' => $item->author,
+                    'title' => $author->nama,
                     'type' => 'author'
                 ];
             });

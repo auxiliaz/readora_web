@@ -15,7 +15,7 @@ class BookController extends Controller
     {
         $categories = Category::withCount('books')->get();
         
-        $query = Book::with('category', 'reviews');
+        $query = Book::with('category', 'reviews', 'author');
         
         // Filter by category
         if ($request->filled('category')) {
@@ -27,7 +27,9 @@ class BookController extends Controller
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('author', 'like', "%{$searchTerm}%");
+                  ->orWhereHas('author', function($authorQuery) use ($searchTerm) {
+                      $authorQuery->where('name', 'like', "%{$searchTerm}%");
+                  });
             });
         }
         
@@ -59,10 +61,11 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with(['category', 'reviews.user'])->findOrFail($id);
+        $book = Book::with(['category', 'author', 'publisher', 'reviews.user'])->findOrFail($id);
         
         // Get related books from the same category
-        $relatedBooks = Book::where('category_id', $book->category_id)
+        $relatedBooks = Book::with('category', 'author', 'publisher')
+            ->where('category_id', $book->category_id)
             ->where('id', '!=', $book->id)
             ->limit(4)
             ->get();

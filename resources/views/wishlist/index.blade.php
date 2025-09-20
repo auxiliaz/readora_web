@@ -106,21 +106,42 @@
 
         .book-card {
             margin-top: 15px;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            box-shadow: 10px;
-            border-radius: 15px;
-            background-color: #f5f5f5;
+            border-radius: 20px;
+            background: white;
             height: 97%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover::before {
+            transform: scaleX(1);
         }
 
         .book-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         .book-cover {
-            padding: 10px;
+            padding: 15px;
             object-fit: cover;
             height: 350px;
             width: 100%;
@@ -128,7 +149,8 @@
         }
 
         .book-info {
-            padding: 1rem;
+            padding: 1.5rem;
+            flex-grow: 1;
         }
 
         .book-title-card {
@@ -137,11 +159,15 @@
             margin-bottom: 0.5rem;
             color: var(--text-color);
             min-height: 52px;
+            max-height: 52px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            line-height: 1.3;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .book-author-card {
@@ -171,23 +197,26 @@
 
         .book-icons a,
         .book-icons button {
-            background: #710014;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 18px;
             text-decoration: none;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .book-icons a:hover,
         .book-icons button:hover {
-            background: #B38F6F;
+            background: linear-gradient(135deg, #B38F6F 0%, #D4AF94 100%);
+            color: white;
+            transform: scale(1.1);
         }
 
         .book-card:hover .book-icons {
@@ -196,14 +225,15 @@
 
         .sold-badge {
             position: absolute;
-            bottom: 30px;
+            bottom: 15px;
             right: 15px;
-            background-color: #710014;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+            box-shadow: 0 2px 8px rgba(113, 0, 20, 0.3);
             z-index: 5;
         }
 
@@ -308,7 +338,7 @@
                                 </div>
 
                                 <div class="book-info">
-                                    <p class="book-author-card">{{ $book->author }}</p>
+                                    <p class="book-author-card">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                                     <h6 class="book-title-card">{{ $book->title }}</h6>
 
                                     @if($book->reviews_count > 0)

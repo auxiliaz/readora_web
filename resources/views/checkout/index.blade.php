@@ -231,7 +231,7 @@
                                      alt="{{ $item->book->title }}" class="item-image">
                                 <div class="item-details">
                                     <div class="item-title">{{ $item->book->title }}</div>
-                                    <div class="item-author">by {{ $item->book->author }}</div>
+                                    <div class="item-author">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</div>
                                     <div class="text-muted small">Quantity: {{ $item->quantity }}</div>
                                 </div>
                                 <div class="item-price">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</div>

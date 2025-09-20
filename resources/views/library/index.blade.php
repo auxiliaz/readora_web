@@ -22,6 +22,8 @@
             --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
             --card-hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
             --border-radius: 12px;
+            --gradient-primary: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
+            --gradient-secondary: linear-gradient(135deg, #B38F6F 0%, #D4AF94 100%);
         }
 
         body {
@@ -52,42 +54,62 @@
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            border-radius: 6px;
-            padding: 8px 16px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
             font-weight: 500;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(113, 0, 20, 0.2);
         }
 
         .btn-primary:hover {
-            background-color: #5a0010;
-            border-color: #5a0010;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(113, 0, 20, 0.3);
         }
 
         .library-section {
-            padding: 30px 0 60px;
+            padding: 40px 0 80px;
+            background: linear-gradient(135deg, #F2F1ED 0%, #FAF9F6 100%);
         }
 
         .book-card {
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            box-shadow: 10px;
-            border-radius: 15px;
-            background-color: #f5f5f5;
+            border-radius: 20px;
+            background: white;
             height: 100%;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover::before {
+            transform: scaleX(1);
         }
 
         .book-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         .book-cover {
-            padding: 10px;
+            padding: 15px;
             object-fit: cover;
             height: 350px;
             width: 100%;
@@ -95,7 +117,8 @@
         }
 
         .book-info {
-            padding: 1rem;
+            padding: 1.5rem;
+            flex-grow: 1;
         }
 
         .book-title {
@@ -104,11 +127,15 @@
             margin-bottom: 0.5rem;
             color: var(--text-color);
             min-height: 52px;
+            max-height: 52px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            line-height: 1.3;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .book-author {
@@ -136,22 +163,23 @@
         }
 
         .action-btn {
-            background: #710014;
+            background: var(--gradient-primary);
             color: white;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 18px;
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
         .action-btn:hover {
-            background: #B38F6F;
+            background: var(--gradient-secondary);
             color: white;
+            transform: scale(1.1);
         }
 
         .book-card:hover .book-actions {
@@ -162,73 +190,110 @@
             position: absolute;
             bottom: 15px;
             right: 15px;
-            background-color: #710014;
+            background: var(--gradient-primary);
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+            box-shadow: 0 2px 8px rgba(113, 0, 20, 0.3);
         }
 
         .empty-library {
             text-align: center;
-            padding: 80px 20px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            margin-top: 20px;
+            padding: 100px 40px;
+            background: linear-gradient(135deg, white 0%, #fafafa 100%);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            margin-top: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
         }
 
         .empty-library i {
-            font-size: 5rem;
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            opacity: 0.8;
+            font-size: 6rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            opacity: 0.9;
         }
 
         .empty-library h3 {
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--text-color);
+            font-family: 'Playfair Display', serif;
         }
 
         .empty-library p {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .library-stats {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: var(--card-shadow);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            background: linear-gradient(135deg, white 0%, #fafafa 100%);
+            border-radius: 25px;
+            padding: 40px 30px;
+            margin-bottom: 50px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .library-stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
         }
 
         .stat-item {
             text-align: center;
-            padding: 10px;
-            flex: 1;
-            min-width: 120px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--medium-gray), transparent);
         }
 
         .stat-number {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 8px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
             line-height: 1;
+            font-family: 'Playfair Display', serif;
         }
 
         .stat-label {
             color: var(--dark-gray);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .purchased-date {
@@ -237,7 +302,11 @@
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            padding: 8px 12px;
+            background: rgba(113, 0, 20, 0.05);
+            border-radius: 20px;
+            border-left: 3px solid var(--primary-color);
         }
 
         .purchased-date i {
@@ -246,13 +315,14 @@
         }
 
         .btn-success {
-            background-color: #10B981;
-            border-color: #10B981;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
         }
 
         .btn-success:hover {
-            background-color: #059669;
-            border-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
         }
 
         .breadcrumb {
@@ -262,6 +332,7 @@
         .breadcrumb-item a {
             color: var(--primary-color);
             text-decoration: none;
+            font-weight: 500;
         }
 
         .breadcrumb-item+.breadcrumb-item::before {
@@ -285,12 +356,89 @@
         }
 
         .rating-stars {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            padding: 8px 0;
         }
 
         .rating-stars i {
             color: #FFD700;
             font-size: 0.9rem;
+            filter: drop-shadow(0 1px 2px rgba(255, 215, 0, 0.3));
+        }
+
+        .library-header {
+            background: linear-gradient(135deg, white 0%, #fafafa 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .library-controls {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .form-select {
+            border: 2px solid var(--medium-gray);
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(113, 0, 20, 0.1);
+        }
+
+        .books-grid {
+            background: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item:not(:last-child)::after {
+                display: none;
+            }
+            
+            .library-stats {
+                padding: 25px 20px;
+            }
+            
+            .stat-item {
+                padding: 15px 10px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
         }
     </style>
 </head>
@@ -320,7 +468,7 @@
             @if($libraryBooks->count() > 0)
                 <!-- Library Stats -->
                 <div class="library-stats">
-                    <div class="row">
+                    <div class="row g-0">
                         <div class="col-md-3">
                             <div class="stat-item">
                                 <div class="stat-number">{{ $libraryBooks->count() }}</div>
@@ -351,58 +499,70 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4>Your Books ({{ $libraryBooks->count() }})</h4>
-                    <div>
-                        <select class="form-select" id="sortBooks" onchange="sortBooks()">
-                            <option value="recent">Recently Added</option>
-                            <option value="title">Title A-Z</option>
-                            <option value="author">Author A-Z</option>
-                            <option value="category">Category</option>
-                        </select>
+                <!-- Library Controls -->
+                <div class="library-controls">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="section-title mb-0">Your Books Collection</h4>
+                            <p class="text-muted mb-0">{{ $libraryBooks->count() }} books in your library</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <label class="form-label mb-0 text-muted small">Sort by:</label>
+                                <select class="form-select" id="sortBooks" onchange="sortBooks()">
+                                    <option value="recent">Recently Added</option>
+                                    <option value="title">Title A-Z</option>
+                                    <option value="author">Author A-Z</option>
+                                    <option value="category">Category</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row" id="booksContainer">
-                    @foreach($libraryBooks as $book)
-                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 book-item" data-title="{{ $book->title }}"
-                            data-author="{{ $book->author }}" data-category="{{ $book->category->name }}"
-                            data-added="{{ $book->pivot->created_at }}">
-                            <div class="book-card">
-                                <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                    alt="{{ $book->title }}" class="book-cover">
+                <!-- Books Grid -->
+                <div class="books-grid">
+                    <div class="row g-4" id="booksContainer">
+                        @foreach($libraryBooks as $book)
+                            <div class="col-lg-3 col-md-4 col-sm-6 book-item" data-title="{{ $book->title }}"
+                                data-author="{{ $book->author ? $book->author->nama : 'Unknown Author' }}" data-category="{{ $book->category->name }}"
+                                data-added="{{ $book->pivot->created_at }}">
+                                <div class="book-card">
+                                    <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
+                                        alt="{{ $book->title }}" class="book-cover">
 
-                                <div class="book-actions">
-                                    <a href="/reader/{{ $book->id }}" class="action-btn" title="Read Book">
-                                        <i class="fas fa-book-open"></i>
-                                    </a>
-                                    <a href="{{ route('books.show', $book->id) }}" class="action-btn" title="View Details">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </div>
+                                    <div class="book-actions">
+                                        <a href="/reader/{{ $book->id }}" class="action-btn" title="Read Book">
+                                            <i class="fas fa-book-open"></i>
+                                        </a>
+                                        <a href="{{ route('books.show', $book->id) }}" class="action-btn" title="View Details">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
 
-                                <div class="book-info">
-                                    <p class="book-author"> {{ $book->author }}</p>
-                                    <h6 class="book-title">{{ $book->title }}</h6>
-                                    <p class="text-muted small">{{ $book->category->name }}</p>
-                                    
-                                    @if($book->reviews_count > 0)
-                                        <div class="rating-stars">
-                                            @for($i = 1; $i <= 5; $i++)
-                                                <i class="fas fa-star{{ $i <= round($book->average_rating) ? '' : '-o' }}"></i>
-                                            @endfor
-                                            <small class="text-muted">({{ $book->reviews_count }})</small>
+                                    <div class="book-info">
+                                        <p class="book-author">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
+                                        <h6 class="book-title">{{ $book->title }}</h6>
+                                        <p class="text-muted small">{{ $book->category->name }}</p>
+                                        
+                                        @if($book->reviews_count > 0)
+                                            <div class="rating-stars">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <i class="fas fa-star{{ $i <= round($book->average_rating) ? '' : '-o' }}"></i>
+                                                @endfor
+                                                <small class="text-muted">({{ $book->reviews_count }})</small>
+                                            </div>
+                                        @endif
+
+                                        <div class="purchased-date">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            Dibeli pada {{ $book->pivot->created_at->format('M d, Y') }}
                                         </div>
-                                    @endif
-
-                                    <div class="purchased-date">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        Dibeli pada {{ $book->pivot->created_at->format('M d, Y') }}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             @else
                 <div class="empty-library">
@@ -450,5 +610,4 @@
         }
     </script>
 </body>
-
 </html>

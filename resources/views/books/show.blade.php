@@ -6,123 +6,342 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $book->title }} - Readora</title>
-    <link
+        <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
         rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
     <style>
         :root {
             --primary-color: #710014;
             --secondary-color: #B38F6F;
-            --background-color: #F2F1ED;
-            --text-color: #000000;
+            --background-color: #f8f9fa;
+            --text-color: #333333;
+            --light-gray: #f5f5f5;
+            --border-color: #e0e0e0;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
+            line-height: 1.6;
         }
 
-        .navbar {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            font-size: 1.8rem;
+        .page-header {
+            background: var(--background-color);
+            color: white;
+            padding: 40px 0;
         }
 
-        .nav-link {
-            color: var(--text-color) !important;
-            font-weight: 500;
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .nav-link:hover {
-            color: var(--primary-color) !important;
+        .book-detail-main {
+            padding: 40px;
         }
 
-        .btn-primary {
-            background-color: #F2F1ED;
-            border: 2px solid #710014;
-            color: #710014;
-            border-radius: 50px;
-            font-weight: 500;
-            margin-top: 25px;
+        .book-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .btn-primary:hover {
-            background-color: #710014;
-            border-color: #710014;
-        }
-
-        .btn-primary:focus,
-        .btn-primary:active {
-            background-color: #710014 !important;
-            border-color: #710014 !important;
-            color: #fff !important;
-            box-shadow: none;
-        }
-
-        .book-detail-section {
-            padding: 20px 0;
-            background-color: var(--background-color);
+        .book-cover-container {
+            position: sticky;
+            top: 20px;
         }
 
         .book-cover-large {
             width: 100%;
-            max-width: 400px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            height: 360px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .book-info {
+            min-height: 360px;
+        }
+
+        .book-category {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .book-title {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 1.7rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+            font-size: 32px;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            line-height: 1.2;
         }
 
-        .book-detail {
-            font-size: 1rem;
-            color: #000;
-            margin-bottom: 0.4rem;
+        .book-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
         }
+
+        .book-author {
+            font-size: 16px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .book-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            font-size: 14px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
 
         .book-price {
-            margin-top: 1.5rem;
-            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-family: 'Playfair Display', serif;
+            margin-bottom: 8px;
+        }
+
+        .sales-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
         }
 
         .book-actions {
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .action-button {
-            margin-right: 1rem;
-            margin-bottom: 1rem;
+        .btn-primary-custom {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary-custom:hover {
+            background: #8b0019;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary-custom {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-secondary-custom:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
 
         .book-description {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 3rem;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
         }
 
-        .related-books {
-            background: var(--background-color);
-            padding: 60px 0;
+        .description-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .description-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #555;
+        }
+        .sidebar {
+            background: var(--light-gray);
+            padding: 30px 25px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .related-book-item {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .related-book-item:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .related-book-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .related-book-info {
+            padding: 0 5px;
+        }
+
+        .related-book-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 6px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .related-book-author {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .related-book-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .btn:disabled {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+            opacity: 0.7;
+        }
+
+        .fa-spinner {
+            color: #ffffff !important;
+        }
+
+        @media (max-width: 1200px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                background: white;
+                border-top: 1px solid var(--border-color);
+            }
+            
+            .sidebar-title {
+                text-align: left;
+            }
+            
+            .related-books-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+            
+            .book-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .book-cover-container {
+                position: relative;
+                text-align: center;
+            }
+            
+            .book-cover-large {
+                max-width: 250px;
+            }
+            
+            .book-detail-main {
+                padding: 30px 20px;
+            }
+            
+            .book-title {
+                font-size: 24px;
+            }
         }
 
         .breadcrumb {
@@ -147,118 +366,6 @@
         .text {
             font-family: 'Poppins', sans-serif;
         }
-
-        .book-card {
-            margin-top: 15px;
-            transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid #710014;
-            border-radius: 15px;
-            background-color: #f5f5f5;
-            height: 97%;
-        }
-
-        .book-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .book-cover {
-            padding: 10px;
-            object-fit: cover;
-            height: 350px;
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .book-info {
-            padding: 1rem;
-        }
-
-        .book-title-card {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-color);
-            min-height: 52px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .book-author-card {
-            color: #B38F6F;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .book-price-card {
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            font-family: 'Playfair Display', serif;
-        }
-
-
-        .book-icons {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .book-icons a,
-        .book-icons button {
-            background: #710014;
-            color: white;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 20px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .book-icons a:hover,
-        .book-icons button:hover {
-            background: #B38F6F;
-        }
-
-        .book-card:hover .book-icons {
-            opacity: 1;
-        }
-
-        .sold-badge {
-            position: absolute;
-            bottom: 30px;
-            right: 15px;
-            background-color: #710014;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .fa-spinner {
-            color: #ffffff !important;
-        }
-
-        .btn:disabled {
-            background-color: #710014 !important;
-            border-color: #710014 !important;
-            color: #ffffff !important;
-        }
     </style>
 </head>
 
@@ -266,151 +373,122 @@
     <!-- Navigation -->
     @include('components.navbar')
 
-    <!-- Breadcrumb -->
-    <div class="container">
-        <h1 class="fw-bold mt-5" style="color: #710014">Detail Buku</h1>
-        <p class="text" style="color: #000000">Lihat detail dan tentukan apakah kamu cocok dengan buku ini.</p>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                <li class="breadcrumb-item"><a href="/categories">Kategori</a></li>
-                <li class="breadcrumb-item"><a
-                        href="/categories?category={{ $book->category->id }}">{{ $book->category->name }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ $book->title }}</li>
-            </ol>
-        </nav>
-    </div>
-
-    <!-- Book Detail Section -->
-    <section class="book-detail-section">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/400x600?text=Book+Cover' }}"
-                        alt="{{ $book->title }}" class="book-cover-large">
-                </div>
-
-                <div class="col-lg-8">
-                    <h5 class="book-title">{{ $book->title }}</h5>
-                    <p class="book-detail">Penulis:
-                        {{ $book->author ?? ($book->authorRelation ? $book->authorRelation->nama : 'Unknown Author') }}
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="fw-bold" style="color: #710014">{{ $book->title }}</h1>
+                    <p class="text" style="color: #000000">Detail informasi buku dan deskripsi lengkap.
                     </p>
-                    @if($book->publisher)
-                        <p class="book-detail">Penerbit: {{ $book->publisher->nama }}</p>
-                    @endif
-                    @if($book->isbn)
-                        <p class="book-detail">ISBN: {{ $book->isbn }}</p>
-                    @endif
-                    <p class="book-detail">Kategori: {{ $book->category->name }}</p>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('categories') }}">Kategori</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $book->title }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    @if($book->reviews_count > 0)
-                        <div class="rating-summary mb-3">
+    <div class="main-container">
+        <div class="content-wrapper">
+            <div class="book-detail-main">
+                <div class="book-layout">
+                    <div class="book-cover-container">
+                        <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/280x360?text=Book+Cover' }}"
+                            alt="{{ $book->title }}" class="book-cover-large">
+                    </div>
+
+                    <div class="book-info">
+                        <div class="book-category">{{ $book->category->name }}</div>
+                        <h1 class="book-title">{{ $book->title }}</h1>
+                        <div class="book-subtitle">{{ $book->subtitle ?? '' }}</div>
+                        <div class="book-author">by {{ $book->author ? $book->author->nama : 'Unknown Author' }}</div>
+                        
+                        <div class="book-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">ISBN</div>
+                                <div class="meta-value">{{ $book->isbn ?? 'Not Available' }}</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Release Date</div>
+                                <div class="meta-value">{{ $book->created_at ? $book->created_at->format('M d, Y') : 'Unknown' }}</div>
+                            </div>
+                            @if($book->publisher)
+                            <div class="meta-item">
+                                <div class="meta-label">Publisher</div>
+                                <div class="meta-value">{{ $book->publisher->nama }}</div>
+                            </div>
+                            @endif
+                            @if($book->isbn)
+                            <div class="meta-item">
+                                <div class="meta-label">Format</div>
+                                <div class="meta-value">Digital</div>
+                            </div>
+                            @endif
+                        </div>
+
+                        @if($book->reviews_count > 0)
+                        <div class="rating-section">
                             <div class="rating-stars">
                                 @for($i = 1; $i <= 5; $i++)
                                     <i class="fas fa-star{{ $i <= round($book->average_rating) ? '' : '-o' }}"></i>
                                 @endfor
                             </div>
-                            <span class="rating-text">{{ number_format($book->average_rating, 1) }} out of 5
-                                ({{ $book->reviews_count }} reviews)</span>
+                            <div class="rating-text">{{ number_format($book->average_rating, 1) }} out of 5 ({{ $book->reviews_count }} reviews)</div>
                         </div>
-                    @endif
+                        @endif
 
-                    <div class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</div>
-                    <p class="book-detail mb-3">{{ $book->sales_count }} copies sold</p>
+                        <div class="book-price">Rp {{ number_format((float)$book->price, 0, ',', '.') }}</div>
+                        <div class="sales-info">{{ $book->sales_count }} copies sold</div>
 
-                    @auth
+                        @auth
                         <div class="book-actions">
                             @if(Auth::user()->hasBookInLibrary($book->id))
-                                <a href="/reader/{{ $book->id }}" class="btn btn-success action-button">
-                                    <i class="fas fa-book-open me-2"></i>Baca sekarang
+                                <a href="/reader/{{ $book->id }}" class="btn btn-primary-custom">
+                                    <i class="fas fa-book-open"></i>Baca sekarang
                                 </a>
                             @else
-                                <button class="btn btn-primary action-button" onclick="addToCart({{ $book->id }})">
-                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                <button class="btn btn-primary-custom" onclick="addToCart({{ $book->id }})">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
                                 </button>
-                                <button class="btn btn-primary action-button" onclick="toggleWishlist({{ $book->id }})">
-                                    <i class="fas fa-heart me-2"></i>
+                                <button class="btn btn-secondary-custom" onclick="toggleWishlist({{ $book->id }})">
+                                    <i class="fas fa-heart"></i>
                                     {{ Auth::user()->hasBookInWishlist($book->id) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
                                 </button>
                             @endif
                         </div>
-                    @else
+                        @else
                         <div class="book-actions">
-                            <a href="{{ route('login') }}" class="btn btn-primary action-button">
-                                <i class="fas fa-shopping-cart me-2"></i>Login untuk beli
+                            <a href="{{ route('login') }}" class="btn btn-primary-custom">
+                                <i class="fas fa-shopping-cart"></i>Login untuk beli
                             </a>
                         </div>
-                    @endauth
+                        @endauth
+                    </div>
                 </div>
+
             </div>
 
-            <!-- Book Description -->
-            <div class="book-description">
-                <h3 class="mb-3">About This Book</h3>
-                <p>{{ $book->description }}</p>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3 class="sidebar-title">About This Book</h3>
+                <div class="book-description">
+                    <p class="description-text">{{ $book->description }}</p>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Related Books Section -->
-    @if($relatedBooks->count() > 0)
-        <section class="related-books-section">
-            <div class="container">
-                <h3 class="text-center mb-5">Related Books</h3>
-                <div class="row">
-                    @foreach($relatedBooks as $relatedBook)
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card book-card shadow-sm">
-                                <img src="{{ $relatedBook->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                    alt="{{ $relatedBook->title }}" class="book-cover">
-
-                                <!-- Badge untuk jumlah buku terjual -->
-                                <div class="sold-badge">
-                                    <i class="fas fa-shopping-cart me-1"></i> {{ $relatedBook->sales_count }} terjual
-                                </div>
-
-                                <div class="book-icons">
-                                    <a href="{{ route('books.show', $relatedBook->id) }}" title="View Details">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                    @auth
-                                        <button onclick="addToWishlist({{ $relatedBook->id }})" title="Add to Wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                        </button>
-                                        <button onclick="addToCart({{ $relatedBook->id }})" title="Add to Cart">
-                                            <i class="fa-solid fa-cart-plus"></i>
-                                        </button>
-                                    @else
-                                        <a href="{{ route('login') }}" title="Login to add to Wishlist">
-                                            <i class="fa-solid fa-heart"></i>
-                                        </a>
-                                        <a href="{{ route('login') }}" title="Login to add to Cart">
-                                            <i class="fa-solid fa-cart-plus"></i>
-                                        </a>
-                                    @endauth
-                                </div>
-
-                                <div class="book-info">
-                                    <p class="book-author-card">{{ $relatedBook->author }}</p>
-                                    <h6 class="book-title-card">{{ $relatedBook->title }}</h6>
-                                    <p class="book-price-card">Rp {{ number_format($relatedBook->price, 0, ',', '.') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
+    </div>
 
     @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/book-actions.js') }}"></script>
     <script>
-        // Enhanced toggle wishlist function for this page
         function toggleWishlist(bookId) {
-            // Check if user is authenticated
             if (!document.querySelector('meta[name="csrf-token"]')) {
                 showNotification('Please login to manage wishlist', 'error');
                 return;
@@ -419,9 +497,8 @@
             const button = document.querySelector(`[onclick="toggleWishlist(${bookId})"]`);
             const originalText = button.innerHTML;
             
-            // Show loading state
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Loading...';
 
             fetch('/wishlist/toggle', {
                 method: 'POST',
@@ -441,9 +518,9 @@
                     
                     // Update button text and icon
                     if (data.in_wishlist) {
-                        button.innerHTML = '<i class="fas fa-heart me-2"></i>Remove from Wishlist';
+                        button.innerHTML = '<i class="fas fa-heart"></i>Remove from Wishlist';
                     } else {
-                        button.innerHTML = '<i class="fas fa-heart me-2"></i>Add to Wishlist';
+                        button.innerHTML = '<i class="fas fa-heart"></i>Add to Wishlist';
                     }
                 } else {
                     showNotification(data.message || 'Error updating wishlist', 'error');
@@ -460,9 +537,7 @@
             });
         }
 
-        // Enhanced add to cart function for this page
         function addToCart(bookId) {
-            // Check if user is authenticated
             if (!document.querySelector('meta[name="csrf-token"]')) {
                 showNotification('Please login to add items to cart', 'error');
                 return;
@@ -473,7 +548,7 @@
             
             // Show loading state
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Adding...';
 
             fetch('/cart/add', {
                 method: 'POST',

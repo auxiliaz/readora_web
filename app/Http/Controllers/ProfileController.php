@@ -30,7 +30,7 @@ class ProfileController extends Controller
         
         // Get recent orders
         $recentOrders = $user->orders()
-            ->with(['orderItems.book'])
+            ->with(['orderItems.book.category', 'orderItems.book.author', 'orderItems.book.publisher'])
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
@@ -115,7 +115,7 @@ class ProfileController extends Controller
     public function transactions()
     {
         $orders = Auth::user()->orders()
-            ->with(['orderItems.book'])
+            ->with(['orderItems.book.category', 'orderItems.book.author', 'orderItems.book.publisher'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         
@@ -128,7 +128,7 @@ class ProfileController extends Controller
     public function showOrder($orderId)
     {
         $order = Auth::user()->orders()
-            ->with(['orderItems.book'])
+            ->with(['orderItems.book.category', 'orderItems.book.author', 'orderItems.book.publisher'])
             ->findOrFail($orderId);
         
         return view('profile.order-details', compact('order'));

@@ -15,7 +15,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Auth::user()->cart()->with('cartItems.book')->first();
+        $cart = Auth::user()->cart()->with('cartItems.book.category', 'cartItems.book.author', 'cartItems.book.publisher')->first();
         $cartItems = $cart ? $cart->cartItems : collect();
         
         return view('cart.index', compact('cartItems', 'cart'));

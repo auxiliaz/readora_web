@@ -225,7 +225,7 @@
                 </div>
                 <div class="col-md-9">
                     <h1 class="book-title">{{ $book->title }}</h1>
-                    <p class="book-author">by {{ $book->author }}</p>
+                    <p class="book-author">by {{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                     
                     @if($book->reviews_count > 0)
                         <div class="rating-stars">

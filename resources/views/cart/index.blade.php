@@ -233,7 +233,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <h6 class="item-title">{{ $item->book->title }}</h6>
-                                        <p class="item-author">by {{ $item->book->author }}</p>
+                                        <p class="item-author">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</p>
                                         <p class="text-muted small">{{ $item->book->category->name }}</p>
                                     </div>
                                     <div class="col-md-2">

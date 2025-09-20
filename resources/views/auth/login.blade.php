@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(180deg, #F2F1ED 0%, #FDDFC5 100%);
+            background: #F2F1ED !important;
             min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden;
@@ -36,7 +36,7 @@
         .auth-container {
             width: 1000px; height: 550px;
             background: #F2F1ED; border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 35px 40px rgba(0,0,0,0.1);
             overflow: hidden; position: relative;
         }
 

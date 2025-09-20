@@ -14,13 +14,13 @@ class HomeController extends Controller
     public function index()
     {
         // Get popular books (based on sales count)
-        $popularBooks = Book::with('category', 'reviews')
+        $popularBooks = Book::with('category', 'author', 'publisher', 'reviews')
             ->orderBy('sales_count', 'desc')
             ->limit(4)
             ->get();
 
         // Get latest releases
-        $latestBooks = Book::with('category', 'reviews')
+        $latestBooks = Book::with('category', 'author', 'publisher', 'reviews')
             ->orderBy('created_at', 'desc')
             ->limit(4)
             ->get();

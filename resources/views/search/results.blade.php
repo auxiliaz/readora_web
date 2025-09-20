@@ -57,28 +57,51 @@
         }
         
         .book-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            height: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .book-card:hover::before {
+            transform: scaleX(1);
         }
         
         .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
         
         .book-cover {
             width: 100%;
             height: 250px;
             object-fit: cover;
+            padding: 15px;
+            border-radius: 20px;
         }
         
         .book-info {
             padding: 1.5rem;
+            flex-grow: 1;
         }
         
         .book-title {
@@ -86,6 +109,16 @@
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: var(--text-color);
+            min-height: 52px;
+            max-height: 52px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.3;
+            word-wrap: break-word;
+            hyphens: auto;
         }
         
         .book-author {
@@ -107,10 +140,13 @@
         
         .book-actions {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
         }
         
         .book-card:hover .book-actions {
@@ -118,21 +154,24 @@
         }
         
         .action-btn {
-            background: rgba(255,255,255,0.9);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            margin-left: 5px;
-            display: inline-flex;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
+            font-size: 18px;
+            text-decoration: none;
             transition: all 0.3s ease;
+            border: none;
         }
         
         .action-btn:hover {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #B38F6F 0%, #D4AF94 100%);
             color: white;
+            transform: scale(1.1);
         }
         
         .results-header {
@@ -327,7 +366,7 @@
                                                 </a>
                                             </h6>
                                             <p class="book-author">
-                                                by {!! str_ireplace($query, '<span class="highlight">'.$query.'</span>', $book->author) !!}
+                                                by {!! str_ireplace($query, '<span class="highlight">'.$query.'</span>', $book->author ? $book->author->nama : 'Unknown Author') !!}
                                             </p>
                                             <p class="text-muted small">{{ $book->category->name }}</p>
                                             

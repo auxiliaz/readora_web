@@ -274,7 +274,7 @@
             <div class="row align-items-center">
                 <div class="col-md-4">
                     <h1 class="reader-title">{{ $book->title }}</h1>
-                    <small class="text-muted">by {{ $book->author }}</small>
+                    <small class="text-muted">by {{ $book->author ? $book->author->nama : 'Unknown Author' }}</small>
                 </div>
                 <div class="col-md-8">
                     <div class="reader-controls justify-content-end">

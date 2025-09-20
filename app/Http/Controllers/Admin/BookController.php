@@ -17,7 +17,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with('category')->paginate(10);
+        $books = Book::with('category', 'author', 'publisher')->paginate(10);
         return view('admin.books.index', compact('books'));
     }
 
@@ -40,7 +40,6 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'isbn' => 'nullable|string|max:20|unique:books,isbn',
-            'author' => 'nullable|string|max:255',
             'author_id' => 'nullable|exists:authors,id',
             'publisher_id' => 'nullable|exists:publishers,id',
             'description' => 'required|string',
@@ -79,7 +78,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        $book->load('category', 'reviews.user');
+        $book->load('category', 'author', 'publisher', 'reviews.user');
         return view('admin.books.show', compact('book'));
     }
 
@@ -102,7 +101,6 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'isbn' => 'nullable|string|max:20|unique:books,isbn,' . $book->id,
-            'author' => 'nullable|string|max:255',
             'author_id' => 'nullable|exists:authors,id',
             'publisher_id' => 'nullable|exists:publishers,id',
             'description' => 'required|string',

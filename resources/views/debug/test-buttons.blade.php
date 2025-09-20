@@ -27,7 +27,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $book->title }}</h5>
-                                    <p class="card-text">{{ $book->author }}</p>
+                                    <p class="card-text">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                                     <p class="card-text"><strong>Rp {{ number_format($book->price, 0, ',', '.') }}</strong></p>
                                     
                                     <button class="btn btn-primary btn-sm" onclick="testAddToCart({{ $book->id }})">

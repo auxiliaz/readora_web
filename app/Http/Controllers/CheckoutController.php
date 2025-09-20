@@ -17,7 +17,7 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $cart = Auth::user()->cart()->with('cartItems.book')->first();
+        $cart = Auth::user()->cart()->with('cartItems.book.category', 'cartItems.book.author', 'cartItems.book.publisher')->first();
         
         if (!$cart || $cart->cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
@@ -31,7 +31,7 @@ class CheckoutController extends Controller
      */
     public function process(Request $request)
     {
-        $cart = Auth::user()->cart()->with('cartItems.book')->first();
+        $cart = Auth::user()->cart()->with('cartItems.book.category', 'cartItems.book.author', 'cartItems.book.publisher')->first();
         
         if (!$cart || $cart->cartItems->isEmpty()) {
             return response()->json([

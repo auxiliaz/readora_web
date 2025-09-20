@@ -13,7 +13,7 @@ class LibraryController extends Controller
     public function index()
     {
         $libraryBooks = Auth::user()->libraryBooks()
-            ->with(['category', 'reviews'])
+            ->with(['category', 'author', 'publisher', 'reviews'])
             ->orderBy('library.created_at', 'desc')
             ->get();
         
@@ -26,7 +26,7 @@ class LibraryController extends Controller
     public function show($bookId)
     {
         $book = Auth::user()->libraryBooks()
-            ->with(['category', 'reviews.user'])
+            ->with(['category', 'author', 'publisher', 'reviews.user'])
             ->where('books.id', $bookId)
             ->firstOrFail();
         

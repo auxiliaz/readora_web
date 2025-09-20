@@ -148,6 +148,7 @@
             perspective: 1500px;
             margin-top: 2px;
             margin-bottom: 5px;
+            background-color: var(--background-color);
         }
 
         .books-track {
@@ -157,13 +158,12 @@
             gap: 20px;
             width: max-content;
             animation: infiniteSlide 30s linear infinite;
-            background-color: var(--background-color) !important;
         }
 
         .book-card {
             width: 200px;
             height: 280px;
-            border-radius: 20px;
+            border-radius: 8px;
             overflow: hidden;
             position: relative;
             transform-style: preserve-3d;
@@ -180,23 +180,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 20px;
-        }
-
-        .book-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            color: white;
-            padding: 20px;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .book-card:hover .book-overlay {
-            transform: translateY(0);
+            border-radius: 8px;
         }
 
         .book-title {
@@ -355,21 +339,42 @@
 
         .book-card-main {
             margin-top: 15px;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            box-shadow: 10px;
-            border-radius: 15px;
-            background-color: #f5f5f5;
+            border-radius: 20px;
+            background: white;
             height: 97%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card-main:hover::before {
+            transform: scaleX(1);
         }
 
         .book-card-main:hover {
-            transform: translateY(-5px);
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         .book-cover-main {
-            padding: 10px;
+            padding: 15px;
             object-fit: cover;
             height: 350px;
             width: 100%;
@@ -377,7 +382,8 @@
         }
 
         .book-info {
-            padding: 1rem;
+            padding: 1.5rem;
+            flex-grow: 1;
         }
 
         .book-title-main {
@@ -386,11 +392,15 @@
             margin-bottom: 0.5rem;
             color: var(--text-color);
             min-height: 52px;
+            max-height: 52px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            line-height: 1.3;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .book-author-main {
@@ -418,20 +428,23 @@
         }
 
         .book-icons a {
-            background: #710014;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 18px;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .book-icons a:hover {
-            background: #B38F6F;
+            background: linear-gradient(135deg, #B38F6F 0%, #D4AF94 100%);
+            color: white;
+            transform: scale(1.1);
         }
 
         .book-card-main:hover .book-icons {
@@ -440,14 +453,15 @@
 
         .sold-badge {
             position: absolute;
-            bottom: 30px;
+            bottom: 15px;
             right: 15px;
-            background-color: #710014;
+            background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+            box-shadow: 0 2px 8px rgba(113, 0, 20, 0.3);
         }
 
 
@@ -578,7 +592,7 @@
                         favoritmu langsung di fitur Perpustakaan. Lebih praktis, tanpa perlu unduh—cukup sekali klik,
                         dan kamu bisa mulai membaca sekarang juga.
                     </p>
-                    <a href="/library" class="btn btn-light rounded-pill">Jelajahi Perpustakaan</a>
+                    <a href="/library" class="btn btn-light rounded-pill" style="font-weight: 600;">Jelajahi Perpustakaan</a>
                 </div>
             </div>
         </div>
@@ -616,7 +630,7 @@
                             </div>
 
                             <div class="book-info">
-                                <p class="book-author-main">{{ $book->author }}</p>
+                                <p class="book-author-main">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                                 <h6 class="book-title-main">{{ $book->title }}</h6>
                                 <p class="text-muted small mb-3">{{ $book->category->name }}</p>
                                 <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
@@ -744,7 +758,7 @@
                             </div>
 
                             <div class="book-info">
-                                <p class="book-author-main">{{ $book->author }}</p>
+                                <p class="book-author-main">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                                 <h6 class="book-title-main">{{ $book->title }}</h6>
                                 <p class="text-muted small mb-3">{{ $book->category->name }}</p>
                                 <p class="book-price">Rp {{ number_format($book->price, 0, ',', '.') }}</p>
@@ -768,55 +782,66 @@
     <script>
         const books = [
             {
-                title: "Atomic Habits",
-                author: "James Clear",
-                cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=280&fit=crop&crop=center",
-                color: "#4a90e2"
+                'cover': '{{ asset("assets/buku1.jpeg") }}',
+                'color': '#4a90e2',
+                'title': 'Book 1'
             },
             {
-                title: "Sapiens",
-                author: "Yuval Noah Harari",
-                cover: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=280&fit=crop&crop=center",
-                color: "#e74c3c"
+                'cover': '{{ asset("assets/buku2.jpeg") }}',
+                'color': '#e74c3c',
+                'title': 'Book 2'
             },
             {
-                title: "The Psychology of Money",
-                author: "Morgan Housel",
-                cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=280&fit=crop&crop=center",
-                color: "#2ecc71"
+                'cover': '{{ asset("assets/buku3.jpeg") }}',
+                'color': '#2ecc71',
+                'title': 'Book 3'
             },
             {
-                title: "Thinking, Fast and Slow",
-                author: "Daniel Kahneman",
-                cover: "https://images.unsplash.com/photo-1550399504-8b22e3f7e4b7?w=200&h=280&fit=crop&crop=center",
-                color: "#9b59b6"
+                'cover': '{{ asset("assets/buku4.jpeg") }}',
+                'color': '#9b59b6',
+                'title': 'Book 4'
             },
             {
-                title: "The 7 Habits",
-                author: "Stephen R. Covey",
-                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&h=280&fit=crop&crop=center",
-                color: "#f39c12"
+                'cover': '{{ asset("assets/buku5.jpeg") }}',
+                'color': '#f39c12',
+                'title': 'Book 5'
             },
             {
-                title: "Rich Dad Poor Dad",
-                author: "Robert Kiyosaki",
-                cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=280&fit=crop&crop=center",
-                color: "#1abc9c"
+                'cover': '{{ asset("assets/buku6.jpeg") }}',
+                'color': '#1abc9c',
+                'title': 'Book 6'
             },
             {
-                title: "The Lean Startup",
-                author: "Eric Ries",
-                cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200&h=280&fit=crop&crop=center",
-                color: "#34495e"
+                'cover': '{{ asset("assets/buku7.jpeg") }}',
+                'color': '#34495e',
+                'title': 'Book 7'
             },
             {
-                title: "Mindset",
-                author: "Carol S. Dweck",
-                cover: "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?w=200&h=280&fit=crop&crop=center",
-                color: "#e67e22"
+                'cover': '{{ asset("assets/buku8.jpeg") }}',
+                'color': '#e67e22',
+                'title': 'Book 8'
+            },
+            {
+                'cover': '{{ asset("assets/buku9.jpeg") }}',
+                'color': '#16a085',
+                'title': 'Book 9'
+            },
+            {
+                'cover': '{{ asset("assets/buku10.jpeg") }}',
+                'color': '#8e44ad',
+                'title': 'Book 10'
+            },
+            {
+                'cover': '{{ asset("assets/buku11.jpeg") }}',
+                'color': '#d35400',
+                'title': 'Book 11'
+            },
+            {
+                'cover': '{{ asset("assets/buku12.jpeg") }}',
+                'color': '#c0392b',
+                'title': 'Book 12'
             }
         ];
-
         const allBooks = [...books, ...books, ...books];
 
         function createBookCard(book, index) {
@@ -824,34 +849,22 @@
                 <div class="book-card" style="animation-delay: ${index * 0.1}s">
                     <img src="${book.cover}" alt="${book.title}" class="book-cover" 
                          onerror="this.style.background='${book.color}'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontSize='14px'; this.style.textAlign='center'; this.innerHTML='${book.title}';">
-                    <div class="book-overlay">
-                        <div class="book-title">${book.title}</div>
-                        <div class="book-author">${book.author}</div>
-                    </div>
                 </div>
             `;
         }
 
         function initializeCarousel() {
             const booksTrack = document.getElementById('booksTrack');
+            const cardWidth = 220;
+            const totalWidth = cardWidth * allBooks.length;
+
             booksTrack.innerHTML = allBooks.map((book, index) => createBookCard(book, index)).join('');
             booksTrack.style.width = totalWidth + 'px';
         }
 
+
         document.addEventListener('DOMContentLoaded', function () {
             initializeCarousel();
-            const cardWidth = 220;
-            const totalWidth = cardWidth * allBooks.length;
-            const booksTrack = document.getElementById('booksTrack');
-            const carousel = document.querySelector('.books-carousel');
-
-            carousel.addEventListener('mouseenter', () => {
-                booksTrack.style.animationPlayState = 'paused';
-            });
-
-            carousel.addEventListener('mouseleave', () => {
-                booksTrack.style.animationPlayState = 'running';
-            });
         });
 
         window.addToCart = function (bookId) {
