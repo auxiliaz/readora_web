@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $book->title }} - Readora</title>
-        <link
+    <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
         rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
     <style>
         :root {
             --primary-color: #710014;
             --secondary-color: #B38F6F;
-            --background-color: #f8f9fa;
+            --background-color: #F2F1ED;
             --text-color: #333333;
             --light-gray: #f5f5f5;
-            --border-color: #e0e0e0;
+            --border-color: #b1b1b1;
         }
 
         body {
@@ -31,14 +31,15 @@
 
         .main-container {
             max-width: 1400px;
-            margin: 0 auto;
             padding: 0 20px;
+            margin-top: -30px;
+            margin-bottom: 60px;
         }
 
         .page-header {
             background: var(--background-color);
             color: white;
-            padding: 40px 0;
+            padding: 30px 0 20px 0;
         }
 
 
@@ -46,14 +47,13 @@
             display: grid;
             grid-template-columns: 1fr 300px;
             gap: 40px;
-            background: white;
+            background: var(--background-color);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .book-detail-main {
-            padding: 40px;
+            padding: 56px;
         }
 
         .book-layout {
@@ -70,7 +70,7 @@
 
         .book-cover-large {
             width: 100%;
-            height: 360px;
+            height: 430px;
             object-fit: cover;
             border-radius: 8px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
@@ -94,7 +94,6 @@
             font-weight: 700;
             font-size: 32px;
             color: var(--text-color);
-            margin-bottom: 8px;
             line-height: 1.2;
         }
 
@@ -155,54 +154,38 @@
 
         .book-actions {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 12px;
         }
 
-        .btn-primary-custom {
+        .cta-button {
             background: var(--primary-color);
-            border: none;
             color: white;
-            padding: 14px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary-custom:hover {
-            background: #8b0019;
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary-custom {
-            background: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--text-color);
-            padding: 12px 24px;
-            border-radius: 6px;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
             font-weight: 500;
-            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 5px;
         }
 
-        .btn-secondary-custom:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+        .cta-button:hover {
+            background: #5a0010;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
         }
+
 
         .book-description {
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+            padding-top: 20px;
         }
 
         .description-title {
@@ -216,75 +199,43 @@
         .description-text {
             font-size: 16px;
             line-height: 1.7;
-            color: #555;
+            color: #000000;
         }
+
         .sidebar {
-            background: var(--light-gray);
-            padding: 30px 25px;
+            position: relative;
+            background: var(--background-color);
+            padding: 56px 25px;
+        }
+
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 56px;
+            height: 433px;
+            border-left: 2px solid var(--primary-color);
         }
 
         .sidebar-title {
-            font-size: 14px;
+            font-size: 18px;
+            font-family: 'Playfair Display', serif;
             font-weight: 600;
-            color: var(--text-color);
+            color: var(--primary-color);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
-        .related-book-item {
+        .sidebar-title::after {
+            content: "";
             display: block;
-            text-decoration: none;
-            color: inherit;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            overflow: hidden;
+            width: 60px;
+            height: 2px;
+            background: var(--primary-color);
+            margin: 6px auto 0;
         }
-
-        .related-book-item:hover {
-            transform: translateY(-2px);
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .related-book-cover {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 12px;
-        }
-
-        .related-book-info {
-            padding: 0 5px;
-        }
-
-        .related-book-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 6px;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .related-book-author {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .related-book-price {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
         .btn:disabled {
             background-color: var(--primary-color) !important;
             border-color: var(--primary-color) !important;
@@ -299,20 +250,13 @@
             .content-wrapper {
                 grid-template-columns: 1fr;
             }
-            
+
             .sidebar {
                 background: white;
-                border-top: 1px solid var(--border-color);
             }
-            
+
             .sidebar-title {
                 text-align: left;
-            }
-            
-            .related-books-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 20px;
             }
         }
 
@@ -320,25 +264,25 @@
             .main-container {
                 padding: 0 15px;
             }
-            
+
             .book-layout {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-            
+
             .book-cover-container {
                 position: relative;
                 text-align: center;
             }
-            
+
             .book-cover-large {
                 max-width: 250px;
             }
-            
+
             .book-detail-main {
                 padding: 30px 20px;
             }
-            
+
             .book-title {
                 font-size: 24px;
             }
@@ -378,7 +322,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="fw-bold" style="color: #710014">{{ $book->title }}</h1>
+                    <h1 class="fw-bold" style="color: #710014">Detail Buku</h1>
                     <p class="text" style="color: #000000">Detail informasi buku dan deskripsi lengkap.
                     </p>
                     <nav aria-label="breadcrumb">
@@ -406,67 +350,59 @@
                         <div class="book-category">{{ $book->category->name }}</div>
                         <h1 class="book-title">{{ $book->title }}</h1>
                         <div class="book-subtitle">{{ $book->subtitle ?? '' }}</div>
-                        <div class="book-author">by {{ $book->author ? $book->author->nama : 'Unknown Author' }}</div>
-                        
+                        <div class="book-author">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</div>
+
                         <div class="book-meta">
                             <div class="meta-item">
                                 <div class="meta-label">ISBN</div>
                                 <div class="meta-value">{{ $book->isbn ?? 'Not Available' }}</div>
                             </div>
                             <div class="meta-item">
-                                <div class="meta-label">Release Date</div>
-                                <div class="meta-value">{{ $book->created_at ? $book->created_at->format('M d, Y') : 'Unknown' }}</div>
+                                <div class="meta-label">Tanggal Rilis</div>
+                                <div class="meta-value">
+                                    {{ $book->created_at ? $book->created_at->format('M d, Y') : 'Unknown' }}
+                                </div>
                             </div>
                             @if($book->publisher)
-                            <div class="meta-item">
-                                <div class="meta-label">Publisher</div>
-                                <div class="meta-value">{{ $book->publisher->nama }}</div>
-                            </div>
+                                <div class="meta-item">
+                                    <div class="meta-label">Penerbit</div>
+                                    <div class="meta-value">{{ $book->publisher->nama }}</div>
+                                </div>
                             @endif
                             @if($book->isbn)
-                            <div class="meta-item">
-                                <div class="meta-label">Format</div>
-                                <div class="meta-value">Digital</div>
-                            </div>
+                                <div class="meta-item">
+                                    <div class="meta-label">Format</div>
+                                    <div class="meta-value">Digital</div>
+                                </div>
                             @endif
                         </div>
 
-                        @if($book->reviews_count > 0)
-                        <div class="rating-section">
-                            <div class="rating-stars">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star{{ $i <= round($book->average_rating) ? '' : '-o' }}"></i>
-                                @endfor
-                            </div>
-                            <div class="rating-text">{{ number_format($book->average_rating, 1) }} out of 5 ({{ $book->reviews_count }} reviews)</div>
-                        </div>
-                        @endif
 
-                        <div class="book-price">Rp {{ number_format((float)$book->price, 0, ',', '.') }}</div>
+                        <div class="book-price">Rp {{ number_format((float) $book->price, 0, ',', '.') }}</div>
                         <div class="sales-info">{{ $book->sales_count }} copies sold</div>
 
                         @auth
-                        <div class="book-actions">
-                            @if(Auth::user()->hasBookInLibrary($book->id))
-                                <a href="/reader/{{ $book->id }}" class="btn btn-primary-custom">
-                                    <i class="fas fa-book-open"></i>Baca sekarang
-                                </a>
-                            @else
-                                <button class="btn btn-primary-custom" onclick="addToCart({{ $book->id }})">
-                                    <i class="fas fa-shopping-cart"></i>Add to Cart
-                                </button>
-                                <button class="btn btn-secondary-custom" onclick="toggleWishlist({{ $book->id }})">
-                                    <i class="fas fa-heart"></i>
-                                    {{ Auth::user()->hasBookInWishlist($book->id) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
-                                </button>
-                            @endif
-                        </div>
+                            <div class="book-actions">
+                                @if(Auth::user()->hasBookInLibrary($book->id))
+                                    <a href="/reader/{{ $book->id }}" class="cta-button">
+                                        <i class="fas fa-book-open"></i>Baca sekarang
+                                    </a>
+                                @else
+                                    <button class="cta-button" onclick="addToCart({{ $book->id }})">
+                                        <i class="fas fa-shopping-cart"></i>Add to Cart
+                                    </button>
+                                    <button class="cta-button" onclick="toggleWishlist({{ $book->id }})">
+                                        <i class="fas fa-heart"></i>
+                                        {{ Auth::user()->hasBookInWishlist($book->id) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
+                                    </button>
+                                @endif
+                            </div>
                         @else
-                        <div class="book-actions">
-                            <a href="{{ route('login') }}" class="btn btn-primary-custom">
-                                <i class="fas fa-shopping-cart"></i>Login untuk beli
-                            </a>
-                        </div>
+                            <div class="book-actions">
+                                <a href="{{ route('login') }}" class="cta-button">
+                                    Login untuk beli
+                                </a>
+                            </div>
                         @endauth
                     </div>
                 </div>
@@ -475,7 +411,7 @@
 
             <!-- Sidebar -->
             <div class="sidebar">
-                <h3 class="sidebar-title">About This Book</h3>
+                <h3 class="sidebar-title">Sinopsis Buku</h3>
                 <div class="book-description">
                     <p class="description-text">{{ $book->description }}</p>
                 </div>
@@ -496,7 +432,7 @@
 
             const button = document.querySelector(`[onclick="toggleWishlist(${bookId})"]`);
             const originalText = button.innerHTML;
-            
+
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Loading...';
 
@@ -510,31 +446,31 @@
                     book_id: bookId
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification(data.message, 'success');
-                    updateWishlistCount();
-                    
-                    // Update button text and icon
-                    if (data.in_wishlist) {
-                        button.innerHTML = '<i class="fas fa-heart"></i>Remove from Wishlist';
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+                        updateWishlistCount();
+
+                        // Update button text and icon
+                        if (data.in_wishlist) {
+                            button.innerHTML = '<i class="fas fa-heart"></i>Remove from Wishlist';
+                        } else {
+                            button.innerHTML = '<i class="fas fa-heart"></i>Add to Wishlist';
+                        }
                     } else {
-                        button.innerHTML = '<i class="fas fa-heart"></i>Add to Wishlist';
+                        showNotification(data.message || 'Error updating wishlist', 'error');
+                        button.innerHTML = originalText;
                     }
-                } else {
-                    showNotification(data.message || 'Error updating wishlist', 'error');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error updating wishlist. Please try again.', 'error');
                     button.innerHTML = originalText;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Error updating wishlist. Please try again.', 'error');
-                button.innerHTML = originalText;
-            })
-            .finally(() => {
-                button.disabled = false;
-            });
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
         }
 
         function addToCart(bookId) {
@@ -545,7 +481,7 @@
 
             const button = document.querySelector(`[onclick="addToCart(${bookId})"]`);
             const originalText = button.innerHTML;
-            
+
             // Show loading state
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Adding...';
@@ -561,23 +497,23 @@
                     quantity: 1
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification(data.message, 'success');
-                    updateCartCount();
-                } else {
-                    showNotification(data.message || 'Error adding to cart', 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Error adding to cart. Please try again.', 'error');
-            })
-            .finally(() => {
-                button.disabled = false;
-                button.innerHTML = originalText;
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+                        updateCartCount();
+                    } else {
+                        showNotification(data.message || 'Error adding to cart', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error adding to cart. Please try again.', 'error');
+                })
+                .finally(() => {
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                });
         }
     </script>
 </body>

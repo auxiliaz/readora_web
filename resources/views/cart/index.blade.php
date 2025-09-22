@@ -13,44 +13,18 @@
             --secondary-color: #B38F6F;
             --background-color: #F2F1ED;
             --text-color: #000000;
+            --card-bg: #ffffff;
+            --shadow-light: 0 5px 12px rgba(0,0,0,0.05);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+            --border-radius: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
+            background-color: #f8f9fa;
             color: var(--text-color);
-        }
-        
-        .navbar {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            font-size: 1.8rem;
-        }
-        
-        .nav-link {
-            color: var(--text-color) !important;
-            font-weight: 500;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            font-weight: 500;
-        }
-        
-        .btn-primary:hover {
-            background-color: #5a0010;
-            border-color: #5a0010;
+            min-height: 100vh;
         }
         
         .page-header {
@@ -65,110 +39,6 @@
             font-size: 2.5rem;
         }
         
-        .cart-section {
-            padding: 60px 0;
-        }
-        
-        .cart-item {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .item-image {
-            width: 80px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
-        .item-title {
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .item-author {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .item-price {
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-        
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .quantity-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        
-        .quantity-input {
-            width: 60px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 5px;
-        }
-        
-        .cart-summary {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            height: fit-content;
-        }
-        
-        .summary-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-        }
-        
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .summary-row:last-child {
-            border-bottom: none;
-            font-weight: 600;
-            font-size: 1.2rem;
-        }
-        
-        .empty-cart {
-            text-align: center;
-            padding: 4rem 0;
-        }
-        
-        .empty-cart i {
-            font-size: 4rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
         .breadcrumb {
             background: transparent;
         }
@@ -176,21 +46,399 @@
         .breadcrumb-item a {
             color: var(--primary-color);
             text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
         }
 
         .breadcrumb-item+.breadcrumb-item::before {
             content: ">";
         }
 
-        h1,
-        h5 {
+        h1, h5 {
             font-family: 'Playfair Display', serif;
         }
-        p,
-        .text {
+        
+        p, .text {
             font-family: 'Poppins', sans-serif;
         }
         
+
+        .cart-section {
+            padding: 5px 40px;
+            background-color: var(--background-color);
+            margin-top: -30px;
+        }
+        
+        .cart-container {
+            max-width: 1138px;
+            margin: 0 auto;
+        }
+
+        .cart-items-container {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto; 
+            padding-right: 10px;
+        }
+
+        .cart-items-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .cart-items-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+        .cart-items-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .cart-item {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .cart-item::after {
+            content: "";
+            display: block;
+            width: 100%; 
+            height: 1px;
+            background: rgba(113, 0, 20, 0.4);
+            position: absolute;
+            bottom: 0;
+            width: calc(100% - 35px);
+}
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+    
+        
+        .cart-item.unselected {
+            opacity: 0.5;
+            background-color: var(--background-color);
+        }
+        
+        
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            transition: var(--transition);
+        }
+        
+        .remove-btn:hover {
+            color: #710014;
+            transform: scale(1.1);
+        }
+        
+        .item-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .item-details {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .item-title {
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 5px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .item-subtitle {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .item-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 12px;
+        }
+        
+        .quantity-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px;
+            font-size: 12px;
+            height: 28px;
+        }
+    
+        .cart-summary {
+            background: var(--background-color);
+            margin-top: 20px;
+            padding: 30px;
+            height: fit-content;
+            position: relative;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .cart-summary::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 40px;
+            height: 300px;
+        }
+        
+        .summary-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .summary-row:last-child {
+            border-top: 2px solid #eee;
+            padding-top: 15px;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .summary-label {
+            color: #666;
+        }
+        
+        .summary-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .btn-checkout {
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 15px 30px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            transition: var(--transition);
+            margin-bottom: 15px;
+        }
+        
+        .btn-checkout:hover:not(:disabled) {
+            background: #222;
+            transform: translateY(-1px);
+        }
+        
+        .btn-checkout:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .btn-continue {
+            background: transparent;
+            color: #333;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-continue:hover {
+            background: #333;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .cart-header {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .select-all-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .select-all-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        
+        .btn-clear {
+            background: #710014;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-clear:hover {
+            background: #550110;
+            transform: translateY(-1px);
+        }
+        
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart h3 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .empty-cart p {
+            color: #999;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .cart-item {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .item-details {
+                min-width: 150px;
+            }
+            
+            .quantity-controls {
+                margin-top: 5px;
+            }
+        }
+        .cta-button {
+            text-decoration: none;   
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            display: block;       
+            width: 100%;            
+            margin-bottom: 10px;    
+            padding: 10px 20px;  
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .cart-actions {
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
@@ -213,86 +461,80 @@
 
     <!-- Cart Section -->
     <section class="cart-section">
-        <div class="container">
+        <div class="container cart-container">
             @if($cartItems->count() > 0)
-                <div class="row">
+                <div class="row g-4">
                     <div class="col-lg-8">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4>Daftar item({{ $cartItems->count() }})</h4>
-                            <button class="btn btn-outline-danger" onclick="clearCart()">
-                                <i class="fas fa-trash me-2"></i>Hapus semua
+                        <!-- Cart Header -->
+                        <div class="cart-header">
+                            <div class="select-all-section">
+                                <input type="checkbox" class="select-all-checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                <span>Pilih Semua ({{ $cartItems->count() }} item)</span>
+                            </div>
+                            <button class="btn-clear" onclick="clearCart()">
+                                <i class="fas fa-trash me-2"></i>Hapus Semua
                             </button>
                         </div>
 
-                        @foreach($cartItems as $item)
-                            <div class="cart-item" id="cart-item-{{ $item->id }}">
-                                <div class="row align-items-center">
-                                    <div class="col-md-2">
-                                        <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/120x180?text=Book+Cover' }}" 
-                                             alt="{{ $item->book->title }}" class="item-image">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h6 class="item-title">{{ $item->book->title }}</h6>
-                                        <p class="item-author">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</p>
-                                        <p class="text-muted small">{{ $item->book->category->name }}</p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="item-price">Rp {{ number_format($item->book->price, 0, ',', '.') }}</div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="quantity-controls">
-                                            <button class="quantity-btn" onclick="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <input type="number" class="quantity-input" value="{{ $item->quantity }}" 
-                                                   min="1" max="10" id="quantity-{{ $item->id }}"
-                                                   onchange="updateQuantity({{ $item->id }}, this.value)">
-                                            <button class="quantity-btn" onclick="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
+                        <!-- Cart Items -->
+                        <div class="cart-items-container">
+                            @foreach($cartItems as $item)
+                                <div class="cart-item" id="cart-item-{{ $item->id }}">
+                                    <button class="remove-btn" onclick="removeItem({{ $item->id }})">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    
+                                    <input type="checkbox" class="item-checkbox" id="item-{{ $item->id }}" 
+                                           data-item-id="{{ $item->id }}" 
+                                           data-price="{{ $item->book->price }}" 
+                                           data-quantity="{{ $item->quantity }}" 
+                                           data-subtotal="{{ $item->subtotal }}"
+                                           onchange="toggleItemSelection({{ $item->id }})" checked>
+                                    
+                                    <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/80x110?text=Book' }}" 
+                                         alt="{{ $item->book->title }}" class="item-image">
+                                    
+                                    <div class="item-details">
+                                        <div class="item-title">{{ $item->book->title }}</div>
+                                        <div class="item-subtitle">{{ $item->book->category->name }}</div>
+                                        <div class="item-subtitle">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <div class="item-price">Rp {{ number_format($item->book->price, 0, ',', '.') }}</div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="item-price" id="subtotal-{{ $item->id }}">
-                                            Rp {{ number_format($item->subtotal, 0, ',', '.') }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button class="btn btn-outline-danger btn-sm" onclick="removeItem({{ $item->id }})">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
 
                     <div class="col-lg-4">
                         <div class="cart-summary">
-                            <h4 class="summary-title">Order Summary</h4>
+                            <div class="summary-title">Cart Totals</div>
                             
                             <div class="summary-row">
-                                <span>Subtotal ({{ $cartItems->sum('quantity') }} items)</span>
-                                <span id="cart-subtotal">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
+                                <span class="summary-label">Subtotal (<span id="selected-items-count">{{ $cartItems->sum('quantity') }}</span> items dipilih)</span>
+                                <span class="summary-value" id="cart-subtotal">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
                             </div>
                             
                             <div class="summary-row">
-                                <span>Pajak</span>
-                                <span>Rp 0</span>
+                                <span class="summary-label">Tax</span>
+                                <span class="summary-value">Rp 0</span>
                             </div>
                             
                             <div class="summary-row">
-                                <strong>Total</strong>
-                                <strong id="cart-total">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</strong>
+                                <span class="summary-label">Total</span>
+                                <span class="summary-value" id="cart-total">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
                             </div>
                             
-                            <a href="/checkout" class="btn btn-primary w-100 btn-lg mt-3">
-                                <i class="fas fa-credit-card me-2"></i>Proses checkout
-                            </a>
-                            
-                            <a href="/categories" class="btn btn-outline-primary w-100 mt-2">
-                                <i class="fas fa-arrow-left me-2"></i>Lanjut belanja
-                            </a>
+                            <div class="cart-actions">
+                                <button id="cta-button" class="cta-button mt-5" onclick="proceedToCheckout()">
+                                    Proceed to Checkout
+                                </button>
+                                <a href="/categories" class="cta-button">
+                                    Continue Shopping
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -300,8 +542,9 @@
                 <div class="empty-cart">
                     <i class="fas fa-shopping-cart"></i>
                     <h3>Keranjang kamu kosong nih!</h3>
-                    <p class="text-muted">Eksplor dan tambahkan buku ke keranjang yuk biar ada isinya.</p>
-                    <a href="/categories" class="btn btn-primary btn-lg">Cari Buku
+                    <p>Eksplor dan tambahkan buku ke keranjang yuk biar ada isinya.</p>
+                    <a href="/categories" class="btn-checkout" style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px;">
+                        <i class="fas fa-book me-2"></i>Cari Buku
                     </a>
                 </div>
             @endif
@@ -337,10 +580,10 @@
                     document.getElementById(`quantity-${itemId}`).value = quantity;
                     document.getElementById(`subtotal-${itemId}`).textContent = 
                         'Rp ' + new Intl.NumberFormat('id-ID').format(data.subtotal);
-                    document.getElementById('cart-subtotal').textContent = 
-                        'Rp ' + new Intl.NumberFormat('id-ID').format(data.total);
-                    document.getElementById('cart-total').textContent = 
-                        'Rp ' + new Intl.NumberFormat('id-ID').format(data.total);
+                    const checkbox = document.getElementById(`item-${itemId}`);
+                    checkbox.setAttribute('data-quantity', quantity);
+                    checkbox.setAttribute('data-subtotal', data.subtotal);
+                    updateCartSummary();
                 } else {
                     alert(data.message);
                 }
@@ -368,10 +611,7 @@
                         if (data.cart_count === 0) {
                             location.reload();
                         } else {
-                            document.getElementById('cart-subtotal').textContent = 
-                                'Rp ' + new Intl.NumberFormat('id-ID').format(data.total);
-                            document.getElementById('cart-total').textContent = 
-                                'Rp ' + new Intl.NumberFormat('id-ID').format(data.total);
+                            updateCartSummary();
                         }
                     } else {
                         alert(data.message);
@@ -406,6 +646,108 @@
                 });
             }
         }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+            
+            itemCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+                const itemId = checkbox.getAttribute('data-item-id');
+                toggleItemSelection(itemId, false);
+            });
+            
+            updateCartSummary();
+        }
+
+        function toggleItemSelection(itemId, updateSelectAll = true) {
+            const checkbox = document.getElementById(`item-${itemId}`);
+            const cartItem = document.getElementById(`cart-item-${itemId}`);
+            
+            if (checkbox.checked) {
+                cartItem.classList.remove('unselected');
+            } else {
+                cartItem.classList.add('unselected');
+            }
+            
+            if (updateSelectAll) {
+                updateSelectAllCheckbox();
+            }
+            
+            updateCartSummary();
+        }
+
+        function updateSelectAllCheckbox() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+            const checkedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+            
+            if (checkedCheckboxes.length === itemCheckboxes.length) {
+                selectAllCheckbox.checked = true;
+                selectAllCheckbox.indeterminate = false;
+            } else if (checkedCheckboxes.length === 0) {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+            } else {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = true;
+            }
+        }
+
+        function updateCartSummary() {
+            const checkedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+            let totalAmount = 0;
+            let totalItems = 0;
+            
+            checkedCheckboxes.forEach(checkbox => {
+                const subtotal = parseFloat(checkbox.getAttribute('data-subtotal'));
+                const quantity = parseInt(checkbox.getAttribute('data-quantity'));
+                totalAmount += subtotal;
+                totalItems += quantity;
+            });
+            
+            document.getElementById('selected-items-count').textContent = totalItems;
+            document.getElementById('cart-subtotal').textContent = 
+                'Rp ' + new Intl.NumberFormat('id-ID').format(totalAmount);
+            document.getElementById('cart-total').textContent = 
+                'Rp ' + new Intl.NumberFormat('id-ID').format(totalAmount);
+            
+            // Enable/disable checkout button based on selection
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if (checkedCheckboxes.length === 0) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.innerHTML = 'Pilih item untuk checkout';
+            } else {
+                checkoutBtn.disabled = false;
+                checkoutBtn.innerHTML = 'Proceed to Checkout';
+            }
+        }
+
+        function proceedToCheckout() {
+            const checkedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+            
+            if (checkedCheckboxes.length === 0) {
+                alert('Pilih minimal satu item untuk checkout');
+                return;
+            }
+            
+            const selectedItems = [];
+            checkedCheckboxes.forEach(checkbox => {
+                selectedItems.push(checkbox.getAttribute('data-item-id'));
+            });
+            
+            // Store selected items in session storage for checkout page
+            sessionStorage.setItem('selectedCartItems', JSON.stringify(selectedItems));
+            
+            // Redirect to checkout
+            window.location.href = '/checkout';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSelectAllCheckbox();
+            updateCartSummary();
+        });
     </script>
 </body>
 </html>

@@ -123,25 +123,27 @@
             cursor: pointer;
         }
 
-        .btn-primary {
-            background-color: #F2F1ED;
-            border: 2px solid #710014;
-            color: #710014;
+        .cta-button {
+            background: #710014;
+            color: white;
+            padding: 14px 32px;
+            border: none;
             border-radius: 50px;
+            font-size: 1rem;
             font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
+            justify-content: center;
         }
 
-        .btn-primary:hover {
-            background-color: #F2F1ED;
-            border-color: #710014;
-        }
-
-        .btn-primary:focus,
-        .btn-primary:active {
-            background-color: #710014 !important;
-            border-color: #710014 !important;
-            color: #fff !important;
-            box-shadow: none;
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .form-check { 
@@ -225,7 +227,7 @@
                 </div>
             </div>
             
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="cta-button">Login</button>
         </form>
         
         <div class="back-link">

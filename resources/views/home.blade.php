@@ -486,7 +486,6 @@
             display: inline-block;
         }
 
-        /* Category Cards Styles */
         .category-card {
             padding: 15px 20px;
             transition: all 0.3s ease;
@@ -501,7 +500,7 @@
         .category-icon {
             width: 100px;
             height: 100px;
-            background: #D9D9D9;
+            background: #fff;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -512,7 +511,7 @@
 
         .category-icon i {
             font-size: 2.5rem;
-            color: #B38F6F;
+            color: #710014;
         }
 
         .category-card:hover .category-icon {

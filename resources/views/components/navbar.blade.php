@@ -85,12 +85,15 @@
 
 <style>
     .navbar {
+        position: sticky;
+        top: 20px;
+        z-index: 999;
+        margin: 0 20px;
         background-color: #710014 !important;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         padding: 0.30rem 0;
         border-bottom: 2px solid #710014;
-        border-bottom-right-radius: 20px;
-        border-bottom-left-radius: 20px;
+        border-radius: 20px;
     }
 
     .navbar-brand {
@@ -217,7 +220,6 @@
         }
     }
 
-    /* Badge Animation */
     .badge {
         animation: pulse 2s infinite;
     }
@@ -236,7 +238,6 @@
         }
     }
 
-    /* Hide badge when count is 0 */
     .badge:empty,
     .badge[data-count="0"] {
         display: none;

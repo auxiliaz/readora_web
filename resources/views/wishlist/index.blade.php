@@ -45,21 +45,35 @@
             color: var(--primary-color) !important;
         }
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+
+        .cta-button {
+            text-decoration: none;
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
             font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: -25px;
         }
 
-        .btn-primary:hover {
-            background-color: #5a0010;
-            border-color: #5a0010;
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .page-header {
             background: var(--background-color);
             color: white;
             padding: 40px 0;
+            margin-bottom: -20px;
         }
 
         .wishlist-section {
@@ -305,7 +319,7 @@
                 <div class="wishlist-actions">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <button class="btn btn-primary" onclick="moveAllToCart()">
+                            <button class="cta-button" onclick="moveAllToCart()">
                                 <i class="fas fa-shopping-cart me-2"></i>Pindah ke keranjang
                             </button>
                         </div>
@@ -359,10 +373,10 @@
                 </div>
             @else
                 <div class="empty-wishlist">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart" style="color: var(--primary-color)"></i>
                     <h3>Daftar buku favoritmu kosong nih!</h3>
                     <p class="text-muted">Mulai eksplor buku dan tambahkan ke favorit yuk.</p>
-                    <a href="/categories" class="btn btn-primary btn-lg">Cari Buku
+                    <a href="/categories" class="cta-button">Cari Buku
                     </a>
                 </div>
             @endif
@@ -373,7 +387,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Load cart count on page load
         fetch('/cart/count')
             .then(response => response.json())
             .then(data => {
@@ -394,11 +407,7 @@
                     if (data.success) {
                         document.getElementById(`wishlist-item-${bookId}`).remove();
                         document.getElementById('cart-count').textContent = data.cart_count;
-
-                        // Show success message
                         showMessage(data.message, 'success');
-
-                        // Check if wishlist is empty
                         if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
                             location.reload();
                         }
@@ -428,7 +437,6 @@
                             document.getElementById(`wishlist-item-${bookId}`).remove();
                             showMessage(data.message, 'success');
 
-                            // Check if wishlist is empty
                             if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
                                 location.reload();
                             }
@@ -470,7 +478,6 @@
         }
 
         function showMessage(message, type) {
-            // Remove existing notifications with fade out animation
             const existingNotifications = document.querySelectorAll('.toast-notification');
             existingNotifications.forEach(notification => {
                 notification.classList.add('hide');

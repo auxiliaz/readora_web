@@ -299,14 +299,14 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.authors.*') ? 'active' : '' }}"
                         href="{{ route('admin.authors.index') }}">
-                        <i class="bi bi-person-fill"></i>
+                        <i class="bi bi-pencil"></i>
                         <span>Penulis</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.publishers.*') ? 'active' : '' }}"
                         href="{{ route('admin.publishers.index') }}">
-                        <i class="bi bi-building"></i>
+                        <i class="bi bi-journal"></i>
                         <span>Penerbit</span>
                     </a>
                 </li>
