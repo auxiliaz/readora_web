@@ -84,8 +84,13 @@
             overflow-y: auto;
             margin-bottom: 2rem;
             max-height: calc(100vh - 200px);
+            min-height: 300px; 
             overflow-y: auto; 
             padding-right: 10px;
+        }
+
+        .cart-items-container {
+            overflow-y: scroll;
         }
 
         .cart-items-container::-webkit-scrollbar {
@@ -230,8 +235,9 @@
             padding: 30px;
             height: fit-content;
             position: relative;
-            top: 20px;
+            top: 15px;
             z-index: 100;
+            margin-bottom: 60px;
         }
 
         .cart-summary::before {
@@ -366,29 +372,15 @@
             transform: translateY(-1px);
         }
         
-        /* Empty Cart */
         .empty-cart {
             text-align: center;
-            padding: 80px 20px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-light);
+            padding: 4rem 0;
         }
-        
+
         .empty-cart i {
             font-size: 4rem;
             color: #ccc;
-            margin-bottom: 20px;
-        }
-        
-        .empty-cart h3 {
-            color: #666;
-            margin-bottom: 15px;
-        }
-        
-        .empty-cart p {
-            color: #999;
-            margin-bottom: 30px;
+            margin-bottom: 1rem;
         }
         
         @media (max-width: 768px) {
@@ -436,6 +428,13 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
+
+        .empty-cart .cta-button {
+            width: auto;          
+            display: inline-flex; 
+            padding: 10px 25px;   
+            margin: 0 auto;       
+        }
         .cart-actions {
             margin-top: 40px;
         }
@@ -449,7 +448,7 @@
     <section class="page-header">
         <div class="container">
             <h1 class="fw-bold" style="color: #710014">Keranjang</h1>
-            <p class="text" style="color: #000000">Cek kembali item yang dipilih sebelum kamu checkout.</p>
+            <p class="text" style="color: #000000">Cek kembali item yang dipilih sebelum Anda checkout.</p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Beranda</a></li>
@@ -516,12 +515,6 @@
                                 <span class="summary-label">Subtotal (<span id="selected-items-count">{{ $cartItems->sum('quantity') }}</span> items dipilih)</span>
                                 <span class="summary-value" id="cart-subtotal">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
                             </div>
-                            
-                            <div class="summary-row">
-                                <span class="summary-label">Tax</span>
-                                <span class="summary-value">Rp 0</span>
-                            </div>
-                            
                             <div class="summary-row">
                                 <span class="summary-label">Total</span>
                                 <span class="summary-value" id="cart-total">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
@@ -540,11 +533,10 @@
                 </div>
             @else
                 <div class="empty-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>Keranjang kamu kosong nih!</h3>
-                    <p>Eksplor dan tambahkan buku ke keranjang yuk biar ada isinya.</p>
-                    <a href="/categories" class="btn-checkout" style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px;">
-                        <i class="fas fa-book me-2"></i>Cari Buku
+                    <i class="fas fa-shopping-cart" style="color: var(--primary-color)"></i>
+                    <h3>Keranjang kosong...</h3>
+                    <p class="text-muted">Mulai tambahkan buku yang ingin Anda beli ke dalam keranjang!</p>
+                    <a href="/categories" class="cta-button">Cari Buku
                     </a>
                 </div>
             @endif
@@ -654,7 +646,13 @@
             itemCheckboxes.forEach(checkbox => {
                 checkbox.checked = selectAllCheckbox.checked;
                 const itemId = checkbox.getAttribute('data-item-id');
-                toggleItemSelection(itemId, false);
+                const cartItem = document.getElementById(`cart-item-${itemId}`);
+                
+                if (checkbox.checked) {
+                    cartItem.classList.remove('unselected');
+                } else {
+                    cartItem.classList.add('unselected');
+                }
             });
             
             updateCartSummary();
@@ -681,6 +679,10 @@
             const selectAllCheckbox = document.getElementById('selectAll');
             const itemCheckboxes = document.querySelectorAll('.item-checkbox');
             const checkedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+            
+            if (itemCheckboxes.length === 0) {
+                return;
+            }
             
             if (checkedCheckboxes.length === itemCheckboxes.length) {
                 selectAllCheckbox.checked = true;
@@ -713,13 +715,15 @@
                 'Rp ' + new Intl.NumberFormat('id-ID').format(totalAmount);
             
             // Enable/disable checkout button based on selection
-            const checkoutBtn = document.getElementById('checkout-btn');
-            if (checkedCheckboxes.length === 0) {
-                checkoutBtn.disabled = true;
-                checkoutBtn.innerHTML = 'Pilih item untuk checkout';
-            } else {
-                checkoutBtn.disabled = false;
-                checkoutBtn.innerHTML = 'Proceed to Checkout';
+            const checkoutBtn = document.getElementById('cta-button');
+            if (checkoutBtn) {
+                if (checkedCheckboxes.length === 0) {
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.innerHTML = 'Pilih item untuk checkout';
+                } else {
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = 'Proceed to Checkout';
+                }
             }
         }
 

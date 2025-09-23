@@ -7,8 +7,6 @@
         background-color: var(--primary-color);
         color: white;
         padding: 20px 0 20px 0;
-        border-top-right-radius: 20px;
-        border-top-left-radius: 20px;
     }
 
     .footer-logo {

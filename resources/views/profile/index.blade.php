@@ -17,6 +17,8 @@
             --secondary-color: #B38F6F;
             --background-color: #F2F1ED;
             --text-color: #000000;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --border-radius: 12px;
         }
 
         body {
@@ -25,11 +27,11 @@
             color: var(--text-color);
         }
 
-
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
             font-weight: 500;
+            border-radius: 8px;
         }
 
         .btn-primary:hover {
@@ -37,101 +39,231 @@
             border-color: #5a0010;
         }
 
-        .profile-header {
-            background: linear-gradient(135deg, var(--primary-color), #8b0018);
+        .page-header {
+            background: var(--background-color);
             color: white;
-            padding: 60px 0;
+            padding: 40px 0;
+            margin-bottom: -20px;
+        }
+
+
+        .breadcrumb {
+            background: transparent;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: ">";
+        }
+
+        .profile-container {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .profile-header {
+            background: var(--background-color);
+            padding: 5px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .profile-avatar {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--primary-color);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin: 0 auto 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(113, 0, 20, 0.3);
         }
 
-        .profile-name {
+        .profile-details h1 {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: var(--text-color);
         }
 
-        .profile-email {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .profile-details .text-muted {
+            font-size: 1rem;
+            margin-bottom: 4px;
         }
 
-        .profile-content {
-            padding: 60px 0;
+        .member-since {
+            font-size: 0.9rem;
+            color: #6c757d;
         }
 
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .stats-section {
+            padding: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 200px;
+        }
+
+        .stat-item {
             text-align: center;
-            transition: transform 0.3s ease;
         }
 
-        .stats-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stats-number {
-            font-size: 2.5rem;
+        .stat-number {
+            font-size: 2rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .stats-label {
-            color: #666;
+        .stat-label {
+            color: #6c757d;
             font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .section-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+        .profile-nav {
+            padding: 0 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav-tabs {
+            border-bottom: none;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 20px 30px;
+            border-bottom: 3px solid transparent;
+            background: none;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: none;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-color);
+            border-color: transparent;
+        }
+
+        .tab-content {
+            padding: 40px;
+        }
+
+        .profile-section {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
         }
 
         .section-title {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 25px;
         }
 
-        .order-item {
-            border-bottom: 1px solid #eee;
-            padding: 1rem 0;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .order-item:last-child {
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #495057;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(113, 0, 20, 0.15);
+        }
+
+        .profile-display-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .profile-display-item:last-child {
             border-bottom: none;
         }
 
-        .order-id {
-            font-weight: 600;
-            color: var(--primary-color);
+        .profile-display-item strong {
+            color: #495057;
+            display: inline-block;
+            min-width: 100px;
         }
 
-        .order-status {
-            padding: 0.25rem 0.75rem;
+        .edit-form {
+            display: none;
+        }
+
+        .edit-form.active {
+            display: block;
+        }
+
+        .transaction-item {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .transaction-id {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .transaction-status {
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
+            text-transform: uppercase;
         }
 
         .status-completed {
@@ -149,81 +281,16 @@
             color: #721c24;
         }
 
-        .review-item {
-            border-bottom: 1px solid #eee;
-            padding: 1rem 0;
-        }
-
-        .review-item:last-child {
-            border-bottom: none;
-        }
-
-        .rating-stars {
-            color: #ffc107;
-        }
-
-
-        .profile-tabs {
-            display: flex;
-            border-bottom: 2px solid #eee;
-            margin-bottom: 2rem;
-        }
-
-        .profile-tab {
-            padding: 1rem 2rem;
-            background: none;
-            border: none;
-            color: #666;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .profile-tab.active {
+        .transaction-amount {
+            font-weight: 700;
             color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .edit-form {
-            display: none;
-        }
-
-        .edit-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            padding: 0.75rem;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(113, 0, 20, 0.25);
+            font-size: 1.1rem;
         }
 
         .btn-outline-primary {
             border-color: var(--primary-color);
             color: var(--primary-color);
+            border-radius: 8px;
         }
 
         .btn-outline-primary:hover {
@@ -231,32 +298,38 @@
             border-color: var(--primary-color);
         }
 
-        .breadcrumb {
-            background: transparent;
+        /* Message Container */
+        #messageContainer {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            margin-bottom: 20px;
         }
 
-        .breadcrumb-item a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-header {
+                padding: 20px;
+            }
 
-        .breadcrumb-item+.breadcrumb-item::before {
-            content: ">";
-        }
+            .profile-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
 
-        h1,
-        h5 {
-            font-family: 'Playfair Display', serif;
-        }
+            .stats-section, .tab-content, .profile-nav {
+                padding: 20px;
+            }
 
-        p,
-        .text {
-            font-family: 'Poppins', sans-serif;
-        }
-        .page-header {
-            background: var(--background-color);
-            color: white;
-            padding: 40px 0;
+            .nav-tabs .nav-link {
+                padding: 15px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -264,12 +337,12 @@
 <body>
     <!-- Navigation -->
     @include('components.navbar')
-    <!-- Breadcrumb -->
+    
+    <!-- Page Header -->
     <section class="page-header">
-    <div class="container">
-        <div class="col-lg-6">
-            <h1 class="fw-bold" style="color: #710014">Profil Akun</h1>
-            <p class="text" style="color: #000000">Kelola selengkapnya profil kamu di halaman ini.
+        <div class="container">
+            <h1 class="fw-bold" style="color: #710014; font-family: 'Playfair Display';">Profil Saya</h1>
+            <p class="text" style="color: #000000">Kelola profil dan lihat histori transaksi mu di halaman ini.
             </p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -278,281 +351,179 @@
                 </ol>
             </nav>
         </div>
-    </div>
-    </section>
-
-    <!-- Profile Header -->
-    <section class="profile-header">
-        <div class="container">
-            <div class="text-center">
-                <div class="profile-avatar">
-                    {{ strtoupper(substr($user->name, 0, 1)) }}
-                </div>
-                <h1 class="profile-name">{{ $user->name }}</h1>
-                <p class="profile-email">{{ $user->email }}</p>
-                <p class="text-muted">Member since {{ $user->created_at->format('M Y') }}</p>
-            </div>
-        </div>
     </section>
 
     <!-- Profile Content -->
     <section class="profile-content">
         <div class="container">
-            <!-- Statistics -->
-            <div class="row mb-5">
-                <div class="col-md-2 mb-3">
-                    <div class="stats-card">
-                        <div class="stats-number">{{ $stats['total_orders'] }}</div>
-                        <div class="stats-label">Orders</div>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <div class="stats-card">
-                        <div class="stats-number">Rp {{ number_format($stats['total_spent'], 0, ',', '.') }}</div>
-                        <div class="stats-label">Total Spent</div>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <div class="stats-card">
-                        <div class="stats-number">{{ $stats['books_owned'] }}</div>
-                        <div class="stats-label">Books Owned</div>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <div class="stats-card">
-                        <div class="stats-number">{{ $stats['wishlist_count'] }}</div>
-                        <div class="stats-label">Wishlist</div>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <div class="stats-card">
-                        <div class="stats-number">{{ $stats['reviews_written'] }}</div>
-                        <div class="stats-label">Reviews</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Profile Tabs -->
-            <div class="profile-tabs">
-                <button class="profile-tab active" data-tab="overview">Overview</button>
-                <button class="profile-tab" data-tab="settings">Account Settings</button>
-                <button class="profile-tab" data-tab="transactions">Transactions</button>
-            </div>
-
-            <!-- Tab Contents -->
+            <!-- Message Container -->
             <div id="messageContainer"></div>
 
-            <!-- Overview Tab -->
-            <div class="tab-content active" id="overview">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <!-- Recent Orders -->
-                        <div class="section-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h3 class="section-title mb-0">Recent Orders</h3>
-                                <a href="/profile/transactions" class="btn btn-outline-primary btn-sm">View All</a>
-                            </div>
-
-                            @forelse($recentOrders as $order)
-                                <div class="order-item">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <div class="order-id">#{{ $order->id }}</div>
-                                            <div class="text-muted small">{{ $order->created_at->format('M d, Y') }}</div>
-                                            <div class="mt-1">
-                                                @foreach($order->orderItems->take(2) as $item)
-                                                    <small class="text-muted">{{ $item->book->title }}</small>
-                                                    @if(!$loop->last)<br>@endif
-                                                @endforeach
-                                                @if($order->orderItems->count() > 2)
-                                                    <small class="text-muted">+{{ $order->orderItems->count() - 2 }}
-                                                        more</small>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <span class="order-status status-{{ $order->status }}">
-                                                {{ ucfirst($order->status) }}
-                                            </span>
-                                            <div class="fw-bold mt-1">Rp
-                                                {{ number_format($order->total_amount, 0, ',', '.') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @empty
-                                <p class="text-muted text-center">No orders yet. <a href="/categories">Start shopping!</a>
-                                </p>
-                            @endforelse
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
                         </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <!-- Recent Reviews -->
-                        <div class="section-card">
-                            <h3 class="section-title">Recent Reviews</h3>
-
-                            @forelse($recentReviews as $review)
-                                <div class="review-item">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <div class="fw-bold">{{ $review->book->title }}</div>
-                                            <div class="rating-stars mb-1">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    <i class="fas fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
-                                                @endfor
-                                            </div>
-                                            @if($review->review_text)
-                                                <p class="text-muted small mb-0">{{ Str::limit($review->review_text, 100) }}</p>
-                                            @endif
-                                        </div>
-                                        <small class="text-muted">{{ $review->created_at->format('M d') }}</small>
-                                    </div>
-                                </div>
-                            @empty
-                                <p class="text-muted text-center">No reviews yet. Purchase books to leave reviews!</p>
-                            @endforelse
+                        <div class="profile-details">
+                            <h1>{{ $user->name }}</h1>
+                            <div class="text-muted">{{ $user->email }}</div>
+                            <div class="member-since">Member since {{ $user->created_at->format('M Y') }}</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="section-card">
-                    <h3 class="section-title">Quick Actions</h3>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <a href="/library" class="btn btn-outline-primary w-100">
-                                <i class="fas fa-book me-2"></i>My Library
-                            </a>
+                <!-- Stats Section -->
+                <div class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">Rp {{ number_format($stats['total_spent'], 0, ',', '.') }}</span>
+                            <div class="stat-label">Total Spent</div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="/wishlist" class="btn btn-outline-primary w-100">
-                                <i class="fas fa-heart me-2"></i>Wishlist
-                            </a>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ $stats['books_owned'] }}</span>
+                            <div class="stat-label">Books Owned</div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="/categories" class="btn btn-outline-primary w-100">
-                                <i class="fas fa-shopping-bag me-2"></i>Browse Books
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="/profile/transactions" class="btn btn-outline-primary w-100">
-                                <i class="fas fa-receipt me-2"></i>Order History
-                            </a>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ $stats['wishlist_count'] }}</span>
+                            <div class="stat-label">Wishlist</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Settings Tab -->
-            <div class="tab-content" id="settings">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <!-- Profile Information -->
-                        <div class="section-card">
-                            <h3 class="section-title">Profile Information</h3>
+                <!-- Navigation Tabs -->
+                <div class="profile-nav">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">
+                                <i class="fas fa-user me-2"></i>Profile Details
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="edit-profile-tab" data-bs-toggle="tab" data-bs-target="#edit-profile" type="button" role="tab">
+                                <i class="fas fa-edit me-2"></i>Edit Profile
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
+                                <i class="fas fa-history me-2"></i>Transactions
+                            </button>
+                        </li>
+                    </ul>
+                </div>
 
-                            <div id="profileDisplay">
-                                <div class="mb-3">
-                                    <strong>Name:</strong> {{ $user->name }}
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Email:</strong> {{ $user->email }}
-                                </div>
-                                <button class="btn btn-primary" onclick="showEditProfile()">
-                                    <i class="fas fa-edit me-2"></i>Edit Profile
-                                </button>
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Profile Details Tab -->
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                        <div class="profile-section">
+                            <h3 class="section-title">Account Information</h3>
+                            <div class="profile-display-item">
+                                <strong>Full Name:</strong> {{ $user->name }}
                             </div>
-
-                            <div class="edit-form" id="profileEditForm">
-                                <form id="updateProfileForm">
-                                    <div class="form-group">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" class="form-control" name="name" value="{{ $user->name }}"
-                                            required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" name="email" value="{{ $user->email }}"
-                                            required>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            onclick="hideEditProfile()">Cancel</button>
-                                    </div>
-                                </form>
+                            <div class="profile-display-item">
+                                <strong>Email:</strong> {{ $user->email }}
+                            </div>
+                            <div class="profile-display-item">
+                                <strong>Member Since:</strong> {{ $user->created_at->format('F d, Y') }}
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
-                        <!-- Change Password -->
-                        <div class="section-card">
-                            <h3 class="section-title">Change Password</h3>
+                    <!-- Edit Profile Tab -->
+                    <div class="tab-pane fade" id="edit-profile" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="profile-section">
+                                    <h3 class="section-title">Update Profile Information</h3>
+                                    <form id="updateProfileForm">
+                                        <div class="form-group">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" name="name" value="{{ $user->name }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>Save Changes
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
 
-                            <form id="changePasswordForm">
-                                <div class="form-group">
-                                    <label class="form-label">Current Password</label>
-                                    <input type="password" class="form-control" name="current_password" required>
+                            <div class="col-lg-6">
+                                <div class="profile-section">
+                                    <h3 class="section-title">Change Password</h3>
+                                    <form id="changePasswordForm">
+                                        <div class="form-group">
+                                            <label class="form-label">Current Password</label>
+                                            <input type="password" class="form-control" name="current_password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">New Password</label>
+                                            <input type="password" class="form-control" name="password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control" name="password_confirmation" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-lock me-2"></i>Update Password
+                                        </button>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">New Password</label>
-                                    <input type="password" class="form-control" name="password" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" name="password_confirmation" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-lock me-2"></i>Update Password
-                                </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Transactions Tab -->
-            <div class="tab-content" id="transactions">
-                <div class="section-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="section-title mb-0">Transaction History</h3>
-                        <a href="/profile/transactions" class="btn btn-outline-primary">View Full History</a>
-                    </div>
+                    <!-- Transactions Tab -->
+                    <div class="tab-pane fade" id="transactions" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="section-title mb-0">Transaction History</h3>
+                            <a href="/profile/transactions" class="btn btn-outline-primary">
+                                <i class="fas fa-external-link-alt me-2"></i>View Full History
+                            </a>
+                        </div>
 
-                    @forelse($recentOrders as $order)
-                        <div class="order-item">
+                        @forelse($recentOrders as $order)
+                        <div class="transaction-item">
                             <div class="row align-items-center">
                                 <div class="col-md-3">
-                                    <div class="order-id">#{{ $order->id }}</div>
+                                    <div class="transaction-id">#{{ $order->id }}</div>
                                     <div class="text-muted small">{{ $order->created_at->format('M d, Y H:i') }}</div>
                                 </div>
                                 <div class="col-md-4">
                                     @foreach($order->orderItems->take(2) as $item)
-                                        <div class="small">{{ $item->book->title }}</div>
+                                        <div class="small mb-1">{{ $item->book->title }}</div>
                                     @endforeach
                                     @if($order->orderItems->count() > 2)
                                         <div class="small text-muted">+{{ $order->orderItems->count() - 2 }} more items</div>
                                     @endif
                                 </div>
                                 <div class="col-md-2">
-                                    <span class="order-status status-{{ $order->status }}">
+                                    <span class="transaction-status status-{{ $order->status }}">
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="fw-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</div>
+                                    <div class="transaction-amount">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</div>
                                 </div>
                                 <div class="col-md-1">
-                                    <a href="/profile/orders/{{ $order->id }}"
-                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="/profile/orders/{{ $order->id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <p class="text-muted text-center">No transactions found.</p>
-                    @endforelse
+                        @empty
+                        <div class="text-center py-5">
+                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No transactions found.</p>
+                        </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
@@ -569,33 +540,7 @@
                 document.getElementById('cart-count').textContent = data.count;
             });
 
-        // Tab switching
-        document.querySelectorAll('.profile-tab').forEach(tab => {
-            tab.addEventListener('click', function () {
-                const tabName = this.dataset.tab;
-
-                // Update active tab
-                document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-
-                // Update active content
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                document.getElementById(tabName).classList.add('active');
-            });
-        });
-
-        // Profile editing
-        function showEditProfile() {
-            document.getElementById('profileDisplay').style.display = 'none';
-            document.getElementById('profileEditForm').classList.add('active');
-        }
-
-        function hideEditProfile() {
-            document.getElementById('profileDisplay').style.display = 'block';
-            document.getElementById('profileEditForm').classList.remove('active');
-        }
-
-        // Update profile form
+        // Profile update form
         document.getElementById('updateProfileForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -612,9 +557,9 @@
                 .then(data => {
                     if (data.success) {
                         showMessage(data.message, 'success');
-                        hideEditProfile();
-                        // Update display
-                        location.reload();
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
                     } else {
                         showMessage(data.message || 'Error updating profile', 'error');
                     }
@@ -653,19 +598,21 @@
                 });
         });
 
+        // Message display function
         function showMessage(message, type) {
             const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const iconClass = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            
             const alertHtml = `
                 <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
-                    ${message}
+                    <i class="${iconClass} me-2"></i>${message}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             `;
 
             const messageContainer = document.getElementById('messageContainer');
             messageContainer.innerHTML = alertHtml;
-
-            // Auto-remove after 5 seconds
+            
             setTimeout(() => {
                 const alert = messageContainer.querySelector('.alert');
                 if (alert) {

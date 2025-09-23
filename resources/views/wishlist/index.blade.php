@@ -68,6 +68,12 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
+        .empty-wishlist .cta-button {
+            width: auto;          
+            display: inline-flex; 
+            padding: 10px 25px;   
+            margin: 0 auto;       
+        }
 
         .page-header {
             background: var(--background-color);
@@ -374,8 +380,8 @@
             @else
                 <div class="empty-wishlist">
                     <i class="fas fa-heart" style="color: var(--primary-color)"></i>
-                    <h3>Daftar buku favoritmu kosong nih!</h3>
-                    <p class="text-muted">Mulai eksplor buku dan tambahkan ke favorit yuk.</p>
+                    <h3>Daftar buku favorit Anda kosong</h3>
+                    <p class="text-muted">Mulai eksplor buku dan tambahkan ke favorit.</p>
                     <a href="/categories" class="cta-button">Cari Buku
                     </a>
                 </div>

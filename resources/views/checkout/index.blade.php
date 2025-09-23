@@ -13,50 +13,24 @@
             --secondary-color: #B38F6F;
             --background-color: #F2F1ED;
             --text-color: #000000;
+            --card-bg: #ffffff;
+            --shadow-light: 0 5px 12px rgba(0,0,0,0.05);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+            --border-radius: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
+            background-color: #f8f9fa;
             color: var(--text-color);
-        }
-        
-        .navbar {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            font-size: 1.8rem;
-        }
-        
-        .nav-link {
-            color: var(--text-color) !important;
-            font-weight: 500;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            font-weight: 500;
-        }
-        
-        .btn-primary:hover {
-            background-color: #5a0010;
-            border-color: #5a0010;
+            min-height: 100vh;
         }
         
         .page-header {
-            background: linear-gradient(135deg, var(--primary-color), #8b0018);
+            background: var(--background-color);
             color: white;
-            padding: 60px 0;
+            padding: 40px 0;
         }
         
         .page-title {
@@ -65,88 +39,211 @@
             font-size: 2.5rem;
         }
         
-        .checkout-section {
-            padding: 60px 0;
+        .breadcrumb {
+            background: transparent;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: ">";
+        }
+
+        h1, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
         }
         
+        p, .text {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .checkout-section {
+            padding: 5px 40px;
+            background-color: var(--background-color);
+            margin-top: -30px;
+        }
+        
+        .checkout-container {
+            max-width: 1210px;
+            margin: 0 auto;
+        }
+
         .checkout-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
             margin-bottom: 2rem;
         }
-        
+
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 600;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .order-items-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding-right: 10px;
+        }
+
+        .order-items-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .order-items-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+        .order-items-container::-webkit-scrollbar-track {
+            background: transparent;
         }
         
         .order-item {
+            padding: 20px 0;
             display: flex;
             align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
+            gap: 15px;
+            position: relative;
+        }
+
+        .order-item::after {
+            content: "";
+            display: block;
+            width: 100%; 
+            height: 1px;
+            background: rgba(113, 0, 20, 0.4);
+            position: absolute;
+            bottom: 0;
+            width: calc(100% - 15px);
         }
         
-        .order-item:last-child {
-            border-bottom: none;
+        .order-item:last-child::after {
+            display: none;
         }
         
         .item-image {
-            width: 60px;
-            height: 90px;
+            width: 80px;
+            height: 110px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-right: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
         
         .item-details {
             flex: 1;
+            min-width: 0;
         }
         
         .item-title {
             font-weight: 600;
-            margin-bottom: 0.25rem;
+            color: #000;
+            margin-bottom: 5px;
+            font-size: 14px;
+            line-height: 1.4;
         }
         
         .item-author {
             color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .item-quantity {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
         }
         
         .item-price {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .payment-summary {
+            background: var(--background-color);
+            margin-top: 20px;
+            padding: 30px;
+            height: fit-content;
+            position: relative;
+            top: 15px;
+            z-index: 100;
+            margin-bottom: 60px;
+        }
+
+        .payment-summary::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 40px;
+            height: 300px;
         }
         
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
         
         .summary-row:last-child {
-            border-bottom: none;
+            border-top: 2px solid #eee;
+            padding-top: 15px;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .summary-label {
+            color: #666;
+        }
+        
+        .summary-value {
             font-weight: 600;
-            font-size: 1.2rem;
-        }
-        
-        .breadcrumb {
-            background: transparent;
-            padding: 1rem 0;
-        }
-        
-        .breadcrumb-item a {
             color: var(--primary-color);
-            text-decoration: none;
         }
-        
+
+        .cta-button {
+            text-decoration: none;   
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            display: block;       
+            width: 100%;            
+            margin-bottom: 10px;    
+            padding: 10px 20px;  
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
         .payment-methods {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -158,12 +255,14 @@
             text-align: center;
             padding: 1rem;
             border: 2px solid #eee;
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            background: white;
         }
         
         .payment-method:hover {
             border-color: var(--primary-color);
+            box-shadow: var(--shadow-hover);
         }
         
         .payment-method i {
@@ -171,7 +270,36 @@
             color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
-        
+
+        .payment-method div {
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .security-info {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .security-info h6 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .security-info ul {
+            margin: 0;
+        }
+
+        .security-info li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -190,6 +318,34 @@
             padding: 2rem;
             border-radius: 15px;
             text-align: center;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+
+        .loading-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-section {
+                padding: 5px 20px;
+            }
+            
+            .order-item {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .item-details {
+                min-width: 150px;
+            }
+            
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -197,124 +353,82 @@
     <!-- Navigation -->
     @include('components.navbar')
 
-    <!-- Breadcrumb -->
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/cart">Cart</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-            </ol>
-        </nav>
-    </div>
-
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">Checkout</h1>
-            <p class="lead">Complete your purchase securely</p>
+            <h1 class="fw-bold" style="color: #710014">Checkout</h1>
+            <p class="text" style="color: #000000">Selesaikan pembelian dengan aman dan dapatkan akses instan ke buku Anda.</p>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="/cart">Keranjang</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
         </div>
     </section>
 
     <!-- Checkout Section -->
     <section class="checkout-section">
-        <div class="container">
-            <div class="row">
+        <div class="container checkout-container">
+            <div class="row g-4">
                 <div class="col-lg-8">
                     <!-- Order Summary -->
                     <div class="checkout-card">
                         <h4 class="section-title">Order Summary</h4>
                         
-                        @foreach($cart->cartItems as $item)
-                            <div class="order-item">
-                                <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/90x135?text=Book+Cover' }}" 
-                                     alt="{{ $item->book->title }}" class="item-image">
-                                <div class="item-details">
-                                    <div class="item-title">{{ $item->book->title }}</div>
-                                    <div class="item-author">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</div>
-                                    <div class="text-muted small">Quantity: {{ $item->quantity }}</div>
+                        <div class="order-items-container">
+                            @foreach($cart->cartItems as $item)
+                                <div class="order-item">
+                                    <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/80x110?text=Book' }}" 
+                                         alt="{{ $item->book->title }}" class="item-image">
+                                    
+                                    <div class="item-details">
+                                        <div class="item-title">{{ $item->book->title }}</div>
+                                        <div class="item-author">by {{ $item->book->author ? $item->book->author->nama : 'Unknown Author' }}</div>
+                                        <div class="item-quantity">Quantity: {{ $item->quantity }}</div>
+                                    </div>
+                                    
+                                    <div class="item-price">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</div>
                                 </div>
-                                <div class="item-price">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Payment Method -->
-                    <div class="checkout-card">
-                        <h4 class="section-title">Payment Method</h4>
-                        <p class="text-muted">Choose your preferred payment method. You will be redirected to secure payment gateway.</p>
-                        
-                        <div class="payment-methods">
-                            <div class="payment-method">
-                                <i class="fas fa-credit-card"></i>
-                                <div>Credit Card</div>
-                            </div>
-                            <div class="payment-method">
-                                <i class="fas fa-university"></i>
-                                <div>Bank Transfer</div>
-                            </div>
-                            <div class="payment-method">
-                                <i class="fas fa-mobile-alt"></i>
-                                <div>E-Wallet</div>
-                            </div>
-                            <div class="payment-method">
-                                <i class="fas fa-store"></i>
-                                <div>Convenience Store</div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4">
                     <!-- Payment Summary -->
-                    <div class="checkout-card">
-                        <h4 class="section-title">Payment Details</h4>
+                    <div class="payment-summary">
+                        <div class="section-title">Payment Details</div>
                         
                         <div class="summary-row">
-                            <span>Subtotal ({{ $cart->cartItems->sum('quantity') }} items)</span>
-                            <span>Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
-                        </div>
-                        
-                        <div class="summary-row">
-                            <span>Tax</span>
-                            <span>Rp 0</span>
+                            <span class="summary-label">Subtotal ({{ $cart->cartItems->sum('quantity') }} items dipilih)</span>
+                            <span class="summary-value">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
                         </div>
                         
                         <div class="summary-row">
-                            <span>Processing Fee</span>
-                            <span>Rp 0</span>
+                            <span class="summary-label">Diskon</span>
+                            <span class="summary-value">Rp 0</span>
                         </div>
                         
                         <div class="summary-row">
-                            <strong>Total</strong>
-                            <strong>Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</strong>
+                            <span class="summary-label">Biaya Admin</span>
+                            <span class="summary-value">Rp 0</span>
                         </div>
                         
-                        <button class="btn btn-primary w-100 btn-lg mt-3" onclick="processCheckout()">
-                            <i class="fas fa-lock me-2"></i>Pay Now
-                        </button>
-                        
-                        <div class="text-center mt-3">
-                            <small class="text-muted">
-                                <i class="fas fa-shield-alt me-1"></i>
-                                Your payment is secured by Midtrans
-                            </small>
+                        <div class="summary-row">
+                            <span class="summary-label">Total</span>
+                            <span class="summary-value">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
                         </div>
                         
-                        <a href="/cart" class="btn btn-outline-secondary w-100 mt-2">
-                            <i class="fas fa-arrow-left me-2"></i>Back to Cart
-                        </a>
-                    </div>
-
-                    <!-- Security Info -->
-                    <div class="checkout-card">
-                        <h6><i class="fas fa-shield-alt text-success me-2"></i>Secure Checkout</h6>
-                        <ul class="list-unstyled small text-muted">
-                            <li><i class="fas fa-check text-success me-2"></i>SSL encrypted payment</li>
-                            <li><i class="fas fa-check text-success me-2"></i>PCI DSS compliant</li>
-                            <li><i class="fas fa-check text-success me-2"></i>No card details stored</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Instant access after payment</li>
-                        </ul>
+                        <div class="mt-4">
+                            <button class="cta-button" onclick="processCheckout()">
+                               Bayar Sekarang
+                            </button>       
+                            <a href="/cart" class="cta-button">
+                            Kembali ke Keranjang
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -329,13 +443,13 @@
             <div class="spinner-border text-primary mb-3" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <h5>Pembayaran Anda sedag dalam proses...</h5>
+            <h4>Pembayaran Anda sedang dalam proses...</h4>
             <p class="text-muted">Mohon tunggu sementara kami mengarahkan Anda ke halaman sukses pembayaran.</p>
         </div>
     </div>
-    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
     <script>
         function processCheckout() {
             // Show loading overlay
@@ -350,14 +464,31 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Hide loading overlay
+                document.getElementById('loadingOverlay').style.display = 'none';
+                
                 if (data.success) {
-                    // In a real implementation, you would use Midtrans Snap
-                    // For demo purposes, we'll redirect to success page after a delay
-                    setTimeout(() => {
-                        window.location.href = data.redirect_url;
-                    }, 2000);
+                    // Use Midtrans Snap to show payment popup
+                    snap.pay(data.snap_token, {
+                        onSuccess: function(result) {
+                            console.log('Payment success:', result);
+                            window.location.href = data.redirect_url;
+                        },
+                        onPending: function(result) {
+                            console.log('Payment pending:', result);
+                            alert('Payment is being processed. Please wait for confirmation.');
+                            window.location.href = data.redirect_url;
+                        },
+                        onError: function(result) {
+                            console.log('Payment error:', result);
+                            alert('Payment failed. Please try again.');
+                        },
+                        onClose: function() {
+                            console.log('Payment popup closed');
+                            alert('Payment cancelled. You can try again anytime.');
+                        }
+                    });
                 } else {
-                    document.getElementById('loadingOverlay').style.display = 'none';
                     alert(data.message || 'Payment processing failed. Please try again.');
                 }
             })

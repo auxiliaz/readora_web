@@ -9,12 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Show the checkout page.
-     */
     public function index()
     {
         $cart = Auth::user()->cart()->with('cartItems.book.category', 'cartItems.book.author', 'cartItems.book.publisher')->first();
@@ -25,10 +24,6 @@ class CheckoutController extends Controller
         
         return view('checkout.index', compact('cart'));
     }
-
-    /**
-     * Process the checkout and create Midtrans transaction.
-     */
     public function process(Request $request)
     {
         $cart = Auth::user()->cart()->with('cartItems.book.category', 'cartItems.book.author', 'cartItems.book.publisher')->first();
@@ -43,7 +38,6 @@ class CheckoutController extends Controller
         try {
             DB::beginTransaction();
 
-            // Create order
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'total_amount' => $cart->total_amount,
@@ -51,7 +45,6 @@ class CheckoutController extends Controller
                 'midtrans_order_id' => 'ORDER-' . time() . '-' . Auth::id()
             ]);
 
-            // Create order items
             foreach ($cart->cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -60,7 +53,23 @@ class CheckoutController extends Controller
                 ]);
             }
 
-            // Prepare Midtrans transaction
+            $serverKey = config('services.midtrans.server_key');
+            $clientKey = config('services.midtrans.client_key');
+            
+
+            if (empty($serverKey) || empty($clientKey)) {
+                throw new \Exception('Midtrans API keys not configured. Please check your .env file.');
+            }
+            
+            if ($serverKey === 'SB-Mid-server-vNEKqIEqMPHHFg52Mh_GWcMn' || $clientKey === 'SB-Mid-client-dEmN5kLwBDO0-Gnh') {
+                throw new \Exception('Please replace placeholder API keys with real Midtrans keys from dashboard.');
+            }
+            
+            Config::$serverKey = $serverKey;
+            Config::$isProduction = config('services.midtrans.is_production', false);
+            Config::$isSanitized = config('services.midtrans.is_sanitized', true);
+            Config::$is3ds = config('services.midtrans.is_3ds', true);
+
             $transactionDetails = [
                 'order_id' => $order->midtrans_order_id,
                 'gross_amount' => (int) $cart->total_amount
@@ -81,17 +90,23 @@ class CheckoutController extends Controller
                 'email' => Auth::user()->email
             ];
 
-            $midtransParams = [
+            $params = [
                 'transaction_details' => $transactionDetails,
                 'item_details' => $itemDetails,
                 'customer_details' => $customerDetails,
                 'enabled_payments' => ['credit_card', 'bca_va', 'bni_va', 'bri_va', 'echannel', 'permata_va', 'other_va', 'gopay', 'shopeepay'],
-                'vtweb' => []
+                'callbacks' => [
+                    'finish' => route('checkout.success', ['order' => $order->id])
+                ]
             ];
 
-            // For demo purposes, we'll simulate Midtrans response
-            // In production, you would use actual Midtrans SDK
-            $snapToken = 'demo_snap_token_' . time();
+            try {
+                $snapToken = Snap::getSnapToken($params);
+            } catch (\Exception $e) {
+                \Log::error('Midtrans Snap Error: ' . $e->getMessage());
+                \Log::error('Server Key (first 20 chars): ' . substr($serverKey, 0, 20) . '...');
+                throw new \Exception('Midtrans API Error: ' . $e->getMessage());
+            }
             $redirectUrl = route('checkout.success', ['order' => $order->id]);
 
             DB::commit();
@@ -113,41 +128,18 @@ class CheckoutController extends Controller
         }
     }
 
-    /**
-     * Handle successful payment.
-     */
     public function success(Request $request, Order $order)
     {
         if ($order->user_id !== Auth::id()) {
             abort(403);
         }
 
-        // Update order status
-        $order->update(['status' => 'success']);
-
-        // Add books to user's library
-        foreach ($order->orderItems as $item) {
-            Library::firstOrCreate([
-                'user_id' => Auth::id(),
-                'book_id' => $item->book_id
-            ]);
-
-            // Update book sales count
-            $item->book->increment('sales_count');
-        }
-
-        // Clear cart
-        $cart = Auth::user()->cart;
-        if ($cart) {
-            $cart->cartItems()->delete();
+        if ($order->status === 'success') {
+            $this->addBooksToLibrary($order);
         }
 
         return view('checkout.success', compact('order'));
     }
-
-    /**
-     * Handle failed payment.
-     */
     public function failed(Request $request, Order $order)
     {
         if ($order->user_id !== Auth::id()) {
@@ -159,17 +151,18 @@ class CheckoutController extends Controller
         return view('checkout.failed', compact('order'));
     }
 
-    /**
-     * Handle Midtrans notification (webhook).
-     */
     public function notification(Request $request)
     {
-        // This would handle Midtrans webhook notifications
-        // For demo purposes, we'll just return success
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('services.midtrans.is_production');
+        Config::$isSanitized = config('services.midtrans.is_sanitized');
+        Config::$is3ds = config('services.midtrans.is_3ds');
         
-        $orderId = $request->order_id;
-        $transactionStatus = $request->transaction_status;
-        $fraudStatus = $request->fraud_status ?? null;
+        $notification = new \Midtrans\Notification();
+        
+        $orderId = $notification->order_id;
+        $transactionStatus = $notification->transaction_status;
+        $fraudStatus = $notification->fraud_status ?? null;
 
         $order = Order::where('midtrans_order_id', $orderId)->first();
 
@@ -182,9 +175,11 @@ class CheckoutController extends Controller
                 $order->update(['status' => 'pending']);
             } else if ($fraudStatus == 'accept') {
                 $order->update(['status' => 'success']);
+                $this->addBooksToLibrary($order);
             }
         } else if ($transactionStatus == 'settlement') {
             $order->update(['status' => 'success']);
+            $this->addBooksToLibrary($order);
         } else if ($transactionStatus == 'cancel' || $transactionStatus == 'deny' || $transactionStatus == 'expire') {
             $order->update(['status' => 'failed']);
         } else if ($transactionStatus == 'pending') {
@@ -192,5 +187,24 @@ class CheckoutController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+   
+    private function addBooksToLibrary(Order $order)
+    {
+        foreach ($order->orderItems as $item) {
+            Library::firstOrCreate([
+                'user_id' => $order->user_id,
+                'book_id' => $item->book_id
+            ]);
+
+            $item->book->increment('sales_count');
+        }
+
+        
+        $cart = $order->user->cart;
+        if ($cart) {
+            $cart->cartItems()->delete();
+        }
     }
 }

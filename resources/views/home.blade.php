@@ -453,7 +453,7 @@
 
         .sold-badge {
             position: absolute;
-            bottom: 15px;
+            bottom: 30px;
             right: 15px;
             background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;

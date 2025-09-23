@@ -319,16 +319,6 @@
                             </div>
                         @endforeach
                     </div>
-                @else
-                    <div class="empty-notes">
-                        <i class="fas fa-sticky-note"></i>
-                        <h4>No notes yet</h4>
-                        <p>Start reading and add highlights or notes to keep track of important passages.</p>
-                        <a href="/reader/{{ $book->id }}" class="btn btn-primary">
-                            <i class="fas fa-book-open me-2"></i>Start Reading
-                        </a>
-                    </div>
-                @endif
             </div>
         </div>
     </section>

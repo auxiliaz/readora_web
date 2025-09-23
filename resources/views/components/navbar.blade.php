@@ -93,7 +93,7 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         padding: 0.30rem 0;
         border-bottom: 2px solid #710014;
-        border-radius: 20px;
+        border-radius: 50px;
     }
 
     .navbar-brand {
