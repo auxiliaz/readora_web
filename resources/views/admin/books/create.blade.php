@@ -7,18 +7,18 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="page-title">── Tambah Buku</h1>
-            <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
-                Back to Books <i class="bi bi-arrow-right"></i> 
+            <a href="{{ route('admin.books.index') }}" class="cta-button">
+                Kembali <i class="bi bi-arrow-right"></i> 
             </a>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Book Information</h5>
+                <h5 class="mb-0">Informasi Buku</h5>
             </div>
             <div class="card-body">
                 <form id="bookForm" method="POST" action="{{ route('admin.books.store') }}" enctype="multipart/form-data" data-form-type="create">
@@ -47,7 +47,7 @@
                                    id="isbn" 
                                    name="isbn" 
                                    value="{{ old('isbn') }}" 
-                                   placeholder="Masukkan ISBN (opsional)">
+                                   placeholder="Masukkan ISBN">
                             @error('isbn')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -75,13 +75,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                        <label for="description" class="form-label">Deskripsi <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('description') is-invalid @enderror" 
                                   id="description" 
                                   name="description" 
                                   rows="4" 
                                   required
-                                  placeholder="Enter book description">{{ old('description') }}</textarea>
+                                  placeholder="Masukkan deskripsi buku">{{ old('description') }}</textarea>
                         @error('description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -153,7 +153,7 @@
                         @error('cover_image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">Upload an image file for the book cover (JPG, PNG, etc.)</div>
+                        <div class="form-text">Unggah file gambar untuk sampul buku (JPG, PNG, dll.)</div>
                     </div>
 
                     <div class="mb-3">
@@ -167,67 +167,20 @@
                         @error('file_path')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">Upload the PDF file for this book (Max: 10MB)</div>
+                        <div class="form-text">Unggah file PDF untuk buku ini</div>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle"></i> Create Book
+                        <button type="submit" class="cta-button">
+                            <i class="bi bi-check-circle"></i> Tambah buku
                         </button>
-                        <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
-                            Cancel
+                        <a href="{{ route('admin.books.index') }}" class="cta-button">
+                            Batal
                         </a>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0">Guidelines</h6>
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled mb-0">
-                    <li class="mb-2">
-                        <i class="bi bi-info-circle text-info"></i>
-                        All fields marked with * are required
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-info-circle text-info"></i>
-                        PDF file must be less than 10MB
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-info-circle text-info"></i>
-                        Use descriptive titles and descriptions
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-info-circle text-info"></i>
-                        Price should be in Indonesian Rupiah
-                    </li>
-                    <li>
-                        <i class="bi bi-info-circle text-info"></i>
-                        Cover image URL is optional but recommended
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        @if($categories->isEmpty())
-        <div class="card mt-3">
-            <div class="card-header">
-                <h6 class="mb-0 text-warning">Notice</h6>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-warning mb-0">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    No categories available. 
-                    <a href="{{ route('admin.categories.create') }}">Create a category first</a>.
-                </div>
-            </div>
-        </div>
-        @endif
     </div>
 </div>
 @endsection
@@ -238,5 +191,26 @@
             font-weight: 700;
             color: #710014;
             margin-bottom: 0;
+        }
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 </style>

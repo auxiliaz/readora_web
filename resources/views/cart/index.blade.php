@@ -448,7 +448,7 @@
     <section class="page-header">
         <div class="container">
             <h1 class="fw-bold" style="color: #710014">Keranjang</h1>
-            <p class="text" style="color: #000000">Cek kembali item yang dipilih sebelum Anda checkout.</p>
+            <p class="text" style="color: #000000">Cek kembali item yang dipilih sebelum kamu checkout.</p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Beranda</a></li>
@@ -490,8 +490,9 @@
                                            data-subtotal="{{ $item->subtotal }}"
                                            onchange="toggleItemSelection({{ $item->id }})" checked>
                                     
-                                    <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/80x110?text=Book' }}" 
-                                         alt="{{ $item->book->title }}" class="item-image">
+                                    <img src="{{ $item->book->cover_image_url }}"
+     alt="{{ $item->book->title }}" class="item-image">
+
                                     
                                     <div class="item-details">
                                         <div class="item-title">{{ $item->book->title }}</div>
@@ -740,11 +741,29 @@
                 selectedItems.push(checkbox.getAttribute('data-item-id'));
             });
             
-            // Store selected items in session storage for checkout page
-            sessionStorage.setItem('selectedCartItems', JSON.stringify(selectedItems));
+            // Send selected items to server via form submission
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/checkout';
             
-            // Redirect to checkout
-            window.location.href = '/checkout';
+            // Add CSRF token
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = '{{ csrf_token() }}';
+            form.appendChild(csrfInput);
+            
+            // Add selected items
+            selectedItems.forEach(itemId => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_items[]';
+                input.value = itemId;
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
         }
 
         // Initialize page

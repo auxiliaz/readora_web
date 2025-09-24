@@ -38,7 +38,7 @@ class CartController extends Controller
         if (Auth::user()->hasBookInLibrary($book->id)) {
             return response()->json([
                 'success' => false,
-                'message' => 'You already own this book.'
+                'message' => 'Kamu sudah memiliki buku ini.'
             ], 400);
         }
 
@@ -60,7 +60,7 @@ class CartController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Book added to cart successfully!',
+            'message' => 'Buku berhasil ditambahkan ke keranjang!',
             'cart_count' => $cartCount
         ]);
     }
@@ -108,7 +108,7 @@ class CartController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Item removed from cart!',
+            'message' => 'Buku berhasil dihapus dari keranjang!',
             'cart_count' => $cartCount,
             'total' => $cart ? $cart->total_amount : 0
         ]);
@@ -127,7 +127,7 @@ class CartController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Cart cleared successfully!',
+            'message' => 'Keranjang berhasil dikosongkan!',
             'cart_count' => 0
         ]);
     }

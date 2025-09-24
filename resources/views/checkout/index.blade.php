@@ -380,8 +380,9 @@
                         <div class="order-items-container">
                             @foreach($cart->cartItems as $item)
                                 <div class="order-item">
-                                    <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/80x110?text=Book' }}" 
-                                         alt="{{ $item->book->title }}" class="item-image">
+                                    <img src="{{ $item->book->cover_image_url }}"
+     alt="{{ $item->book->title }}" class="item-image">
+
                                     
                                     <div class="item-details">
                                         <div class="item-title">{{ $item->book->title }}</div>
@@ -401,9 +402,16 @@
                     <div class="payment-summary">
                         <div class="section-title">Payment Details</div>
                         
+                        @php
+                            $selectedTotal = $cart->cartItems->sum(function($item) {
+                                return $item->book->price * $item->quantity;
+                            });
+                            $selectedQuantity = $cart->cartItems->sum('quantity');
+                        @endphp
+                        
                         <div class="summary-row">
-                            <span class="summary-label">Subtotal ({{ $cart->cartItems->sum('quantity') }} items dipilih)</span>
-                            <span class="summary-value">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
+                            <span class="summary-label">Subtotal ({{ $selectedQuantity }} items dipilih)</span>
+                            <span class="summary-value">Rp {{ number_format($selectedTotal, 0, ',', '.') }}</span>
                         </div>
                         
                         <div class="summary-row">
@@ -418,7 +426,7 @@
                         
                         <div class="summary-row">
                             <span class="summary-label">Total</span>
-                            <span class="summary-value">Rp {{ number_format($cart->total_amount, 0, ',', '.') }}</span>
+                            <span class="summary-value">Rp {{ number_format($selectedTotal, 0, ',', '.') }}</span>
                         </div>
                         
                         <div class="mt-4">
@@ -455,12 +463,18 @@
             // Show loading overlay
             document.getElementById('loadingOverlay').style.display = 'flex';
             
+            // Get selected items from session (they should be available from the checkout page load)
+            const selectedItems = @json(session('selected_cart_items', []));
+            
             fetch('/checkout/process', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
+                },
+                body: JSON.stringify({
+                    selected_items: selectedItems
+                })
             })
             .then(response => response.json())
             .then(data => {

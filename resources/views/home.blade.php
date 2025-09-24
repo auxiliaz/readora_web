@@ -584,14 +584,15 @@
                         style="max-width: 75%; height: auto;">
                 </div>
                 <div class="col-md-6 text-white">
-                    <h1 class="fw-bold mb-3" style="font-family: 'Playfair Display';">About Readora</h1>
+                    <h1 class="fw-bold mb-3" style="font-family: 'Playfair Display';">Tentang Readora</h1>
                     <p class="mb-4">
                         Dengan koleksi e-book yang terus diperbarui dan beragam kategori yang menarik, kami hadir untuk
                         memberikan pengalaman membaca yang lebih seru dan fleksibel. Nikmati pengalaman membaca e-book
                         favoritmu langsung di fitur Perpustakaan. Lebih praktis, tanpa perlu unduh—cukup sekali klik,
                         dan kamu bisa mulai membaca sekarang juga.
                     </p>
-                    <a href="/library" class="btn btn-light rounded-pill" style="font-weight: 600;">Jelajahi Perpustakaan</a>
+                    <a href="/library" class="btn btn-light rounded-pill" style="font-weight: 600;">Jelajahi
+                        Perpustakaan</a>
                 </div>
             </div>
         </div>
@@ -605,9 +606,8 @@
                 @forelse($popularBooks as $book)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                         <div class="card book-card-main shadow-sm">
-                            <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
+                            <img src="{{ $book->cover_image_url }}"
                                 alt="{{ $book->title }}" class="book-cover-main">
-
                             <!-- Badge untuk jumlah buku terjual -->
                             <div class="sold-badge">
                                 <i class="fas fa-shopping-cart me-1"></i> {{ $book->sales_count }} terjual
@@ -657,67 +657,67 @@
                             <div class="category-icon mb-3">
                                 <i class="fas fa-book-open"></i>
                             </div>
-                            <h6 class="category-name">Fiction</h6>
+                            <h6 class="category-name">Fiksi</h6>
                         </div>
                     </a>
                 </div>
 
                 <!-- Romance -->
                 <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <a href="/categories?category=5" class="text-decoration-none">
+                    <a href="/categories?category=4" class="text-decoration-none">
                         <div class="category-card text-center">
                             <div class="category-icon mb-3">
                                 <i class="fas fa-heart"></i>
                             </div>
-                            <h6 class="category-name">Romance</h6>
+                            <h6 class="category-name">Romansa</h6>
                         </div>
                     </a>
                 </div>
 
                 <!-- Science Fiction -->
                 <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <a href="/categories?category=3" class="text-decoration-none">
+                    <a href="/categories?category=2" class="text-decoration-none">
                         <div class="category-card text-center">
                             <div class="category-icon mb-3">
                                 <i class="fas fa-rocket"></i>
                             </div>
-                            <h6 class="category-name">Science Fiction</h6>
+                            <h6 class="category-name">Fiksi Ilmiah</h6>
                         </div>
                     </a>
                 </div>
 
                 <!-- Mystery & Thriller -->
                 <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <a href="/categories?category=6" class="text-decoration-none">
+                    <a href="/categories?category=5" class="text-decoration-none">
                         <div class="category-card text-center">
                             <div class="category-icon mb-3">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <h6 class="category-name">Mystery & Thriller</h6>
+                            <h6 class="category-name">Misteri & Thriller</h6>
                         </div>
                     </a>
                 </div>
 
                 <!-- Fantasy -->
                 <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <a href="/categories?category=4" class="text-decoration-none">
+                    <a href="/categories?category=3" class="text-decoration-none">
                         <div class="category-card text-center">
                             <div class="category-icon mb-3">
                                 <i class="fas fa-magic"></i>
                             </div>
-                            <h6 class="category-name">Fantasy</h6>
+                            <h6 class="category-name">Fantasi</h6>
                         </div>
                     </a>
                 </div>
 
                 <!-- Self-Help -->
                 <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <a href="/categories?category=9" class="text-decoration-none">
+                    <a href="/categories?category=7" class="text-decoration-none">
                         <div class="category-card text-center">
                             <div class="category-icon mb-3">
-                                <i class="fas fa-lightbulb"></i>
+                                <i class="fas fa-landmark"></i>
                             </div>
-                            <h6 class="category-name">Self-Help</h6>
+                            <h6 class="category-name">Sejarah</h6>
                         </div>
                     </a>
                 </div>
@@ -733,7 +733,7 @@
                 @forelse($latestBooks as $book)
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                         <div class="card book-card-main shadow-sm">
-                            <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
+                            <img src="{{ $book->cover_image_url }}"
                                 alt="{{ $book->title }}" class="book-cover-main">
 
                             <!-- Badge untuk buku baru -->
@@ -776,6 +776,7 @@
     @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
     <script src="{{ asset('js/book-actions.js') }}"></script>
 
     <script>
@@ -935,97 +936,7 @@
                 });
         };
 
-        window.showNotification = function (message, type = 'success') {
-            const existingNotifications = document.querySelectorAll('.toast-notification');
-            existingNotifications.forEach(notification => {
-                notification.classList.add('hide');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
-            });
-
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `toast-notification toast-${type}`;
-            notification.innerHTML = `
-                <div class="toast-content">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                    <span>${message}</span>
-                </div>
-                <button class="toast-close" onclick="hideNotification(this.parentElement)">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 50);
-
-            setTimeout(() => {
-                hideNotification(notification);
-            }, 4000);
-        };
-
-        window.hideNotification = function (notification) {
-            if (notification && notification.parentElement) {
-                notification.classList.remove('show');
-                notification.classList.add('hide');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 400);
-            }
-        };
-
-        window.updateCartCount = function () {
-            fetch('/cart/count')
-                .then(response => response.json())
-                .then(data => {
-                    const cartBadge = document.querySelector('#cart-count');
-                    if (cartBadge) {
-                        cartBadge.textContent = data.count;
-                        cartBadge.setAttribute('data-count', data.count);
-                        if (data.count === 0) {
-                            cartBadge.style.display = 'none';
-                        } else {
-                            cartBadge.style.display = 'flex';
-                        }
-                    }
-                })
-                .catch(error => console.log('Error updating cart count:', error));
-        };
-
-        window.updateWishlistCount = function () {
-            fetch('/wishlist/count')
-                .then(response => response.json())
-                .then(data => {
-                    const wishlistBadge = document.querySelector('#wishlist-count');
-                    if (wishlistBadge) {
-                        wishlistBadge.textContent = data.count;
-                        wishlistBadge.setAttribute('data-count', data.count);
-                        if (data.count === 0) {
-                            wishlistBadge.style.display = 'none';
-                        } else {
-                            wishlistBadge.style.display = 'flex';
-                        }
-                    }
-                })
-                .catch(error => console.log('Error updating wishlist count:', error));
-        };
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('Home page loaded, initializing...');
-            if (document.querySelector('meta[name="csrf-token"]')) {
-                updateCartCount();
-                updateWishlistCount();
-            }
-        });
+        // All notification and utility functions are now loaded from notifications.js
     </script>
 </body>
 

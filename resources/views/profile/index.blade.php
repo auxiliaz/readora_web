@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
     <style>
         :root {
             --primary-color: #710014;
@@ -123,10 +124,6 @@
             gap: 200px;
         }
 
-        .stat-item {
-            text-align: center;
-        }
-
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
@@ -144,7 +141,8 @@
         }
 
         .profile-nav {
-            padding: 0 40px;
+            margin-top: 20px;
+            padding: 0 5px;
             border-bottom: 1px solid #e9ecef;
         }
 
@@ -152,32 +150,29 @@
             border-bottom: none;
         }
 
-        .nav-tabs .nav-link {
+        .profile-nav .nav-tabs .nav-link {
             border: none;
-            color: #6c757d;
+            color: #6c757d !important;
             font-weight: 500;
-            padding: 20px 30px;
+            padding: 10px 30px;
             border-bottom: 3px solid transparent;
             background: none;
         }
 
-        .nav-tabs .nav-link.active {
-            color: var(--primary-color);
+        .profile-nav .nav-tabs .nav-link.active {
+            color: var(--primary-color) !important;
             border-bottom-color: var(--primary-color);
             background: none;
         }
 
-        .nav-tabs .nav-link:hover {
-            color: var(--primary-color);
-            border-color: transparent;
-        }
-
         .tab-content {
-            padding: 40px;
+            padding: 5px;
+            margin-top: 10px;
         }
 
         .profile-section {
             background: #f8f9fa;
+            box-shadow: var(--card-shadow);
             border-radius: var(--border-radius);
             padding: 30px;
             margin-bottom: 30px;
@@ -272,8 +267,7 @@
         }
 
         .status-pending {
-            background: #fff3cd;
-            color: #856404;
+            color: #000;
         }
 
         .status-failed {
@@ -369,7 +363,7 @@
                         <div class="profile-details">
                             <h1>{{ $user->name }}</h1>
                             <div class="text-muted">{{ $user->email }}</div>
-                            <div class="member-since">Member since {{ $user->created_at->format('M Y') }}</div>
+                            <div class="member-since">Member sejak {{ $user->created_at->format('M Y') }}</div>
                         </div>
                     </div>
                 </div>
@@ -378,16 +372,12 @@
                 <div class="stats-section">
                     <div class="stats-grid">
                         <div class="stat-item">
-                            <span class="stat-number">Rp {{ number_format($stats['total_spent'], 0, ',', '.') }}</span>
-                            <div class="stat-label">Total Spent</div>
-                        </div>
-                        <div class="stat-item">
                             <span class="stat-number">{{ $stats['books_owned'] }}</span>
-                            <div class="stat-label">Books Owned</div>
+                            <div class="stat-label">Buku dimiliki</div>
                         </div>
                         <div class="stat-item">
                             <span class="stat-number">{{ $stats['wishlist_count'] }}</span>
-                            <div class="stat-label">Wishlist</div>
+                            <div class="stat-label">Buku favorit</div>
                         </div>
                     </div>
                 </div>
@@ -397,17 +387,17 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">
-                                <i class="fas fa-user me-2"></i>Profile Details
+                                <i class="fas fa-user me-2"></i>Detail Profil
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="edit-profile-tab" data-bs-toggle="tab" data-bs-target="#edit-profile" type="button" role="tab">
-                                <i class="fas fa-edit me-2"></i>Edit Profile
+                                <i class="fas fa-edit me-2"></i>Edit Profil
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
-                                <i class="fas fa-history me-2"></i>Transactions
+                                <i class="fas fa-history me-2"></i>Histori Transaksi
                             </button>
                         </li>
                     </ul>
@@ -418,15 +408,12 @@
                     <!-- Profile Details Tab -->
                     <div class="tab-pane fade show active" id="profile" role="tabpanel">
                         <div class="profile-section">
-                            <h3 class="section-title">Account Information</h3>
+                            <h3 class="section-title">Informasi Akun</h3>
                             <div class="profile-display-item">
-                                <strong>Full Name:</strong> {{ $user->name }}
+                                <strong>Nama lengkap:</strong> {{ $user->name }}
                             </div>
                             <div class="profile-display-item">
-                                <strong>Email:</strong> {{ $user->email }}
-                            </div>
-                            <div class="profile-display-item">
-                                <strong>Member Since:</strong> {{ $user->created_at->format('F d, Y') }}
+                                <strong>Alamat Email:</strong> {{ $user->email }}
                             </div>
                         </div>
                     </div>
@@ -436,18 +423,18 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="profile-section">
-                                    <h3 class="section-title">Update Profile Information</h3>
+                                    <h3 class="section-title">Perbarui Informasi Akun</h3>
                                     <form id="updateProfileForm">
                                         <div class="form-group">
-                                            <label class="form-label">Full Name</label>
+                                            <label class="form-label">Nama lengkap</label>
                                             <input type="text" class="form-control" name="name" value="{{ $user->name }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Email Address</label>
+                                            <label class="form-label">Alamat Email</label>
                                             <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">
-                                            <i class="fas fa-save me-2"></i>Save Changes
+                                            Simpan Perubahan
                                         </button>
                                     </form>
                                 </div>
@@ -455,22 +442,22 @@
 
                             <div class="col-lg-6">
                                 <div class="profile-section">
-                                    <h3 class="section-title">Change Password</h3>
+                                    <h3 class="section-title">Ubah Kata Sandi</h3>
                                     <form id="changePasswordForm">
                                         <div class="form-group">
-                                            <label class="form-label">Current Password</label>
+                                            <label class="form-label">Kata Sandi Lama</label>
                                             <input type="password" class="form-control" name="current_password" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">New Password</label>
+                                            <label class="form-label">Kata Sandi Baru</label>
                                             <input type="password" class="form-control" name="password" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Confirm New Password</label>
+                                            <label class="form-label">Konfirmasi Sandi Baru</label>
                                             <input type="password" class="form-control" name="password_confirmation" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">
-                                            <i class="fas fa-lock me-2"></i>Update Password
+                                            Perbarui Kata Sandi
                                         </button>
                                     </form>
                                 </div>
@@ -481,10 +468,7 @@
                     <!-- Transactions Tab -->
                     <div class="tab-pane fade" id="transactions" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h3 class="section-title mb-0">Transaction History</h3>
-                            <a href="/profile/transactions" class="btn btn-outline-primary">
-                                <i class="fas fa-external-link-alt me-2"></i>View Full History
-                            </a>
+                            <h3 class="section-title mb-0">Histori Transaksi</h3>
                         </div>
 
                         @forelse($recentOrders as $order)
@@ -532,6 +516,7 @@
     @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
     <script>
         // Load cart count on page load
         fetch('/cart/count')
@@ -556,17 +541,17 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showMessage(data.message, 'success');
+                        showNotification(data.message, 'success');
                         setTimeout(() => {
                             location.reload();
                         }, 1500);
                     } else {
-                        showMessage(data.message || 'Error updating profile', 'error');
+                        showNotification(data.message || 'Error updating profile', 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showMessage('Error updating profile. Please try again.', 'error');
+                    showNotification('Error updating profile. Please try again.', 'error');
                 });
         });
 
@@ -586,40 +571,19 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showMessage(data.message, 'success');
+                        showNotification(data.message, 'success');
                         this.reset();
                     } else {
-                        showMessage(data.message || 'Error updating password', 'error');
+                        showNotification(data.message || 'Error updating password', 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showMessage('Error updating password. Please try again.', 'error');
+                    showNotification('Error updating password. Please try again.', 'error');
                 });
         });
 
-        // Message display function
-        function showMessage(message, type) {
-            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-            const iconClass = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            
-            const alertHtml = `
-                <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
-                    <i class="${iconClass} me-2"></i>${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-
-            const messageContainer = document.getElementById('messageContainer');
-            messageContainer.innerHTML = alertHtml;
-            
-            setTimeout(() => {
-                const alert = messageContainer.querySelector('.alert');
-                if (alert) {
-                    alert.remove();
-                }
-            }, 5000);
-        }
+        // Notification functions are now loaded from notifications.js
     </script>
 </body>
 </html>

@@ -217,7 +217,7 @@
                         <div class="transaction-body">
                             @foreach($order->orderItems as $item)
                                 <div class="book-item">
-                                    <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/60x80?text=Book' }}" 
+                                    <img src="{{ $item->book->cover_image_url }}" 
                                          alt="{{ $item->book->title }}" class="book-cover-small">
                                     <div class="book-details">
                                         <div class="book-title">{{ $item->book->title }}</div>

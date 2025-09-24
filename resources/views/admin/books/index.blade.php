@@ -3,15 +3,15 @@
 @section('title', 'Books')
 
 @section('content')
-<style>
-     .pagination {
+    <style>
+        .pagination {
             margin-top: -10px;
         }
-        
+
         .pagination .page-item {
             margin: 0 3px;
         }
-        
+
         .pagination .page-link {
             color: var(--primary-color);
             border: 1px solid #ddd;
@@ -22,31 +22,31 @@
             text-align: center;
             transition: all 0.2s ease;
         }
-        
+
         .pagination .page-item.active .page-link {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
             color: white;
         }
-        
+
         .pagination .page-link:hover {
             background-color: #f8f9fa;
             border-color: var(--primary-color);
             color: var(--primary-color);
         }
-        
+
         .pagination .page-item.disabled .page-link {
             color: #6c757d;
             border-color: #ddd;
         }
-        
+
         @media (max-width: 576px) {
             .pagination .page-link {
                 padding: 0.4rem 0.7rem;
                 font-size: 0.85rem;
                 min-width: 34px;
             }
-            
+
             .pagination .page-item {
                 margin: 0 2px;
             }
@@ -74,6 +74,7 @@
         .modern-table {
             border: none;
         }
+
         .modern-table tbody tr {
             border-bottom: 1px solid #f1f3f4;
             transition: all 0.2s ease;
@@ -233,139 +234,172 @@
         .dropdown-item i {
             width: 16px;
         }
-</style>
-<div class="row">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="page-title"><i class="bi bi-book-fill me-2"></i>Books Management</h1>
-            <div class="d-flex gap-2 align-items-center">
-                <!-- Filter Dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-funnel"></i> Sort By
+
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="page-title"><i class="bi bi-book"></i> Manajemen Buku</h1>
+                <div class="d-flex gap-2 align-items-center">
+                    <!-- Filter Dropdown -->
+                    <div class="dropdown">
+                        <button class="cta-button dropdown-toggle" type="button" id="sortDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-funnel"></i> Sort By
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" href="?sort=title"><i class="bi bi-sort-alpha-down me-2"></i>Title
+                                    A-Z</a></li>
+                            <li><a class="dropdown-item" href="?sort=title_desc"><i
+                                        class="bi bi-sort-alpha-up me-2"></i>Title Z-A</a></li>
+                            <li><a class="dropdown-item" href="?sort=price"><i
+                                        class="bi bi-sort-numeric-down me-2"></i>Price Low-High</a></li>
+                            <li><a class="dropdown-item" href="?sort=price_desc"><i
+                                        class="bi bi-sort-numeric-up me-2"></i>Price High-Low</a></li>
+                            <li><a class="dropdown-item" href="?sort=created_at"><i class="bi bi-calendar me-2"></i>Newest
+                                    First</a></li>
+                            <li><a class="dropdown-item" href="?sort=created_at_desc"><i
+                                        class="bi bi-calendar2 me-2"></i>Oldest First</a></li>
+                            <li><a class="dropdown-item" href="?sort=sales"><i class="bi bi-graph-up me-2"></i>Best
+                                    Selling</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Export Button -->
+                    <button class="cta-button" onclick="exportBooks()">
+                        <i class="bi bi-download"></i> Export
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                        <li><a class="dropdown-item" href="?sort=title"><i class="bi bi-sort-alpha-down me-2"></i>Title A-Z</a></li>
-                        <li><a class="dropdown-item" href="?sort=title_desc"><i class="bi bi-sort-alpha-up me-2"></i>Title Z-A</a></li>
-                        <li><a class="dropdown-item" href="?sort=price"><i class="bi bi-sort-numeric-down me-2"></i>Price Low-High</a></li>
-                        <li><a class="dropdown-item" href="?sort=price_desc"><i class="bi bi-sort-numeric-up me-2"></i>Price High-Low</a></li>
-                        <li><a class="dropdown-item" href="?sort=created_at"><i class="bi bi-calendar me-2"></i>Newest First</a></li>
-                        <li><a class="dropdown-item" href="?sort=created_at_desc"><i class="bi bi-calendar2 me-2"></i>Oldest First</a></li>
-                        <li><a class="dropdown-item" href="?sort=sales"><i class="bi bi-graph-up me-2"></i>Best Selling</a></li>
-                    </ul>
+
+                    <!-- Add Book Button -->
+                    <a href="{{ route('admin.books.create') }}" class="cta-button">
+                        <i class="bi bi-plus-circle"></i> Tambah Buku
+                    </a>
                 </div>
-                
-                <!-- Export Button -->
-                <button class="btn btn-primary" onclick="exportBooks()">
-                    <i class="bi bi-download"></i> Export
-                </button>
-                
-                <!-- Add Book Button -->
-                <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Tambah Buku
-                </a>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card modern-card">
-            <div class="card-body pt-3">
-                <div class="table-responsive">
-                    <table class="table table-hover modern-table">
-                        <thead style="border-bottom: 2px solid #710014; font-family: 'Playfair Display', serif; font-weight: 800;">
-                            <tr>
-                                <th class="border-0">Cover</th>
-                                <th class="border-0">Title</th>
-                                <th class="border-0">Author</th>
-                                <th class="border-0">Category</th>
-                                <th class="border-0">Price</th>
-                                <th class="border-0">Sales</th>
-                                <th class="border-0">Created</th>
-                                <th class="border-0 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($books as $book)
+    <div class="row">
+        <div class="col-12">
+            <div class="card modern-card">
+                <div class="card-body pt-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover modern-table">
+                            <thead
+                                style="border-bottom: 2px solid #710014; font-family: 'Playfair Display', serif; font-weight: 800;">
                                 <tr>
-                                    <td>
-                                        @if($book->cover_image)
-                                            <div class="book-cover-container">
-                                                <img src="{{ $book->cover_image }}" 
-                                                     alt="{{ $book->title }}" 
-                                                     class="book-cover-img">
-                                            </div>
-                                        @else
-                                            <div class="book-cover-placeholder">
-                                                <i class="bi bi-book"></i>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="book-info">
-                                            <h6 class="book-title mb-1">{{ $book->title }}</h6>
-                                            <p class="book-description mb-0">{{ Str::limit($book->description, 50) }}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="author-name">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge category-badge">{{ $book->category->name }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="price-text">Rp {{ number_format($book->price, 0, ',', '.') }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge sales-badge">{{ $book->sales_count ?? 0 }} sold</span>
-                                    </td>
-                                    <td>
-                                        <span class="date-text">{{ $book->created_at->format('M d, Y') }}</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="categories-buttons">
-                                            <a href="{{ route('admin.books.show', $book) }}" 
-                                               class="btn-categories btn-sm categories-btn" title="View">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{ route('admin.books.edit', $book) }}" 
-                                               class="btn-categories btn-sm categories-btn" title="Edit">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <form method="POST" 
-                                                  action="{{ route('admin.books.destroy', $book) }}" 
-                                                  class="d-inline"
-                                                  onsubmit="return confirm('Are you sure you want to delete this book?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-categories btn-sm categories-btn" title="Delete">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
+                                    <th class="border-0">Cover</th>
+                                    <th class="border-0">Judul</th>
+                                    <th class="border-0">Penulis</th>
+                                    <th class="border-0">Kategori</th>
+                                    <th class="border-0">Harga</th>
+                                    <th class="border-0">Terjual</th>
+                                    <th class="border-0">Dibuat</th>
+                                    <th class="border-0 text-center">Aksi</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center py-5">
-                                        <div class="empty-state">
-                                            <i class="bi bi-book fs-1 text-muted mb-3"></i>
-                                            <h5 class="text-muted">No books found</h5>
-                                            <p class="text-muted mb-3">Start building your library by adding your first book</p>
-                                            <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
-                                                <i class="bi bi-plus-circle me-1"></i>Add your first book
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @forelse($books as $book)
+                                    <tr>
+                                        <td>
+                                            @if($book->cover_image)
+                                                <div class="book-cover-container">
+                                                    <img src="{{ asset('storage/' . $book->cover_image) }}" 
+                                                         alt="{{ $book->title }}"
+                                                         class="book-cover-img">
+                                                </div>
+                                            @else
+                                                <div class="book-cover-placeholder">
+                                                    <i class="bi bi-book"></i>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="book-info">
+                                                <h6 class="book-title mb-1">{{ $book->title }}</h6>
+                                                <p class="book-description mb-0">{{ Str::limit($book->description, 50) }}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="author-name">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge category-badge">{{ $book->category->name }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="price-text">Rp {{ number_format($book->price, 0, ',', '.') }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge sales-badge">{{ $book->sales_count ?? 0 }} sold</span>
+                                        </td>
+                                        <td>
+                                            <span class="date-text">{{ $book->created_at->format('M d, Y') }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="categories-buttons">
+                                                <a href="{{ route('admin.books.show', $book) }}"
+                                                    class="btn-categories btn-sm categories-btn" title="View">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.books.edit', $book) }}"
+                                                    class="btn-categories btn-sm categories-btn" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <form method="POST" action="{{ route('admin.books.destroy', $book) }}"
+                                                    class="d-inline"
+                                                    onsubmit="return confirm('Are you sure you want to delete this book?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-categories btn-sm categories-btn"
+                                                        title="Delete">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="8" class="text-center py-5">
+                                            <div class="empty-state">
+                                                <i class="bi bi-book fs-1 text-muted mb-3"></i>
+                                                <h5 class="text-muted">No books found</h5>
+                                                <p class="text-muted mb-3">Start building your library by adding your first book
+                                                </p>
+                                                <a href="{{ route('admin.books.create') }}" class="cta-button">
+                                                    <i class="bi bi-plus-circle me-1"></i>Add your first book
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- Pagination yang diperbaiki -->
+                    <!-- Pagination yang diperbaiki -->
                     @if($books->hasPages())
                         <div class="d-flex justify-content-center mt-4">
                             <nav aria-label="Page navigation">
@@ -408,63 +442,63 @@
                             </nav>
                         </div>
                     @endif
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @push('scripts')
-<script>
-function exportBooks() {
-    // Simple CSV export functionality
-    const table = document.querySelector('.modern-table');
-    const rows = table.querySelectorAll('tr');
-    let csvContent = '';
-    
-    // Add headers
-    const headers = ['Title', 'Author', 'Category', 'Price', 'Sales', 'Created'];
-    csvContent += headers.join(',') + '\n';
-    
-    // Add data rows (skip header row and empty state row)
-    rows.forEach((row, index) => {
-        if (index === 0 || row.querySelector('.empty-state')) return;
-        
-        const cells = row.querySelectorAll('td');
-        if (cells.length < 8) return;
-        
-        const title = cells[1].querySelector('.book-title')?.textContent.trim() || '';
-        const author = cells[2].querySelector('.author-name')?.textContent.trim() || '';
-        const category = cells[3].querySelector('.category-badge')?.textContent.trim() || '';
-        const price = cells[4].querySelector('.price-text')?.textContent.trim() || '';
-        const sales = cells[5].querySelector('.sales-badge')?.textContent.trim() || '';
-        const created = cells[6].querySelector('.date-text')?.textContent.trim() || '';
-        
-        const rowData = [title, author, category, price, sales, created];
-        csvContent += rowData.map(field => `"${field}"`).join(',') + '\n';
-    });
-    
-    // Create and download file
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `books_export_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // Show success message
-    const toast = document.createElement('div');
-    toast.className = 'alert alert-success position-fixed';
-    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Books exported successfully!';
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
-</script>
+    <script>
+        function exportBooks() {
+            // Simple CSV export functionality
+            const table = document.querySelector('.modern-table');
+            const rows = table.querySelectorAll('tr');
+            let csvContent = '';
+
+            // Add headers
+            const headers = ['Title', 'Author', 'Category', 'Price', 'Sales', 'Created'];
+            csvContent += headers.join(',') + '\n';
+
+            // Add data rows (skip header row and empty state row)
+            rows.forEach((row, index) => {
+                if (index === 0 || row.querySelector('.empty-state')) return;
+
+                const cells = row.querySelectorAll('td');
+                if (cells.length < 8) return;
+
+                const title = cells[1].querySelector('.book-title')?.textContent.trim() || '';
+                const author = cells[2].querySelector('.author-name')?.textContent.trim() || '';
+                const category = cells[3].querySelector('.category-badge')?.textContent.trim() || '';
+                const price = cells[4].querySelector('.price-text')?.textContent.trim() || '';
+                const sales = cells[5].querySelector('.sales-badge')?.textContent.trim() || '';
+                const created = cells[6].querySelector('.date-text')?.textContent.trim() || '';
+
+                const rowData = [title, author, category, price, sales, created];
+                csvContent += rowData.map(field => `"${field}"`).join(',') + '\n';
+            });
+
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `books_export_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Show success message
+            const toast = document.createElement('div');
+            toast.className = 'alert alert-success position-fixed';
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Books exported successfully!';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
 @endpush

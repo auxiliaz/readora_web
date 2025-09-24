@@ -171,7 +171,7 @@
 
         .sold-badge {
             position: absolute;
-            bottom: 15px;
+            bottom: 25px;
             right: 15px;
             background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;
@@ -426,8 +426,8 @@
                         @forelse($books as $book)
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card book-card shadow-sm">
-                                    <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                        alt="{{ $book->title }}" class="book-cover">
+                                    <img src="{{ $book->cover_image_url }}"
+                                alt="{{ $book->title }}" class="book-cover">
 
                                     <!-- Badge untuk jumlah buku terjual -->
                                     <div class="sold-badge">

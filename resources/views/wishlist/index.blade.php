@@ -10,6 +10,7 @@
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
     <style>
         :root {
             --primary-color: #710014;
@@ -245,7 +246,7 @@
 
         .sold-badge {
             position: absolute;
-            bottom: 15px;
+            bottom: 35px;
             right: 15px;
             background: linear-gradient(135deg, #710014 0%, #8B1C33 100%);
             color: white;
@@ -336,8 +337,8 @@
                     @foreach($wishlistItems as $book)
                         <div class="col-lg-3 col-md-4 col-sm-6 mb-4" id="wishlist-item-{{ $book->id }}">
                             <div class="card book-card shadow-sm">
-                                <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                    alt="{{ $book->title }}" class="book-cover">
+                               <img src="{{ $book->cover_image_url }}"
+                                alt="{{ $book->title }}" class="book-cover">
 
                                 <!-- Badge untuk jumlah buku terjual -->
                                 <div class="sold-badge">
@@ -392,6 +393,7 @@
     @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
     <script>
         fetch('/cart/count')
             .then(response => response.json())
@@ -413,17 +415,17 @@
                     if (data.success) {
                         document.getElementById(`wishlist-item-${bookId}`).remove();
                         document.getElementById('cart-count').textContent = data.cart_count;
-                        showMessage(data.message, 'success');
+                        showNotification(data.message, 'success');
                         if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
                             location.reload();
                         }
                     } else {
-                        showMessage(data.message, 'error');
+                        showNotification(data.message, 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showMessage('An error occurred while moving the book to cart', 'error');
+                    showNotification('An error occurred while moving the book to cart', 'error');
                 });
         }
 
@@ -441,18 +443,18 @@
                     .then(data => {
                         if (data.success) {
                             document.getElementById(`wishlist-item-${bookId}`).remove();
-                            showMessage(data.message, 'success');
+                            showNotification(data.message, 'success');
 
                             if (document.querySelectorAll('[id^="wishlist-item-"]').length === 0) {
                                 location.reload();
                             }
                         } else {
-                            showMessage(data.message, 'error');
+                            showNotification(data.message, 'error');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        showMessage('An error occurred while removing the book', 'error');
+                        showNotification('An error occurred while removing the book', 'error');
                     });
             }
         }
@@ -473,66 +475,17 @@
                     })
                 ))
                     .then(() => {
-                        showMessage('All books moved to cart successfully!', 'success');
+                        showNotification('All books moved to cart successfully!', 'success');
                         setTimeout(() => location.reload(), 1000);
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        showMessage('An error occurred while moving books to cart', 'error');
+                        showNotification('An error occurred while moving books to cart', 'error');
                     });
             }
         }
 
-        function showMessage(message, type) {
-            const existingNotifications = document.querySelectorAll('.toast-notification');
-            existingNotifications.forEach(notification => {
-                notification.classList.add('hide');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
-            });
-
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `toast-notification toast-${type === 'success' ? 'success' : 'error'}`;
-            notification.innerHTML = `
-                <div class="toast-content">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                    <span>${message}</span>
-                </div>
-                <button class="toast-close" onclick="hideNotification(this.parentElement)">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-
-            // Add to page
-            document.body.appendChild(notification);
-
-            // Trigger fade in animation
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 50);
-
-            // Auto remove after 3 seconds with fade out animation
-            setTimeout(() => {
-                hideNotification(notification);
-            }, 3000);
-        }
-
-        // Hide notification with animation
-        function hideNotification(notification) {
-            if (notification && notification.parentElement) {
-                notification.classList.remove('show');
-                notification.classList.add('hide');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
-            }
-        }
+        // Notification functions are now loaded from notifications.js
     </script>
 </body>
 

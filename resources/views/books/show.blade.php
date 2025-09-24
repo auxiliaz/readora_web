@@ -342,8 +342,8 @@
             <div class="book-detail-main">
                 <div class="book-layout">
                     <div class="book-cover-container">
-                        <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/280x360?text=Book+Cover' }}"
-                            alt="{{ $book->title }}" class="book-cover-large">
+                        <img src="{{ $book->cover_image_url }}"
+                                alt="{{ $book->title }}" class="book-cover-large">
                     </div>
 
                     <div class="book-info">

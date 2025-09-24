@@ -113,4 +113,27 @@ class Book extends Model
     {
         return $this->reviews()->count();
     }
+
+    /**
+     * Get the cover image URL for the book.
+     */
+    public function getCoverImageUrlAttribute()
+    {
+        if (!$this->cover_image) {
+            return 'https://via.placeholder.com/300x400?text=Book+Cover';
+        }
+
+        // If it's already a full URL (starts with /storage/), return as is
+        if (str_starts_with($this->cover_image, '/storage/')) {
+            return $this->cover_image;
+        }
+
+        // If it's a relative path starting with 'covers/', prepend /storage/
+        if (str_starts_with($this->cover_image, 'covers/')) {
+            return '/storage/' . $this->cover_image;
+        }
+
+        // If it's just a filename, assume it's in the covers directory
+        return '/storage/covers/' . $this->cover_image;
+    }
 }

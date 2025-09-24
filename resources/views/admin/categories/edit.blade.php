@@ -1,24 +1,24 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Edit Category')
+@section('title', 'Edit Kategori')
 
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Edit Category</h1>
-            <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Back to Categories
+            <h1 class="page-title">── Edit Kategori</h1>
+            <a href="{{ route('admin.categories.index') }}" class="cta-button">
+                Kembali <i class="bi bi-arrow-right"></i>
             </a>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Category Information</h5>
+                <h5 class="mb-0">Informasi Kategori</h5>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.categories.update', $category) }}">
@@ -26,7 +26,7 @@
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label for="name" class="form-label">Category Name <span class="text-danger">*</span></label>
+                        <label for="name" class="form-label">Nama Kategori <span class="text-danger">*</span></label>
                         <input type="text" 
                                class="form-control @error('name') is-invalid @enderror" 
                                id="name" 
@@ -34,19 +34,19 @@
                                value="{{ old('name', $category->name) }}" 
                                required 
                                autofocus
-                               placeholder="Enter category name">
+                               placeholder="Masukkan nama kategori">
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">Choose a descriptive name for the category</div>
+                        <div class="form-text">Pilih nama yang deskriptif untuk kategori</div>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle"></i> Update Category
+                        <button type="submit" class="cta-button">
+                            <i class="bi bi-check-circle"></i> Perbarui Kategori
                         </button>
-                        <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-secondary">
-                            Cancel
+                        <a href="{{ route('admin.categories.index') }}" class="cta-button">
+                            Batal
                         </a>
                     </div>
                 </form>
@@ -54,32 +54,37 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0">Category Details</h6>
-            </div>
-            <div class="card-body">
-                <p><strong>Created:</strong> {{ $category->created_at->format('M d, Y H:i') }}</p>
-                <p><strong>Last Updated:</strong> {{ $category->updated_at->format('M d, Y H:i') }}</p>
-                <p><strong>Books in Category:</strong> {{ $category->books()->count() }}</p>
-            </div>
-        </div>
-
-        @if($category->books()->count() > 0)
-        <div class="card mt-3">
-            <div class="card-header">
-                <h6 class="mb-0">Warning</h6>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-warning mb-0">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    This category has {{ $category->books()->count() }} book(s) assigned to it. 
-                    Changing the name will affect all associated books.
-                </div>
-            </div>
-        </div>
-        @endif
-    </div>
 </div>
 @endsection
+
+<style>
+    .page-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #710014;
+        margin-bottom: 0;
+    }
+    
+    .cta-button {
+        background: var(--primary-color);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+    }
+
+    .cta-button:hover {
+        background: #5a0010;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+</style>

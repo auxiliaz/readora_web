@@ -356,7 +356,7 @@
                                             @endauth
                                         </div>
                                         
-                                        <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}" 
+                                        <img src="{{ $book->cover_image_url }}" 
                                              alt="{{ $book->title }}" class="book-cover">
                                         
                                         <div class="book-info">
@@ -435,6 +435,7 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/notifications.js') }}"></script>
     <script>
         function submitFilter() {
             document.getElementById('filterForm').submit();
@@ -462,15 +463,15 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showMessage(data.message, 'success');
+                    showNotification(data.message, 'success');
                     updateCartCount();
                 } else {
-                    showMessage(data.message || 'Error adding to cart', 'error');
+                    showNotification(data.message || 'Error adding to cart', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showMessage('Error adding to cart. Please try again.', 'error');
+                showNotification('Error adding to cart. Please try again.', 'error');
             });
         }
         
@@ -488,39 +489,19 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showMessage(data.message, 'success');
+                    showNotification(data.message, 'success');
                     updateWishlistCount();
                 } else {
-                    showMessage(data.message || 'Error updating wishlist', 'error');
+                    showNotification(data.message || 'Error updating wishlist', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showMessage('Error updating wishlist. Please try again.', 'error');
+                showNotification('Error updating wishlist. Please try again.', 'error');
             });
         }
         
-        function showMessage(message, type) {
-            // Create and show a toast message
-            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-            const alertHtml = `
-                <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
-                     style="top: 100px; right: 20px; z-index: 9999; min-width: 300px;" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', alertHtml);
-            
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                const alerts = document.querySelectorAll('.alert');
-                if (alerts.length > 0) {
-                    alerts[alerts.length - 1].remove();
-                }
-            }, 5000);
-        }
+        // Notification functions are now loaded from notifications.js
     </script>
 </body>
 </html>

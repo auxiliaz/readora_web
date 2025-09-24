@@ -34,7 +34,7 @@ class WishlistController extends Controller
         if (Auth::user()->hasBookInLibrary($book->id)) {
             return response()->json([
                 'success' => false,
-                'message' => 'You already own this book.'
+                'message' => 'Kamu sudah memiliki buku ini.'
             ], 400);
         }
 
@@ -42,7 +42,7 @@ class WishlistController extends Controller
         if (Auth::user()->hasBookInWishlist($book->id)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Book is already in your wishlist.'
+                'message' => 'Buku ini sudah didalam favoritmu.'
             ], 400);
         }
 
@@ -53,7 +53,7 @@ class WishlistController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Book added to wishlist successfully!',
+            'message' => 'Buku berhasil ditambahkan ke favoritmu!',
             'in_wishlist' => true
         ]);
     }

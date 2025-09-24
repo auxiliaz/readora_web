@@ -7,15 +7,15 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="page-title"> ── Edit Buku</h1>
-            <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
-                Back to Books <i class="bi bi-arrow-right"></i>
+            <a href="{{ route('admin.books.index') }}" class="cta-button">
+                Kembali <i class="bi bi-arrow-right"></i>
             </a>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">Book Information</h5>
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                        <label for="description" class="form-label">Deskripsi <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('description') is-invalid @enderror" 
                                   id="description" 
                                   name="description" 
@@ -142,7 +142,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="cover_image" class="form-label">Cover Image</label>
+                        <label for="cover_image" class="form-label">Cover Buku</label>
                         <input type="file" 
                                class="form-control @error('cover_image') is-invalid @enderror" 
                                id="cover_image" 
@@ -152,9 +152,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <div class="form-text">
-                            Leave empty to keep current image. Upload new image to replace.
+                            Biarkan kosong untuk menyimpan gambar saat ini. Unggah gambar baru untuk menggantikan.
                             @if($book->cover_image)
-                                <br><strong>Current image:</strong> <a href="{{ $book->cover_image }}" target="_blank">View current image</a>
+                                <br><strong>Gambar sekarang:</strong> <a href="{{ $book->cover_image }}" target="_blank">View current image</a>
                             @endif
                         </div>
                     </div>
@@ -170,52 +170,22 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <div class="form-text">
-                            Leave empty to keep current file. Upload new PDF to replace (Max: 10MB)
+                            Biarkan kosong untuk menyimpan file saat ini. Unggah PDF baru untuk diganti (Maks: 10MB)
                             @if($book->file_path)
-                                <br><strong>Current file:</strong> {{ basename($book->file_path) }}
+                                <br><strong>File sekarang:</strong> {{ basename($book->file_path) }}
                             @endif
                         </div>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle"></i> Update Book
+                        <button type="submit" class="cta-button">
+                            <i class="bi bi-check-circle"></i>Perbarui Book
                         </button>
-                        <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">
-                            Cancel
+                        <a href="{{ route('admin.books.index') }}" class="cta-button">
+                            Batal
                         </a>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0">Current Book</h6>
-            </div>
-            <div class="card-body">
-                @if($book->cover_image)
-                    <img src="{{ $book->cover_image }}" 
-                         alt="{{ $book->title }}" 
-                         class="img-fluid mb-3 rounded">
-                @endif
-                
-                <table class="table table-borderless table-sm">
-                    <tr>
-                        <td><strong>Sales:</strong></td>
-                        <td>{{ $book->sales_count ?? 0 }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Created:</strong></td>
-                        <td>{{ $book->created_at->format('M d, Y') }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Updated:</strong></td>
-                        <td>{{ $book->updated_at->format('M d, Y') }}</td>
-                    </tr>
-                </table>
             </div>
         </div>
     </div>
@@ -228,5 +198,26 @@
             font-weight: 700;
             color: #710014;
             margin-bottom: 0;
+        }
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 </style>

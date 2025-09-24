@@ -29,11 +29,11 @@
         :root {
             --primary-color: #710014;
             --secondary-color: #F2F1ED;
-            --sidebar-bg: #F2F1ED;
-            --sidebar-text: #B38F6F;
-            --sidebar-text-active: #710014;
-            --sidebar-hover: #F2F1ED;
-            --sidebar-active: #f8fafc;
+            --sidebar-bg: #710014;
+            --sidebar-text: #ffffff;
+            --sidebar-text-active: #ffffff;
+            --sidebar-hover: #5a0010;
+            --sidebar-active: #8b0017;
             --background-color: #F2F1ED;
             --text-color: #1f2937;
             --success-color: #10B981;
@@ -67,20 +67,20 @@
             left: 0;
             z-index: 1000;
             transition: all 0.3s ease;
-            border-right: 2px solid #710014;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            border-right: 2px solid var(--sidebar-bg);
+            box-shadow: 0 0 15px rgba(113, 0, 20, 0.2);
         }
 
         .sidebar-header {
             padding: 24px 20px;
-            border-bottom: 1px solid #710014;
-            background: #F2F1ED;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--sidebar-bg);
         }
 
         .sidebar .navbar-brand {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            color: #710014 !important;
+            color: #ffffff !important;
             font-size: 1.4rem;
             text-decoration: none;
             display: flex;
@@ -102,7 +102,7 @@
             border-radius: 0;
             transition: all 0.2s ease;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 15px;
             display: flex;
             align-items: center;
             margin: 2px 16px;
@@ -130,7 +130,7 @@
             transform: translateY(-50%);
             width: 4px;
             height: 24px;
-            background-color: var(--primary-color);
+            background-color: #ffffff;
             border-radius: 2px;
         }
 
@@ -142,8 +142,8 @@
         }
 
         .sidebar-divider {
-            margin: 20px -16px;
-            border-top: 1px solid #710014;
+            margin: 20px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .logout-section {
@@ -155,14 +155,14 @@
         }
 
         .logout-btn {
-            color: #710014;
+            color: #ffffff;
             padding: 12px 24px;
             border: none;
             background: transparent;
             width: 100%;
             text-align: left;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 15px;
             display: flex;
             align-items: center;
             border-radius: 10px;
@@ -170,8 +170,8 @@
         }
 
         .logout-btn:hover {
-            background-color: #F2F1ED;
-            color: #410510;
+            background-color: var(--sidebar-hover);
+            color: #ffffff;
         }
 
         .logout-btn i {
@@ -275,7 +275,6 @@
     <nav class="sidebar">
         <div class="sidebar-header">
             <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
-                <i class="bi bi-book-fill"></i>
                 <span>Readora Admin</span>
             </a>
         </div>

@@ -184,6 +184,36 @@
         .dropdown-item i {
             width: 16px;
         }
+
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #710014;
+            margin-bottom: 0;
+        }
 </style>
 <div class="row">
     <div class="col-12">
@@ -192,8 +222,8 @@
             <div class="d-flex gap-2 align-items-center">
                 <!-- Filter Dropdown -->
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-funnel"></i> Sort By
+                    <button class="cta-button dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-funnel"></i> Urutkan
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sortDropdown">
                         <li><a class="dropdown-item" href="?sort=name"><i class="bi bi-sort-alpha-down me-2"></i>Name A-Z</a></li>
@@ -206,13 +236,13 @@
                 </div>
                 
                 <!-- Export Button -->
-                <button class="btn btn-primary" onclick="exportCategories()">
-                    <i class="bi bi-download"></i> Export
+                <button class="cta-button" onclick="exportCategories()">
+                    <i class="bi bi-download"></i> Ekspor
                 </button>
                 
                 <!-- Add Category Button -->
-                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Add Category
+                <a href="{{ route('admin.categories.create') }}" class="cta-button">
+                    <i class="bi bi-plus-circle"></i> Tambah Kategori
                 </a>
             </div>
         </div>
@@ -228,10 +258,10 @@
                         <thead style="border-bottom: 2px solid #710014; font-family: 'Playfair Display', serif; font-weight: 800;">
                             <tr>
                                 <th class="border-0">ID</th>
-                                <th class="border-0">Name</th>
-                                <th class="border-0">Books Count</th>
-                                <th class="border-0">Created At</th>
-                                <th class="border-0 text-center">Actions</th>
+                                <th class="border-0">Nama</th>
+                                <th class="border-0">Jumlah Buku</th>
+                                <th class="border-0">Dibuat</th>
+                                <th class="border-0 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -279,10 +309,10 @@
                                     <td colspan="5" class="text-center py-5">
                                         <div class="empty-state">
                                             <i class="bi bi-tags fs-1 text-muted mb-3"></i>
-                                            <h5 class="text-muted">No categories found</h5>
-                                            <p class="text-muted mb-3">Start organizing your books by creating your first category</p>
-                                            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-                                                <i class="bi bi-plus-circle me-1"></i>Create your first category
+                                            <h5 class="text-muted">Tidak ada kategori ditemukan</h5>
+                                            <p class="text-muted mb-3">Mulai mengorganisir buku dengan membuat kategori pertama</p>
+                                            <a href="{{ route('admin.categories.create') }}" class="cta-button">
+                                                <i class="bi bi-plus-circle me-1"></i>Buat kategori pertama
                                             </a>
                                         </div>
                                     </td>

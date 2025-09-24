@@ -6,13 +6,13 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Detail Penulis</h1>
+            <h1 class="page-title">── {{ $author->nama }}</h1>
             <div class="d-flex gap-2">
-                <a href="{{ route('admin.authors.edit', $author) }}" class="btn btn-primary">
-                    <i class="bi bi-pencil"></i> Edit Penulis
+                <a href="{{ route('admin.authors.edit', $author) }}" class="cta-button">
+                    <i class="bi bi-pencil"></i> Edit
                 </a>
-                <a href="{{ route('admin.authors.index') }}" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Kembali ke Daftar
+                <a href="{{ route('admin.authors.index') }}" class="cta-button">
+                    Kembali <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -27,8 +27,8 @@
             </div>
             <div class="card-body">
                 <div class="text-center mb-4">
-                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
-                         style="width: 80px; height: 80px; font-size: 2rem;">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center text-white" 
+                         style="width: 80px; height: 80px; font-size: 2rem; background-color: var(--primary-color);">
                         <i class="bi bi-person-fill"></i>
                     </div>
                     <h4 class="mt-3 mb-1">{{ $author->nama }}</h4>
@@ -46,10 +46,7 @@
                     </li>
                     <li class="mb-3">
                         <strong>Jumlah Buku:</strong> 
-                        <span class="badge bg-primary">{{ $author->books->count() }} buku</span>
-                    </li>
-                    <li class="mb-3">
-                        <strong>Bergabung:</strong> {{ $author->created_at->format('d M Y') }}
+                        <span class="badge" style="background-color: var(--primary-color); color: white;">{{ $author->books->count() }} buku</span>
                     </li>
                     <li>
                         <strong>Terakhir Diperbarui:</strong> {{ $author->updated_at->format('d M Y H:i') }}
@@ -84,11 +81,16 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @if($book->cover_image)
+                                                @if($book->cover_image && file_exists(storage_path('app/public/' . $book->cover_image)))
                                                     <img src="{{ asset('storage/' . $book->cover_image) }}" 
                                                          alt="{{ $book->title }}" 
                                                          class="me-3 rounded" 
-                                                         style="width: 40px; height: 50px; object-fit: cover;">
+                                                         style="width: 40px; height: 50px; object-fit: cover;"
+                                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                                    <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center" 
+                                                         style="width: 40px; height: 50px; display: none;">
+                                                        <i class="bi bi-book text-muted"></i>
+                                                    </div>
                                                 @else
                                                     <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center" 
                                                          style="width: 40px; height: 50px;">
@@ -96,21 +98,21 @@
                                                     </div>
                                                 @endif
                                                 <div>
-                                                    <h6 class="mb-0">{{ $book->title }}</h6>
-                                                    <small class="text-muted">{{ Str::limit($book->description, 50) }}</small>
+                                                    <h6 class="mb-0">{{ $book->title ?? 'Unknown Title' }}</h6>
+                                                    <small class="text-muted">{{ $book->description ? Str::limit($book->description, 50) : 'No description available' }}</small>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             @if($book->category)
-                                                <span class="badge bg-info">{{ $book->category->name }}</span>
+                                                <span class="badge" style="background-color: var(--primary-color); color: white;">{{ $book->category->name }}</span>
                                             @else
                                                 <span class="text-muted">-</span>
                                             @endif
                                         </td>
-                                        <td>Rp {{ number_format($book->price, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($book->price ?? 0, 0, ',', '.') }}</td>
                                         <td>{{ $book->sales_count ?? 0 }}</td>
-                                        <td>{{ $book->created_at->format('d M Y') }}</td>
+                                        <td>{{ $book->created_at ? $book->created_at->format('d M Y') : '-' }}</td>
                                         <td>
                                             <div class="d-flex gap-1">
                                                 <a href="{{ route('admin.books.show', $book) }}" 
@@ -133,7 +135,7 @@
                         <i class="bi bi-book fs-1 text-muted mb-3"></i>
                         <h5 class="text-muted">Belum Ada Buku</h5>
                         <p class="text-muted mb-3">Penulis ini belum memiliki buku yang terdaftar</p>
-                        <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.books.create') }}" class="cta-button">
                             <i class="bi bi-plus-circle me-1"></i>Tambah Buku
                         </a>
                     </div>
@@ -143,3 +145,35 @@
     </div>
 </div>
 @endsection
+
+<style>
+    .page-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #710014;
+        margin-bottom: 0;
+    }
+    
+    .cta-button {
+        background: var(--primary-color);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+    }
+
+    .cta-button:hover {
+        background: #5a0010;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+</style>

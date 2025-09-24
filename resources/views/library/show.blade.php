@@ -220,7 +220,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-3">
-                    <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}" 
+                    <img src="{{ $book->cover_image_url }}" 
                          alt="{{ $book->title }}" class="book-cover-large">
                 </div>
                 <div class="col-md-9">

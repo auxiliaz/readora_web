@@ -64,7 +64,7 @@ class BookController extends Controller
             $image = $request->file('cover_image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $path = $image->storeAs('covers', $imageName, 'public');
-            $data['cover_image'] = Storage::url($path);
+            $data['cover_image'] = $path;
         }
 
         Book::create($data);
@@ -129,8 +129,14 @@ class BookController extends Controller
         if ($request->hasFile('cover_image')) {
             // Extract the path from the URL if it's a Storage URL
             $oldPath = null;
-            if ($book->cover_image && str_starts_with($book->cover_image, '/storage/')) {
-                $oldPath = str_replace('/storage/', '', $book->cover_image);
+            if ($book->cover_image) {
+                if (str_starts_with($book->cover_image, '/storage/')) {
+                    $oldPath = str_replace('/storage/', '', $book->cover_image);
+                } elseif (str_starts_with($book->cover_image, 'covers/')) {
+                    $oldPath = $book->cover_image;
+                } else {
+                    $oldPath = 'covers/' . $book->cover_image;
+                }
             }
             
             // Delete old image if exists in storage
@@ -141,7 +147,7 @@ class BookController extends Controller
             $image = $request->file('cover_image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $path = $image->storeAs('covers', $imageName, 'public');
-            $data['cover_image'] = Storage::url($path);
+            $data['cover_image'] = $path;
         }
 
         $book->update($data);
@@ -161,9 +167,17 @@ class BookController extends Controller
         }
         
         // Delete associated cover image
-        if ($book->cover_image && str_starts_with($book->cover_image, '/storage/')) {
-            $imagePath = str_replace('/storage/', '', $book->cover_image);
-            if (Storage::disk('public')->exists($imagePath)) {
+        if ($book->cover_image) {
+            $imagePath = null;
+            if (str_starts_with($book->cover_image, '/storage/')) {
+                $imagePath = str_replace('/storage/', '', $book->cover_image);
+            } elseif (str_starts_with($book->cover_image, 'covers/')) {
+                $imagePath = $book->cover_image;
+            } else {
+                $imagePath = 'covers/' . $book->cover_image;
+            }
+            
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
                 Storage::disk('public')->delete($imagePath);
             }
         }

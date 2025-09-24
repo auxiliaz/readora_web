@@ -56,13 +56,20 @@
         
         .success-section {
             padding: 100px 0;
+        }
+        
+        .success-content {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
         }
         
         .success-icon {
             width: 120px;
             height: 120px;
-            background: var(--success-color);
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -92,14 +99,14 @@
             font-family: 'Playfair Display', serif;
             font-weight: 700;
             font-size: 3rem;
-            color: var(--success-color);
+            color: #000;
             margin-bottom: 1rem;
         }
         
         .success-subtitle {
             font-size: 1.2rem;
             color: #666;
-            margin-bottom: 3rem;
+            margin-bottom: 0;
         }
         
         .order-summary {
@@ -107,15 +114,14 @@
             border-radius: 15px;
             padding: 2rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
             text-align: left;
+            height: fit-content;
         }
         
         .order-item {
             display: flex;
             align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
+            padding: 1rem 0; 
         }
         
         .order-item:last-child {
@@ -150,57 +156,99 @@
         }
         
         .action-buttons {
+            margin-top: -50px;
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 3rem;
         }
         
-        .btn-success {
-            background-color: var(--success-color);
-            border-color: var(--success-color);
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
         }
-        
-        .btn-success:hover {
-            background-color: #059669;
-            border-color: #059669;
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .success-title {
+                font-size: 2rem;
+            }
+            
+            .success-section {
+                padding: 50px 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     @include('components.navbar')
+
     <!-- Success Section -->
     <section class="success-section">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="success-icon">
-                        <i class="fas fa-check"></i>
+            <div class="row align-items-center">
+                <!-- Success Content - Kiri -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="success-content">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        
+                        <h1 class="success-title">Pembayaran Berhasil!</h1>
+                        <p class="success-subtitle">
+                            Terima kasih atas pembelianmu. Buku-buku telah ditambahkan ke perpustakaan kamu dan siap untuk dibaca.
+                        </p>
                     </div>
-                    
-                    <h1 class="success-title">Pembayaran Berhasil!</h1>
-                    <p class="success-subtitle">
-                        Terima kasih atas pembelian Anda. Buku-buku telah ditambahkan ke perpustakaan Anda dan siap untuk dibaca.
-                    </p>
-                    
-                    <!-- Order Summary -->
+                </div>
+                
+                <!-- Order Summary - Kanan -->
+                <div class="col-lg-6">
                     <div class="order-summary">
                         <h4 class="mb-3">
-                            <i class="fas fa-receipt me-2"></i>Order Details
+                            <i class="fas fa-receipt me-2" style="color: #710014"></i>Order Details
                         </h4>
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-sm-6 mb-2 mb-sm-0">
                                 <strong>Order ID:</strong> {{ $order->midtrans_order_id }}
                             </div>
-                            <div class="col-md-6">
-                                <strong>Date:</strong> {{ $order->created_at->format('M d, Y H:i') }}
+                            <div class="col-sm-6">
+                                <strong>Tanggal:</strong> {{ $order->created_at->format('M d, Y H:i') }}
                             </div>
                         </div>
                         
                         @foreach($order->orderItems as $item)
                             <div class="order-item">
-                                <img src="{{ $item->book->cover_image ?? 'https://via.placeholder.com/90x135?text=Book+Cover' }}" 
+                                <img src="{{ $item->book->cover_image_url }}" 
                                      alt="{{ $item->book->title }}" class="item-image">
                                 <div class="item-details">
                                     <div class="item-title">{{ $item->book->title }}</div>
@@ -211,36 +259,28 @@
                         @endforeach
                         
                         <div class="text-end mt-3 pt-3 border-top">
-                            <h5>Total: <span class="text-primary">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span></h5>
+                            <h5>Total: <span class="fw-bold" style="color: #710014">Rp 270.000</span></h5>
                         </div>
                     </div>
                     
-                    <!-- Action Buttons -->
-                    <div class="action-buttons">
-                        <a href="/library" class="btn btn-success btn-lg">
-                            <i class="fas fa-book-open me-2"></i>Go to Library
-                        </a>
-                        <a href="/categories" class="btn btn-primary btn-lg">
-                            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
-                        </a>
-                        <a href="/profile" class="btn btn-outline-primary btn-lg">
-                            <i class="fas fa-user me-2"></i>View Profile
-                        </a>
-                    </div>
-                    
-                    <!-- Additional Info -->
-                    <div class="mt-5">
-                        <div class="alert alert-info">
-                            <h6><i class="fas fa-info-circle me-2"></i>What's Next?</h6>
-                            <ul class="mb-0">
-                                <li>Your books are now available in your <strong>Library</strong></li>
-                                <li>You can read them anytime with our built-in PDF reader</li>
-                                <li>Add highlights and personal notes while reading</li>
-                                <li>Don't forget to leave a review to help other readers!</li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Buttons Section -->
+    <section class="py-2" style="background-color: var(--background-color);">
+        <div class="container">
+            <div class="action-buttons">
+                <a href="/library" class="cta-button">
+                    <i class="fas fa-book me-2"></i>
+                    Perpustakaan
+                </a>
+                <a href="/categories" class="cta-button">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    Lanjut Berbelanja
+                </a>
             </div>
         </div>
     </section>

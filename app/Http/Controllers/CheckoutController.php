@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Library;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,13 +13,30 @@ use Midtrans\Snap;
 
 class CheckoutController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $cart = Auth::user()->cart()->with('cartItems.book.category', 'cartItems.book.author', 'cartItems.book.publisher')->first();
         
         if (!$cart || $cart->cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
+        
+        // Handle POST request with selected items
+        if ($request->isMethod('post') && $request->has('selected_items')) {
+            $selectedItems = $request->input('selected_items', []);
+            $request->session()->put('selected_cart_items', $selectedItems);
+        } else {
+            // Get selected items from session
+            $selectedItems = $request->session()->get('selected_cart_items', []);
+        }
+        
+        if (empty($selectedItems)) {
+            // If no selection, redirect back to cart
+            return redirect()->route('cart.index')->with('error', 'Please select items to checkout.');
+        }
+        
+        // Filter cart items to only selected ones
+        $cart->cartItems = $cart->cartItems->whereIn('id', $selectedItems);
         
         return view('checkout.index', compact('cart'));
     }
@@ -34,22 +50,46 @@ class CheckoutController extends Controller
                 'message' => 'Your cart is empty.'
             ], 400);
         }
+        
+        // Get selected items from request or session
+        $selectedItems = $request->input('selected_items', $request->session()->get('selected_cart_items', []));
+        if (empty($selectedItems)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please select items to checkout.'
+            ], 400);
+        }
+        
+        // Filter cart items to only selected ones
+        $selectedCartItems = $cart->cartItems->whereIn('id', $selectedItems);
+        if ($selectedCartItems->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Selected items not found in cart.'
+            ], 400);
+        }
 
         try {
             DB::beginTransaction();
 
+            // Calculate total for selected items only
+            $totalAmount = $selectedCartItems->sum(function ($item) {
+                return $item->book->price * $item->quantity;
+            });
+            
             $order = Order::create([
                 'user_id' => Auth::id(),
-                'total_amount' => $cart->total_amount,
+                'total_amount' => $totalAmount,
                 'status' => 'pending',
                 'midtrans_order_id' => 'ORDER-' . time() . '-' . Auth::id()
             ]);
 
-            foreach ($cart->cartItems as $item) {
+            foreach ($selectedCartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'book_id' => $item->book_id,
-                    'price' => $item->book->price
+                    'price' => $item->book->price,
+                    'quantity' => $item->quantity
                 ]);
             }
 
@@ -72,11 +112,11 @@ class CheckoutController extends Controller
 
             $transactionDetails = [
                 'order_id' => $order->midtrans_order_id,
-                'gross_amount' => (int) $cart->total_amount
+                'gross_amount' => (int) $totalAmount
             ];
 
             $itemDetails = [];
-            foreach ($cart->cartItems as $item) {
+            foreach ($selectedCartItems as $item) {
                 $itemDetails[] = [
                     'id' => $item->book_id,
                     'price' => (int) $item->book->price,
@@ -134,8 +174,21 @@ class CheckoutController extends Controller
             abort(403);
         }
 
-        if ($order->status === 'success') {
+        \Log::info("User reached success page for order: {$order->id}, status: {$order->status}");
+
+        // Always add books to library when user reaches success page
+        // This handles cases where Midtrans callback hasn't been processed yet
+        if ($order->status !== 'failed') {
+            \Log::info("Adding books to library from success page for order: {$order->id}");
             $this->addBooksToLibrary($order);
+            
+            // Update order status to success if it's still pending
+            if ($order->status === 'pending') {
+                $order->update(['status' => 'success']);
+                \Log::info("Updated order status to success for order: {$order->id}");
+            }
+        } else {
+            \Log::warning("Order {$order->id} has failed status, not adding books to library");
         }
 
         return view('checkout.success', compact('order'));
@@ -170,20 +223,27 @@ class CheckoutController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Order not found'], 404);
         }
 
+        \Log::info("Processing Midtrans notification for order: {$orderId}, status: {$transactionStatus}, fraud: {$fraudStatus}");
+
         if ($transactionStatus == 'capture') {
             if ($fraudStatus == 'challenge') {
                 $order->update(['status' => 'pending']);
+                \Log::info("Order {$order->id} marked as pending due to fraud challenge");
             } else if ($fraudStatus == 'accept') {
                 $order->update(['status' => 'success']);
+                \Log::info("Order {$order->id} marked as success, adding books to library");
                 $this->addBooksToLibrary($order);
             }
         } else if ($transactionStatus == 'settlement') {
             $order->update(['status' => 'success']);
+            \Log::info("Order {$order->id} settled, adding books to library");
             $this->addBooksToLibrary($order);
         } else if ($transactionStatus == 'cancel' || $transactionStatus == 'deny' || $transactionStatus == 'expire') {
             $order->update(['status' => 'failed']);
+            \Log::info("Order {$order->id} marked as failed due to: {$transactionStatus}");
         } else if ($transactionStatus == 'pending') {
             $order->update(['status' => 'pending']);
+            \Log::info("Order {$order->id} marked as pending");
         }
 
         return response()->json(['status' => 'success']);
@@ -192,19 +252,34 @@ class CheckoutController extends Controller
    
     private function addBooksToLibrary(Order $order)
     {
-        foreach ($order->orderItems as $item) {
-            Library::firstOrCreate([
-                'user_id' => $order->user_id,
-                'book_id' => $item->book_id
-            ]);
-
-            $item->book->increment('sales_count');
-        }
-
+        $user = $order->user;
         
-        $cart = $order->user->cart;
-        if ($cart) {
-            $cart->cartItems()->delete();
+        \Log::info("Adding books to library for user: {$user->id}, order: {$order->id}");
+        
+        foreach ($order->orderItems as $item) {
+            \Log::info("Processing book: {$item->book_id} for user: {$user->id}");
+            
+            // Add book to user's library using the relationship
+            if (!$user->hasBookInLibrary($item->book_id)) {
+                $user->libraryBooks()->attach($item->book_id);
+                \Log::info("Book {$item->book_id} added to library for user {$user->id}");
+            } else {
+                \Log::info("Book {$item->book_id} already in library for user {$user->id}");
+            }
+
+            // Increment sales count
+            $item->book->increment('sales_count');
+            \Log::info("Sales count incremented for book {$item->book_id}");
         }
+
+        // Remove only the purchased items from cart
+        $cart = $user->cart;
+        if ($cart) {
+            $purchasedBookIds = $order->orderItems->pluck('book_id')->toArray();
+            $cart->cartItems()->whereIn('book_id', $purchasedBookIds)->delete();
+            \Log::info("Removed purchased items from cart for user {$user->id}");
+        }
+        
+        \Log::info("Finished adding books to library for user: {$user->id}");
     }
 }

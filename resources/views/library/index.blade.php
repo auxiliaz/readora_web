@@ -32,27 +32,6 @@
             background-color: var(--background-color);
         }
 
-        .navbar {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            font-size: 1.8rem;
-        }
-
-        .nav-link {
-            color: var(--text-color) !important;
-            font-weight: 500;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-        }
-
         .btn-primary {
             background: var(--gradient-primary);
             border: none;
@@ -69,8 +48,9 @@
         }
 
         .library-section {
-            padding: 40px 0 80px;
-            background: linear-gradient(135deg, #F2F1ED 0%, #FAF9F6 100%);
+            margin-top: -20px;
+            margin-bottom: 50px;
+            background: var(--background-color);
         }
 
         .book-card {
@@ -108,7 +88,7 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .book-cover {
+        .book-cover-main {
             padding: 15px;
             object-fit: cover;
             height: 350px;
@@ -212,7 +192,7 @@
 
         .empty-library i {
             font-size: 6rem;
-            background: var(--gradient-primary);
+            background: var(--background-color);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 30px;
@@ -231,28 +211,6 @@
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .library-stats {
-            background: linear-gradient(135deg, white 0%, #fafafa 100%);
-            border-radius: 25px;
-            padding: 40px 30px;
-            margin-bottom: 50px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .library-stats::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-primary);
         }
 
         .stat-item {
@@ -355,17 +313,6 @@
             padding: 40px 0;
         }
 
-        .rating-stars {
-            margin-bottom: 15px;
-            padding: 8px 0;
-        }
-
-        .rating-stars i {
-            color: #FFD700;
-            font-size: 0.9rem;
-            filter: drop-shadow(0 1px 2px rgba(255, 215, 0, 0.3));
-        }
-
         .library-header {
             background: linear-gradient(135deg, white 0%, #fafafa 100%);
             border-radius: 20px;
@@ -377,11 +324,10 @@
         }
 
         .library-controls {
-            background: white;
+            background: var(--background-color);
             border-radius: 15px;
-            padding: 20px;
+            padding: 1px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -407,15 +353,15 @@
             .stat-item:not(:last-child)::after {
                 display: none;
             }
-            
+
             .library-stats {
                 padding: 25px 20px;
             }
-            
+
             .stat-item {
                 padding: 15px 10px;
             }
-            
+
             .stat-number {
                 font-size: 2rem;
             }
@@ -425,7 +371,6 @@
             font-family: 'Playfair Display', serif;
             font-weight: 700;
             color: var(--text-color);
-            margin-bottom: 10px;
             position: relative;
             display: inline-block;
         }
@@ -435,10 +380,31 @@
             position: absolute;
             bottom: -5px;
             left: 0;
-            width: 50px;
+            width: 65px;
             height: 3px;
             background: var(--gradient-primary);
             border-radius: 2px;
+        }
+
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -451,7 +417,8 @@
     <section class="page-header">
         <div class="container">
             <h1 class="fw-bold" style="color: #710014">Perpustakaan</h1>
-            <p class="text" style="color: #000000">Buku yang telah kamu beli akan muncul disini untuk dibaca. Selamat membaca!
+            <p class="text" style="color: #000000">Buku yang telah kamu beli akan muncul disini untuk dibaca. Selamat
+                membaca!
             </p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -466,54 +433,20 @@
     <section class="library-section">
         <div class="container">
             @if($libraryBooks->count() > 0)
-                <!-- Library Stats -->
-                <div class="library-stats">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <div class="stat-number">{{ $libraryBooks->count() }}</div>
-                                <div class="stat-label">{{ Str::plural('Book', $libraryBooks->count()) }} Owned</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <div class="stat-number">{{ $libraryBooks->unique('category_id')->count() }}</div>
-                                <div class="stat-label">
-                                    {{ Str::plural('Category', $libraryBooks->unique('category_id')->count()) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <div class="stat-number">{{ $libraryBooks->sum('reviews_count') }}</div>
-                                <div class="stat-label">Total Reviews</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <div class="stat-number">Rp {{ number_format($libraryBooks->sum('price'), 0, ',', '.') }}
-                                </div>
-                                <div class="stat-label">Total Value</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Library Controls -->
                 <div class="library-controls">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h4 class="section-title mb-0">Your Books Collection</h4>
-                            <p class="text-muted mb-0">{{ $libraryBooks->count() }} books in your library</p>
+                            <h4 class="section-title mb-4">Buku Koleksimu</h4>
+                            <p class="text-muted mb-0">{{ $libraryBooks->count() }} buku di perpustakaan.</p>
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex align-items-center gap-3">
-                                <label class="form-label mb-0 text-muted small">Sort by:</label>
+                                <label class="form-label mb-0 text-muted small">Urutkan berdasarkan:</label>
                                 <select class="form-select" id="sortBooks" onchange="sortBooks()">
-                                    <option value="recent">Recently Added</option>
-                                    <option value="title">Title A-Z</option>
-                                    <option value="author">Author A-Z</option>
-                                    <option value="category">Category</option>
+                                    <option value="recent">Terbaru</option>
+                                    <option value="title">Judul A-Z</option>
+                                    <option value="author">Penulis A-Z</option>
                                 </select>
                             </div>
                         </div>
@@ -522,14 +455,14 @@
 
                 <!-- Books Grid -->
                 <div class="books-grid">
-                    <div class="row g-4" id="booksContainer">
+                    <div class="row" id="booksContainer">
                         @foreach($libraryBooks as $book)
-                            <div class="col-lg-3 col-md-4 col-sm-6 book-item" data-title="{{ $book->title }}"
-                                data-author="{{ $book->author ? $book->author->nama : 'Unknown Author' }}" data-category="{{ $book->category->name }}"
-                                data-added="{{ $book->pivot->created_at }}">
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 book-item" data-title="{{ $book->title }}"
+                                data-author="{{ $book->author ? $book->author->nama : 'Unknown Author' }}"
+                                data-category="{{ $book->category->name }}" data-added="{{ $book->pivot->created_at }}">
                                 <div class="book-card">
-                                    <img src="{{ $book->cover_image ?? 'https://via.placeholder.com/300x400?text=Book+Cover' }}"
-                                        alt="{{ $book->title }}" class="book-cover">
+                                    <img src="{{ $book->cover_image_url }}"
+                                        alt="{{ $book->title }}" class="book-cover-main">
 
                                     <div class="book-actions">
                                         <a href="/reader/{{ $book->id }}" class="action-btn" title="Read Book">
@@ -544,7 +477,7 @@
                                         <p class="book-author">{{ $book->author ? $book->author->nama : 'Unknown Author' }}</p>
                                         <h6 class="book-title">{{ $book->title }}</h6>
                                         <p class="text-muted small">{{ $book->category->name }}</p>
-                                        
+
                                         @if($book->reviews_count > 0)
                                             <div class="rating-stars">
                                                 @for($i = 1; $i <= 5; $i++)
@@ -567,10 +500,10 @@
             @else
                 <div class="empty-library">
                     <i class="fas fa-book"></i>
-                    <h3>Your library is empty</h3>
-                    <p class="text-muted">You haven't purchased any books yet. Start building your digital library!</p>
-                    <a href="/categories" class="btn btn-primary btn-lg">
-                        <i class="fas fa-shopping-bag me-2"></i>Browse Books
+                    <h3>Perpustakaanmu kosong</h3>
+                    <p class="text-muted">Kamu belum membeli buku apa pun. Mulailah membangun perpustakaan digitalmi!</p>
+                    <a href="/categories" class="cta-button">
+                        Cari Buku
                     </a>
                 </div>
             @endif
@@ -610,4 +543,5 @@
         }
     </script>
 </body>
+
 </html>

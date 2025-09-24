@@ -15,20 +15,21 @@ class AuthorSeeder extends Seeder
     {
         $authors = [
             ['nama' => 'Tere Liye'],
-            ['nama' => 'Andrea Hirata'],
             ['nama' => 'Dee Lestari'],
             ['nama' => 'Raditya Dika'],
             ['nama' => 'Pidi Baiq'],
             ['nama' => 'Fiersa Besari'],
             ['nama' => 'Boy Candra'],
             ['nama' => 'Ika Natassa'],
-            ['nama' => 'Asma Nadia'],
-            ['nama' => 'Habiburrahman El Shirazy'],
-            ['nama' => 'Ahmad Tohari'],
+            ['nama' => 'Eka Kurniawan'],
+            ['nama' => 'Henry Manampiring'],
+            ['nama' => 'Brian Krisna'],
             ['nama' => 'Pramoedya Ananta Toer'],
-            ['nama' => 'Sapardi Djoko Damono'],
+            ['nama' => 'Leila S. Chudori'],
             ['nama' => 'Chairil Anwar'],
-            ['nama' => 'Seno Gumira Ajidarma'],
+            ['nama' => 'Intan Paramaditha'],
+            ['nama' => 'Keigo Higashino'],
+            ['nama' => 'Andrea Hirata'],
         ];
 
         foreach ($authors as $author) {

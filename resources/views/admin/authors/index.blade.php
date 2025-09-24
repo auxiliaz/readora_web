@@ -184,6 +184,36 @@
         .dropdown-item i {
             width: 16px;
         }
+
+        .cta-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: #5a0010;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #710014;
+            margin-bottom: 0;
+        }
 </style>
 <div class="row">
     <div class="col-12">
@@ -192,7 +222,7 @@
             <div class="d-flex gap-2 align-items-center">
                 <!-- Filter Dropdown -->
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="cta-button dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-funnel"></i> Urutkan
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sortDropdown">
@@ -206,12 +236,12 @@
                 </div>
                 
                 <!-- Export Button -->
-                <button class="btn btn-primary" onclick="exportAuthors()">
+                <button class="cta-button" onclick="exportAuthors()">
                     <i class="bi bi-download"></i> Ekspor
                 </button>
                 
                 <!-- Add Author Button -->
-                <a href="{{ route('admin.authors.create') }}" class="btn btn-primary">
+                <a href="{{ route('admin.authors.create') }}" class="cta-button">
                     <i class="bi bi-plus-circle"></i> Tambah Penulis
                 </a>
             </div>
@@ -281,7 +311,7 @@
                                             <i class="bi bi-person fs-1 text-muted mb-3"></i>
                                             <h5 class="text-muted">Tidak ada penulis ditemukan</h5>
                                             <p class="text-muted mb-3">Mulai dengan menambahkan penulis pertama Anda</p>
-                                            <a href="{{ route('admin.authors.create') }}" class="btn btn-primary">
+                                            <a href="{{ route('admin.authors.create') }}" class="cta-button">
                                                 <i class="bi bi-plus-circle me-1"></i>Tambah penulis pertama
                                             </a>
                                         </div>

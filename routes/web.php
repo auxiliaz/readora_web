@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     
     // Checkout Routes
     Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.store');
     Route::post('/checkout/process', [App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success/{order}', [App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/failed/{order}', [App\Http\Controllers\CheckoutController::class, 'failed'])->name('checkout.failed');
@@ -86,8 +87,33 @@ Route::get('/books/{book}/user-review', [App\Http\Controllers\ReviewController::
 // Midtrans Webhook (no auth required)
 Route::post('/midtrans/notification', [App\Http\Controllers\CheckoutController::class, 'notification'])->name('midtrans.notification');
 
-// Debug route (remove in production)
+// Debug routes (remove in production)
 Route::get('/debug/test-cart-wishlist', [App\Http\Controllers\DebugController::class, 'testCartWishlist'])->name('debug.test');
+Route::get('/debug/test-library/{user_id}/{book_id}', function($user_id, $book_id) {
+    $user = App\Models\User::find($user_id);
+    $book = App\Models\Book::find($book_id);
+    
+    if (!$user || !$book) {
+        return response()->json(['error' => 'User or book not found'], 404);
+    }
+    
+    $hasBook = $user->hasBookInLibrary($book_id);
+    
+    if (!$hasBook) {
+        $user->libraryBooks()->attach($book_id);
+        $message = "Book '{$book->title}' added to {$user->name}'s library";
+    } else {
+        $message = "Book '{$book->title}' already in {$user->name}'s library";
+    }
+    
+    $libraryCount = $user->libraryBooks()->count();
+    
+    return response()->json([
+        'message' => $message,
+        'library_count' => $libraryCount,
+        'books_in_library' => $user->libraryBooks()->pluck('title')
+    ]);
+})->name('debug.test-library');
 
 // Test Midtrans config
 Route::get('/debug/midtrans-config', function() {
