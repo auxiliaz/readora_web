@@ -84,12 +84,9 @@
                                                 @if($book->cover_image && file_exists(storage_path('app/public/' . $book->cover_image)))
                                                     <img src="{{ asset('storage/' . $book->cover_image) }}" 
                                                          alt="{{ $book->title }}" 
-                                                         class="me-3 rounded" 
-                                                         style="width: 40px; height: 50px; object-fit: cover;"
+                                                         class="me-3 rounded mb-3" 
+                                                         style="width: 60px; height: 90px; object-fit: cover;"
                                                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                    <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center" 
-                                                         style="width: 40px; height: 50px; display: none;">
-                                                        <i class="bi bi-book text-muted"></i>
                                                     </div>
                                                 @else
                                                     <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center" 
@@ -116,11 +113,11 @@
                                         <td>
                                             <div class="d-flex gap-1">
                                                 <a href="{{ route('admin.books.show', $book) }}" 
-                                                   class="btn btn-sm btn-outline-primary" title="Lihat">
+                                                   class="btn btn-sm btn-outline" style="border-color: #710014; color: #710014;  title="Lihat">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                 <a href="{{ route('admin.books.edit', $book) }}" 
-                                                   class="btn btn-sm btn-outline-secondary" title="Edit">
+                                                   class="btn btn-sm btn-outline" style="border-color: #710014; color: #710014;  title="Edit">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             </div>

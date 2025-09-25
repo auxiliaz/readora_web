@@ -18,8 +18,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Row pertama: Cover buku dan informasi buku dengan tinggi sama -->
     <div class="row mb-4">
         <div class="col-lg-6 mb-4">
             <div class="card h-100">
@@ -49,7 +47,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-6 mb-4">
             <div class="card h-100">
                 <div class="card-header">
@@ -113,7 +110,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -127,7 +123,6 @@
         </div>
     </div>
 @endsection
-
 <style>
     .page-title {
         font-size: 1.8rem;

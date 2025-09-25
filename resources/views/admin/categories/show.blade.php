@@ -78,16 +78,16 @@
                                         <td>{{ $book->author ? $book->author->nama : 'Unknown Author' }}</td>
                                         <td>Rp {{ number_format($book->price, 0, ',', '.') }}</td>
                                         <td>
-                                            <span class="badge bg-success">{{ $book->sales_count ?? 0 }}</span>
+                                            <span class="badge" style="background-color: #710014">{{ $book->sales_count ?? 0 }}</span>
                                         </td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
                                                 <a href="{{ route('admin.books.show', $book) }}" 
-                                                   class="btn btn-outline-info">
+                                                   class="btn btn-outline" style="border-color: #710014; color: #710014;">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                 <a href="{{ route('admin.books.edit', $book) }}" 
-                                                   class="btn btn-outline-warning">
+                                                   class="btn btn-outline" style="border-color: #710014; color: #710014;">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             </div>

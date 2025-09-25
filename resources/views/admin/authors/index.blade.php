@@ -40,7 +40,6 @@
             border-color: #ddd;
         }
         
-        /* Responsive pagination */
         @media (max-width: 576px) {
             .pagination .page-link {
                 padding: 0.4rem 0.7rem;
@@ -218,7 +217,7 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="page-title"><i class="bi bi-person-fill me-2"></i>Manajemen Penulis</h1>
+            <h1 class="page-title"><i class="bi bi-pencil"></i> Manajemen Penulis</h1>
             <div class="d-flex gap-2 align-items-center">
                 <!-- Filter Dropdown -->
                 <div class="dropdown">
