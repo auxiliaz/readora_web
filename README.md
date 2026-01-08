@@ -14,8 +14,6 @@ Readora adalah aplikasi toko e-book digital berbasis web yang dibangun menggunak
 
 ```bash
 composer install
-npm install
-npm run build
 php artisan migrate --seed
 php artisan serve
 ```
